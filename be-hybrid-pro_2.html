@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Be Hybrid Pro</title>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Be Hybrid Pro"/>
+<meta name="theme-color" content="#07071a"/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#07071a;--card:#0d0d22;--card2:#12122a;--border:rgba(255,255,255,.08);--primary:#5b8def;--pdim:rgba(91,141,239,.13);--fg:#f0f0f8;--fg2:#c8c8e0;--muted2:#9090c0;--muted:#252540;--success:#4ade80;--warn:#fbbf24;--danger:#f87171;--gold:#f59e0b;--sh:0 2px 16px rgba(0,0,0,.4)}
+.light{--bg:#f2f2f8;--card:#fff;--card2:#eeeef6;--border:rgba(0,0,0,.08);--primary:#3b6fd4;--pdim:rgba(59,111,212,.1);--fg:#0f0f28;--fg2:#333355;--muted2:#7777aa;--muted:#d8d8ea;--success:#16a34a;--warn:#d97706;--danger:#dc2626;--gold:#b45309;--sh:0 2px 12px rgba(0,0,0,.08)}
+html,body{background:var(--bg);font-family:Inter,sans-serif;-webkit-font-smoothing:antialiased;transition:background .25s}
+#root{min-height:100vh;background:var(--bg)}
+.diag{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;opacity:.016}
+.diag::before{content:'';position:absolute;inset:-50%;background:repeating-linear-gradient(65deg,transparent,transparent 40px,#5b8def 40px,#5b8def 41px);width:200%;height:200%}
+.light .diag{display:none}
+.shell{max-width:430px;margin:0 auto;background:var(--bg);min-height:100vh;position:relative;z-index:1}
+.topbar{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;z-index:200;background:var(--bg);border-bottom:1px solid var(--border);backdrop-filter:blur(20px)}
+.tscroll{display:flex;overflow-x:auto;scrollbar-width:none;padding:5px 8px}
+.tscroll::-webkit-scrollbar{display:none}
+.ttab{padding:6px 12px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;background:none;border:none;color:var(--muted2);white-space:nowrap;border-bottom:2px solid transparent;transition:all .2s;font-family:Inter,sans-serif}
+.ttab.on{color:var(--primary);border-bottom-color:var(--primary)}
+.screen{min-height:100vh;padding-top:38px;padding-bottom:82px}
+.full{min-height:100vh;overflow-y:auto}
+.fi{animation:fi .15s ease}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.bnav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;z-index:200;background:var(--bg);border-top:1px solid var(--border);padding:7px 0 20px;display:flex;backdrop-filter:blur(20px)}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;background:none;border:none;color:var(--muted2);font-family:Inter,sans-serif;font-size:8px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 0;position:relative;transition:color .15s}
+.ni.on{color:var(--primary)}
+.ni.on::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:18px;height:2px;background:var(--primary)}
+.ni svg{width:18px;height:18px}
+.btn{width:100%;height:52px;border:none;cursor:pointer;font-family:"Archivo Black",sans-serif;font-size:12px;letter-spacing:.14em;text-transform:uppercase;transition:all .15s;border-radius:0}
+.btn:disabled{opacity:.3;cursor:not-allowed}
+.btnp{background:var(--primary);color:#fff}
+.btno{background:transparent;border:1px solid var(--border)!important;color:var(--muted2);font-family:Inter,sans-serif;font-weight:600;font-size:13px;letter-spacing:.02em;text-transform:none}
+.btng{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff}
+.ibtn{width:38px;height:38px;border:1px solid var(--border);background:var(--card);color:var(--fg);cursor:pointer;display:grid;place-items:center;border-radius:0;transition:all .15s;flex-shrink:0}
+.ibtn:hover{border-color:var(--primary);color:var(--primary)}
+.bknow{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border:1px solid var(--primary);background:var(--pdim);color:var(--primary);font-size:9px;font-weight:700;letter-spacing:.08em;cursor:pointer;transition:all .15s}
+.bknow:hover{background:var(--primary);color:#fff}
+.card{background:var(--card);border:1px solid var(--border);padding:18px;position:relative;overflow:hidden;box-shadow:var(--sh)}
+.cb{border-left:3px solid var(--primary)}
+.cg{border-left:3px solid var(--success)}
+.cgo{border-left:3px solid var(--gold)}
+.cr{border-left:3px solid var(--danger)}
+.bdg{display:inline-flex;align-items:center;padding:2px 8px;font-size:8px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.bdbp{background:var(--pdim);color:var(--primary);border:1px solid rgba(91,141,239,.25)}
+.bdbg{background:rgba(74,222,128,.09);color:var(--success);border:1px solid rgba(74,222,128,.25)}
+.bdbw{background:rgba(251,191,36,.09);color:var(--warn);border:1px solid rgba(251,191,36,.25)}
+.bdbd{background:rgba(248,113,113,.09);color:var(--danger);border:1px solid rgba(248,113,113,.25)}
+.bdbgo{background:rgba(245,158,11,.09);color:var(--gold);border:1px solid rgba(245,158,11,.25)}
+.pro{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;padding:2px 8px;font-size:8px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.pbar{height:2px;background:var(--muted);overflow:hidden}
+.pfill{height:100%;background:var(--primary);transition:width .4s}
+.chip{padding:5px 11px;border:1px solid var(--border);background:transparent;color:var(--muted2);font-size:9px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s;font-family:Inter,sans-serif}
+.chip.on{background:var(--pdim);border-color:var(--primary);color:var(--primary)}
+.hs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.hs::-webkit-scrollbar{display:none}
+.lbtn{flex:1;height:30px;border:1px solid var(--border);background:transparent;color:var(--muted2);font-size:8px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;transition:all .15s}
+.lbtn.on{background:var(--pdim);border-color:var(--primary);color:var(--primary)}
+.inp{width:100%;height:46px;background:var(--card);border:none;border-bottom:1px solid rgba(91,141,239,.35);color:var(--fg);font-family:Inter,sans-serif;font-size:16px;padding:0 12px;outline:none}
+.tabrow{display:flex;background:var(--card);border:1px solid var(--border)}
+.tabbtn{flex:1;height:34px;background:transparent;border:none;color:var(--muted2);font-family:"Archivo Black",sans-serif;font-size:8px;letter-spacing:.08em;cursor:pointer;transition:all .2s}
+.tabbtn.on{background:var(--primary);color:#fff}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);display:flex;align-items:flex-end;z-index:400}
+.light .overlay{background:rgba(0,0,0,.5)}
+.sheet{width:100%;max-width:430px;margin:0 auto;background:var(--card);border-top:2px solid var(--primary);padding:22px;max-height:92vh;overflow-y:auto;scrollbar-width:none}
+.sheet::-webkit-scrollbar{display:none}
+.st{font-size:9px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted2)}
+.ey{font-size:9px;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--primary);margin-bottom:6px}
+.tbtn{width:34px;height:34px;border:1px solid var(--border);background:var(--card);color:var(--fg);cursor:pointer;display:grid;place-items:center;font-size:15px;transition:all .2s}
+.sharecard{background:linear-gradient(145deg,#06061c,#0c0c26);border:1px solid rgba(91,141,239,.2);position:relative;overflow:hidden}
+.sharecard::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;background:radial-gradient(circle,rgba(91,141,239,.15),transparent 65%);pointer-events:none}
+.sharecard::after{content:'';position:absolute;bottom:-60px;left:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(74,222,128,.08),transparent 65%);pointer-events:none}
+</style>
+<style>
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.loading-screen{
+  position:fixed;inset:0;background:#07071a;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:20px;z-index:9999;transition:opacity .5s;
+}
+.loading-ring{
+  width:56px;height:56px;border:3px solid rgba(91,141,239,.2);
+  border-top-color:#5b8def;border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+.loading-text{
+  color:#5b8def;font-family:'Archivo Black',sans-serif;
+  font-size:10px;letter-spacing:.2em;
+  animation:pulse 1.5s ease infinite;
+}
+.loading-sub{
+  color:rgba(144,144,192,.5);font-family:Inter,sans-serif;
+  font-size:9px;letter-spacing:.08em;margin-top:-10px;
+}
+</style>
+</head>
+<body>
+<div class="loading-screen" id="loading">
+  <div style="font-size:48px;margin-bottom:4px">🏋️</div>
+  <div class="loading-ring"></div>
+  <p class="loading-text">BE HYBRID PRO</p>
+  <p class="loading-sub">CARREGANDO...</p>
+</div>
+<div id="root"></div>
+
+<script>
+/* ═══ DADOS PUROS (sem JSX) ═══ */
+/* ═══ BANCO MASTER DOC 07 ═══ */
+const DB={
+modalidades:{
+boxe:{n:'Boxe',e:'🥊',f:'Combate',sis:'Glicolítico + ATP-PC',dem:['Potência de golpe','Footwork','Velocidade','Resistência de ombro','Core rotacional'],mus:['Ombros','Core/Oblíquos','Dorsais','Quadril','Glúteos','Panturrilhas'],foco:'Explosão e rotação — NÃO hipertrofia que prejudique velocidade',comp:['Remadas','Puxadas','Landmine press','Core anti-rotação','Escápula'],lesoes:['ombro','punho','cotovelo','lombar'],exec:'Guarda: pés na largura dos ombros. Jab: cotovelo reto, rotação de punho. Direto: rotação de quadril. Sempre retornar à guarda.',video:'https://youtube.com/results?search_query=tecnica+boxe+iniciante',regras:{performance:'Musculação serve ao boxe: explosão, potência, core.',hipertrofia:'Hipertrofia compatível — não roubar mobilidade.',defesa_pessoal:'Striking, footwork, defesa e reação.'}},
+muay_thai:{n:'Muay Thai',e:'🦵',f:'Combate',sis:'Glicolítico predominante',dem:['Potência de chute','Joelhadas','Clinch','Mobilidade de quadril'],mus:['Quadríceps','Glúteos','Quadril','Core','Panturrilhas'],foco:'Potência de membros inferiores e mobilidade de quadril',comp:['Hip thrust','RDL','Glúteo médio','Adutores','Core rotacional','Panturrilha'],lesoes:['joelho','quadril','tornozelo','canela'],exec:'Chute circular: levanta o joelho primeiro, depois extensão. Pivot no pé de apoio.',video:'https://youtube.com/results?search_query=chute+muay+thai'},
+jiu_jitsu:{n:'Jiu-Jitsu',e:'🥋',f:'Combate',sis:'Glicolítico + Oxidativo',dem:['Pegada','Força isométrica','Dorsal','Core','Quadril'],mus:['Dorsais','Bíceps/Antebraço','Core','Quadril/Glúteos','Posterior'],foco:'Força funcional: tração, isometria, core rotacional, pegada',comp:['Remadas','Barra fixa','Pegada','Hip thrust','RDL'],lesoes:['joelho','ombro','lombar','cervical','cotovelo'],exec:'Posição de guarda: controle com as pernas, quadril para criar ângulo. Core sempre ativo.',video:'https://youtube.com/results?search_query=jiu+jitsu+basico',regras:{performance:'Dorsal, pegada, quadril, core — servir ao jiu.',defesa_pessoal:'Grappling, controle, queda/antiqueda.'}},
+judo:{n:'Judô',e:'🎽',f:'Combate',sis:'ATP-PC + Glicolítico',dem:['Pegada','Quedas','Explosão de quadril'],mus:['Dorsais','Trapézio','Quadril','Posterior'],foco:'Força explosiva de entrada + pegada + quadril',comp:['Pegada','Costas','Quadril','Posterior'],lesoes:['joelho','ombro','lombar','cervical'],exec:'O-goshi: quadril abaixo do adversário, puxar o gi, rotação completa. Kuzushi primeiro.',video:'https://youtube.com/results?search_query=judo+tecnica'},
+wrestling:{n:'Wrestling',e:'🤼',f:'Combate',sis:'ATP-PC + Glicolítico',dem:['Explosão','Base','Entrada de quadril','Resistência'],mus:['Posterior','Glúteos','Costas','Core'],foco:'Explosão + base + força de entrada',comp:['Posterior','Glúteo','Core','Remadas'],lesoes:['cervical','lombar','joelho','ombro'],exec:'Single leg: baixar o nível, penetração de joelho, envolver a perna.',video:'https://youtube.com/results?search_query=wrestling+single+leg'},
+mma:{n:'MMA',e:'🤼',f:'Combate',sis:'Todos os sistemas',dem:['Striking','Grappling','Quedas','Resistência global'],mus:['Corpo inteiro'],foco:'Equilíbrio entre força, potência e resistência',comp:['Força total','Potência','Core','Mobilidade'],lesoes:['ombro','punho','joelho','lombar'],exec:'Transição striking→grappling: após soco, baixar nível e entrar na queda.',video:'https://youtube.com/results?search_query=mma+treino'},
+kickboxing:{n:'Kickboxing',e:'🦶',f:'Combate',sis:'Glicolítico predominante',dem:['Socos','Chutes','Footwork','Core'],mus:['Ombros','Core rotacional','Quadril','Glúteos'],foco:'Potência de golpe + mobilidade de quadril',comp:['Glúteo','Posterior','Core rotacional','Escápula'],lesoes:['quadril','joelho','tornozelo','punho'],exec:'Chute frontal: levantar joelho reto, extensão do quadril.',video:'https://youtube.com/results?search_query=kickboxing+tecnica'},
+karate:{n:'Karatê',e:'🥋',f:'Combate',sis:'ATP-PC + Glicolítico',dem:['Velocidade','Explosão curta','Precisão','Mobilidade'],mus:['Core','Quadril','Pernas','Ombros'],foco:'Velocidade e explosão curta + mobilidade',comp:['Mobilidade ativa','Potência','Core'],lesoes:['quadril','joelho','tornozelo'],exec:'Kimé: contração máxima no impacto + relaxamento fora dele.',video:'https://youtube.com/results?search_query=karate+kata'},
+taekwondo:{n:'Taekwondo',e:'🦵',f:'Combate',sis:'ATP-PC + Glicolítico',dem:['Chutes altos','Mobilidade extrema','Explosão','Equilíbrio'],mus:['Quadríceps','Glúteos','Adutores','Quadril'],foco:'Mobilidade ativa + potência de chute alto',comp:['Adutor progressivo','Glúteo médio','Core','Panturrilha'],lesoes:['quadril','joelho','adutor','tornozelo'],exec:'Chute giratório: giro em pivot, visão do alvo, extensão explosiva.',video:'https://youtube.com/results?search_query=taekwondo+chute'},
+capoeira:{n:'Capoeira',e:'🌀',f:'Combate',sis:'Glicolítico + Oxidativo',dem:['Mobilidade','Core','Ombro','Coordenação'],mus:['Core','Escápula','Punho','Quadril'],foco:'Core + mobilidade + força relativa',comp:['Core','Escápula','Punho','Mobilidade'],lesoes:['punho','ombro','lombar','quadril'],exec:'Ginga: transferência de peso lateral com base baixa.',video:'https://youtube.com/results?search_query=capoeira+ginga'},
+luta_livre:{n:'Luta Livre',e:'💪',f:'Combate',sis:'ATP-PC + Glicolítico',dem:['Explosão','Pegada','Base','Finalizações'],mus:['Costas','Core','Quadril','Pernas'],foco:'Força funcional + explosão de entrada',comp:['Posterior','Glúteo','Remadas','Pegada'],lesoes:['joelho','lombar','cervical'],exec:'Entrada de quadril: baixar nível, cabeça dentro, envolver a cintura.',video:'https://youtube.com/results?search_query=luta+livre+tecnica'},
+kung_fu:{n:'Kung Fu',e:'☯️',f:'Combate',sis:'Variado',dem:['Coordenação','Mobilidade','Velocidade','Força relativa'],mus:['Core','Pernas','Ombros'],foco:'Mobilidade funcional + coordenação',comp:['Core','Mobilidade','Força relativa'],lesoes:['joelho','ombro','punho'],exec:'Postura Mabu: joelhos sobre os pés, coluna ereta, peso distribuído.',video:'https://youtube.com/results?search_query=kung+fu+basico'},
+corrida:{n:'Corrida',e:'🏃',f:'Endurance',sis:'Oxidativo predominante',dem:['Resistência aeróbica','Economia de corrida','Cadência','Tolerância ao impacto'],mus:['Panturrilhas','Glúteos','Quadríceps','Core','Tibial'],foco:'Estabilidade e prevenção — NÃO hipertrofia que aumente peso',comp:['Panturrilha','Tibial','Glúteo','Posterior','Core'],lesoes:['joelho','tornozelo','panturrilha','pe','canela'],exec:'Postura: olhar ao horizonte. Cadência 170-180 passos/min. Pouso no médio-pé.',video:'https://youtube.com/results?search_query=tecnica+corrida'},
+ciclismo:{n:'Ciclismo',e:'🚴',f:'Endurance',sis:'Oxidativo predominante',dem:['Resistência aeróbica','Potência de pedalada'],mus:['Quadríceps','Glúteos','Panturrilhas','Core'],foco:'Quadríceps/glúteo + estabilidade de joelho',comp:['Glúteo','Posterior','Core'],lesoes:['joelho','lombar','cervical'],exec:'Altura do selim: joelho levemente flexionado. Cadência 80-90 rpm.',video:'https://youtube.com/results?search_query=posicao+bicicleta'},
+natacao:{n:'Natação',e:'🏊',f:'Endurance',sis:'Oxidativo predominante',dem:['Resistência aeróbica','Técnica de braçada','Força de tração'],mus:['Dorsais','Ombros','Core','Tríceps'],foco:'Dorsal, escápula e estabilidade de ombro',comp:['Remadas','Escápula','Rotação externa','Face pull'],lesoes:['ombro','cervical','lombar'],exec:'Crawl: rotação de tronco ~45° a cada braçada, cabeça neutra.',video:'https://youtube.com/results?search_query=crawl+tecnica+natacao'},
+triathlon:{n:'Triathlon',e:'🏅',f:'Endurance',sis:'Oxidativo predominante',dem:['Resistência global','Transições'],mus:['Corpo inteiro'],foco:'Suporte para natação + bike + corrida',comp:['Força de suporte','Mobilidade','Prevenção'],lesoes:['ombro','joelho','panturrilha'],exec:'T1: capacete antes do tênis. T2: pace conservador no início.',video:'https://youtube.com/results?search_query=triathlon+treino'},
+atletismo:{n:'Atletismo',e:'🏟️',f:'Endurance',sis:'Varia por prova',dem:['Velocidade/resistência','Potência','Técnica'],mus:['Varia por prova'],foco:'Transferência direta para a prova',comp:['Potência','Técnica','Força específica'],lesoes:['posterior','panturrilha','joelho'],exec:'Sprint: inclinação anterior na aceleração, depois upright. Joelhos altos.',video:'https://youtube.com/results?search_query=atletismo+tecnica'},
+remo:{n:'Remo',e:'🚣',f:'Endurance',sis:'Oxidativo + Glicolítico',dem:['Costas','Pernas','Cardio alto','Lombar'],mus:['Dorsais','Glúteos','Quadríceps','Core'],foco:'Força de puxada + core + pernas',comp:['Core','Posterior','Dorsal'],lesoes:['lombar','punho','ombro'],exec:'Sequência: pernas→quadril→braços. Retorno inverso.',video:'https://youtube.com/results?search_query=remo+ergometro'},
+caminhada:{n:'Caminhada',e:'🚶',f:'Endurance',sis:'Oxidativo leve',dem:['Resistência leve','Tornozelo','Joelho'],mus:['Glúteos','Panturrilhas','Quadríceps'],foco:'Força básica de suporte + mobilidade',comp:['Glúteo','Panturrilha','Core'],lesoes:['joelho','pe','tornozelo'],exec:'Postura ereta. Passo médio, não excessivamente longo.',video:'https://youtube.com/results?search_query=caminhada+postura'},
+canoagem:{n:'Canoagem',e:'🛶',f:'Endurance',sis:'Oxidativo + Glicolítico',dem:['Ombros','Dorsais','Core'],mus:['Dorsais','Ombros','Core'],foco:'Força de tração + estabilidade de ombro',comp:['Dorsal','Escápula','Core'],lesoes:['ombro','lombar','punho'],exec:'Palada: inserir à frente, puxar com o tronco, extrair antes do quadril.',video:'https://youtube.com/results?search_query=canoagem+palada'},
+musculacao:{n:'Musculação',e:'🏋️',f:'Força',sis:'ATP-PC predominante',dem:['Força máxima','Hipertrofia','Resistência muscular'],mus:['Todos os grupos musculares'],foco:'Progressão sistemática — objetivo define a lógica',comp:['Depende do objetivo'],lesoes:['ombro','lombar','joelho','punho'],exec:'Técnica antes de carga. Sobrecarga progressiva semanal.',video:'https://youtube.com/results?search_query=musculacao+iniciante',regras:{hipertrofia:'Eixo principal — volume, carga, frequência.',performance:'Serve ao esporte — compostos com transferência.',saude:'Força básica conservadora.'}},
+powerlifting:{n:'Powerlifting',e:'🏋️',f:'Força',sis:'ATP-PC predominante',dem:['Força máxima Agacho/Supino/Terra'],mus:['Pernas','Peito','Costas','Core'],foco:'Especificidade nos 3 levantamentos',comp:['Técnica','Mobilidade'],lesoes:['lombar','ombro','joelho'],exec:'Terra: pés quadril-distância. Empurrar o chão.',video:'https://youtube.com/results?search_query=levantamento+terra+tecnica'},
+crossfit:{n:'CrossFit',e:'⚡',f:'Força',sis:'Todos os sistemas',dem:['Força','Potência','Resistência','Ginástica'],mus:['Corpo inteiro'],foco:'Controlar volume total — CrossFit já é completo',comp:['Técnica','Mobilidade','Estabilidade'],lesoes:['ombro','lombar','joelho'],exec:'Thruster: agachamento com barra, ao subir pressionar acima da cabeça.',video:'https://youtube.com/results?search_query=crossfit+wod'},
+calistenia:{n:'Calistenia',e:'🤸',f:'Força',sis:'ATP-PC + Glicolítico',dem:['Força relativa','Core','Ombro','Escápula'],mus:['Ombros','Core','Costas','Peitoral'],foco:'Escápula + core + pegada + mobilidade de ombro',comp:['Escápula','Core','Pegada','Mobilidade'],lesoes:['punho','ombro','cotovelo'],exec:'Barra: escápula deprimida antes de puxar. Puxar com cotovelos.',video:'https://youtube.com/results?search_query=calistenia+barra'},
+halterofilia:{n:'Halterofilia',e:'🏋️',f:'Força',sis:'ATP-PC predominante',dem:['Potência','Técnica complexa','Mobilidade extrema'],mus:['Pernas','Quadril','Costas','Ombros'],foco:'Técnica + mobilidade — tudo serve ao levantamento',comp:['Técnica','Mobilidade','Força de base'],lesoes:['ombro','punho','lombar'],exec:'Arranque: extensão tripla explosiva, puxar sob a barra, agachamento profundo.',video:'https://youtube.com/results?search_query=arranco+halterofilia'},
+kettlebell:{n:'Kettlebell',e:'⚙️',f:'Força',sis:'ATP-PC + Glicolítico',dem:['Potência de quadril','Grip','Core'],mus:['Glúteos','Core','Dorsais','Ombros'],foco:'Hinge + core + potência de quadril',comp:['Hinge','Core','Glúteo'],lesoes:['lombar','ombro','punho'],exec:'Swing: hinge de quadril (não agachamento), explosão de glúteo projeta o sino.',video:'https://youtube.com/results?search_query=kettlebell+swing'},
+strongman:{n:'Strongman',e:'💪',f:'Força',sis:'ATP-PC + Glicolítico',dem:['Força máxima','Carregamentos','Potência'],mus:['Corpo inteiro'],foco:'Força funcional total + core + prevenção',comp:['Core','Posterior','Força de base'],lesoes:['lombar','ombro','joelho'],exec:'Farmer carry: costas retas, core ativo, passos médios.',video:'https://youtube.com/results?search_query=strongman+treino'},
+funcional:{n:'Funcional',e:'🔄',f:'Força',sis:'Variado',dem:['Força geral','Mobilidade','Coordenação'],mus:['Corpo inteiro'],foco:'Não transformar em circuito aleatório de risco',comp:['Full body seguro e progressivo'],lesoes:['joelho','lombar','ombro'],exec:'Técnica antes de velocidade.',video:'https://youtube.com/results?search_query=treino+funcional'},
+hiit:{n:'HIIT',e:'🔥',f:'Força',sis:'Glicolítico + ATP-PC',dem:['Alta intensidade','Potência','Tolerância'],mus:['Corpo inteiro'],foco:'Substituir impacto por bike/remo em lesão',comp:['Força básica','Prevenção'],lesoes:['joelho','tornozelo','lombar'],exec:'Tabata: 20s máximo / 10s repouso × 8 rounds.',video:'https://youtube.com/results?search_query=hiit+treino'},
+pilates:{n:'Pilates',e:'🧘',f:'Força',sis:'Baixa intensidade',dem:['Core','Mobilidade','Controle motor'],mus:['Core profundo','Glúteos','Escápula'],foco:'Suporte universal — excelente em fase de lesão',comp:['Core','Glúteo','Escápula'],lesoes:[],exec:'Respiração diafragmática: inspirar lateral, expirar ativando assoalho pélvico.',video:'https://youtube.com/results?search_query=pilates+iniciante'},
+yoga:{n:'Yoga',e:'🧘',f:'Força',sis:'Baixa intensidade',dem:['Mobilidade','Equilíbrio','Força isométrica'],mus:['Core','Ombros','Quadril','Pernas'],foco:'Evitar posturas extremas em dor articular ativa',comp:['Mobilidade ativa','Core'],lesoes:['punho','ombro','lombar'],exec:'Prancha: corpo reto como tábua, core ativo.',video:'https://youtube.com/results?search_query=yoga+iniciante'},
+mobilidade:{n:'Mobilidade',e:'🤸',f:'Força',sis:'Baixa intensidade',dem:['Amplitude ativa','Controle','Estabilidade'],mus:['Depende da região'],foco:'Base para todas as modalidades e lesões',comp:['Suporte universal'],lesoes:[],exec:'CARs: rotações de amplitude máxima controlada e lenta.',video:'https://youtube.com/results?search_query=mobilidade+articular'},
+trx:{n:'TRX',e:'🪢',f:'Força',sis:'Variado',dem:['Core','Força relativa','Estabilidade'],mus:['Core','Costas','Ombros'],foco:'Core + estabilidade + força relativa',comp:['Core','Estabilidade'],lesoes:['ombro','punho'],exec:'Ângulo do corpo determina a dificuldade. Core sempre ativo.',video:'https://youtube.com/results?search_query=trx+exercicios'},
+ginastica:{n:'Ginástica',e:'🤸',f:'Força',sis:'ATP-PC + Glicolítico',dem:['Força relativa','Mobilidade','Potência'],mus:['Ombros','Core','Pernas'],foco:'Força relativa + aterrissagem + escápula',comp:['Escápula','Core','Aterrissagem'],lesoes:['punho','ombro','joelho'],exec:'Aterrissagem: pontas dos pés primeiro, flexão de joelho e quadril.',video:'https://youtube.com/results?search_query=ginastica+artistica'},
+zumba:{n:'Zumba',e:'💃',f:'Força',sis:'Oxidativo + Glicolítico',dem:['Cardio','Coordenação','Ritmo'],mus:['Pernas','Core'],foco:'Cardio + mobilidade',comp:['Glúteo','Panturrilha'],lesoes:['joelho','tornozelo'],exec:'Foco no ritmo. Tênis com suporte lateral.',video:'https://youtube.com/results?search_query=zumba+aula'},
+futebol:{n:'Futebol',e:'⚽',f:'Coletivos',sis:'Glicolítico + Oxidativo',dem:['Sprint','Mudança de direção','Chute','Resistência'],mus:['Posterior','Adutores','Glúteos','Panturrilhas'],foco:'Posterior + adutor + prevenção de joelho/tornozelo',comp:['Posterior','Adutor','Glúteo','Panturrilha'],lesoes:['joelho','tornozelo','adutor','posterior'],exec:'Chute com peito do pé: apoio ao lado da bola, quadril de frente.',video:'https://youtube.com/results?search_query=futebol+tecnica'},
+futsal:{n:'Futsal',e:'⚽',f:'Coletivos',sis:'Glicolítico predominante',dem:['Aceleração','Freada','Mudança rápida'],mus:['Joelho','Tornozelo','Adutor'],foco:'Aceleração + freada + prevenção',comp:['Unilateral','Panturrilha','Adutor'],lesoes:['joelho','tornozelo','adutor'],exec:'Mudança de direção: plantar o pé de fora, baixar CDG.',video:'https://youtube.com/results?search_query=futsal+tecnica'},
+volei:{n:'Vôlei',e:'🏐',f:'Coletivos',sis:'ATP-PC + Glicolítico',dem:['Salto','Aterrissagem','Ombro','Potência'],mus:['Quadríceps','Glúteos','Panturrilhas','Ombros'],foco:'Aterrissagem + potência de salto + escápula',comp:['Aterrissagem','Panturrilha','Glúteo','Escápula'],lesoes:['joelho','tornozelo','ombro'],exec:'Manchete: cotovelos estendidos e juntos, impacto no antebraço.',video:'https://youtube.com/results?search_query=volei+tecnica'},
+basquete:{n:'Basquete',e:'🏀',f:'Coletivos',sis:'Glicolítico + ATP-PC',dem:['Salto','Sprint','Mudança de direção'],mus:['Tornozelo','Joelho','Panturrilha'],foco:'Tornozelo + aterrissagem + resistência',comp:['Panturrilha','Tibial','Unilateral','Glúteo'],lesoes:['tornozelo','joelho','panturrilha'],exec:'BEEF: Balance, Eyes no aro, Elbow alinhado, Follow-through.',video:'https://youtube.com/results?search_query=basquete+tecnica'},
+handball:{n:'Handebol',e:'🤾',f:'Coletivos',sis:'Glicolítico',dem:['Arremesso','Salto','Ombro'],mus:['Ombros','Joelho'],foco:'Ombro + potência + prevenção',comp:['Escápula','Manguito','Potência'],lesoes:['ombro','joelho','tornozelo'],exec:'Arremesso de salto: cotovelo acima do ombro. Snap de pulso no final.',video:'https://youtube.com/results?search_query=handebol+tecnica'},
+rugby:{n:'Rugby',e:'🏉',f:'Coletivos',sis:'Glicolítico + Oxidativo',dem:['Contato','Força','Sprint','Pescoço'],mus:['Pescoço','Ombros','Core','Pernas'],foco:'Força total + pescoço + prevenção',comp:['Força total','Pescoço','Core'],lesoes:['ombro','cervical','joelho'],exec:'Tackle: baixar nível, cabeça ao lado, abraçar as pernas.',video:'https://youtube.com/results?search_query=rugby+tackle'},
+futamericano:{n:'Fut. Americano',e:'🏈',f:'Coletivos',sis:'ATP-PC predominante',dem:['Explosão','Força','Velocidade curta'],mus:['Corpo inteiro'],foco:'Explosão + força de posição',comp:['Explosão','Força total','Core'],lesoes:['joelho','ombro','cervical'],exec:'Posição de 3 apoios: costas planas, primeiro passo sempre explosivo.',video:'https://youtube.com/results?search_query=futebol+americano'},
+poloacuatico:{n:'Polo Aquático',e:'🤽',f:'Coletivos',sis:'Glicolítico + Oxidativo',dem:['Natação','Arremesso','Ombro'],mus:['Ombros','Core','Pernas'],foco:'Ombro + natação + força aquática',comp:['Escápula','Core','Pernas'],lesoes:['ombro','joelho'],exec:'Treading water: scissor com pernas para manter corpo fora da água.',video:'https://youtube.com/results?search_query=polo+aquatico'},
+tenis:{n:'Tênis',e:'🎾',f:'Raquete',sis:'ATP-PC + Glicolítico',dem:['Rotação de tronco','Saque','Deslocamento','Ombro'],mus:['Ombros','Core rotacional','Pernas'],foco:'Escápula + core rotacional + prevenção de cotovelo',comp:['Escápula','Manguito','Core rotacional'],lesoes:['ombro','cotovelo','punho','joelho'],exec:'Forehand: giro de ombros, raquete atrás cedo. Follow-through sobre ombro contrário.',video:'https://youtube.com/results?search_query=tenis+forehand'},
+beachtenis:{n:'Beach Tennis',e:'🎾',f:'Raquete',sis:'Glicolítico',dem:['Areia','Salto','Ombro'],mus:['Panturrilha','Glúteo','Ombro'],foco:'Panturrilha + ombro + areia',comp:['Panturrilha','Glúteo','Escápula'],lesoes:['ombro','tornozelo','joelho'],exec:'Smash: olhar a bola, braço de apoio aponta para cima, contato no ponto mais alto.',video:'https://youtube.com/results?search_query=beach+tennis+tecnica'},
+padel:{n:'Padel',e:'🏓',f:'Raquete',sis:'Glicolítico',dem:['Deslocamento curto','Rotação','Ombro'],mus:['Ombros','Core','Pernas'],foco:'Rotação + escápula + prevenção de cotovelo',comp:['Core rotacional','Escápula','Glúteo'],lesoes:['cotovelo','ombro','joelho'],exec:'Bandeja: sobre o ombro, cotovelo alto. Usar paredes como aliadas.',video:'https://youtube.com/results?search_query=padel+tecnica'},
+squash:{n:'Squash',e:'🎯',f:'Raquete',sis:'Glicolítico intenso',dem:['Deslocamento rápido','Ombro','Resistência alta'],mus:['Pernas','Ombros','Core'],foco:'Resistência + potência de pernas + ombro',comp:['Panturrilha','Glúteo','Escápula'],lesoes:['joelho','tornozelo','ombro'],exec:'Drive: swing reto, contato ao nível do quadril.',video:'https://youtube.com/results?search_query=squash+tecnica'},
+badminton:{n:'Badminton',e:'🏸',f:'Raquete',sis:'ATP-PC + Glicolítico',dem:['Deslocamento rápido','Ombro','Punho'],mus:['Ombros','Punho','Panturrilhas'],foco:'Velocidade + ombro + punho',comp:['Escápula','Punho','Panturrilha'],lesoes:['ombro','punho','tornozelo'],exec:'Clear: raquete atrás da cabeça, snap de pulso no contato.',video:'https://youtube.com/results?search_query=badminton+tecnica'},
+surf:{n:'Surf',e:'🏄',f:'Outdoor',sis:'Glicolítico + Oxidativo',dem:['Remada','Pop-up','Equilíbrio','Core'],mus:['Dorsais','Ombros','Core','Pernas'],foco:'Dorsal + escápula + pop-up + core',comp:['Dorsal','Escápula','Core'],lesoes:['ombro','lombar','cervical'],exec:'Pop-up: mãos ao nível do peito, empurrar e saltar em um único movimento fluido.',video:'https://youtube.com/results?search_query=surf+popup+tecnica'},
+skate:{n:'Skate',e:'🛹',f:'Outdoor',sis:'ATP-PC + Oxidativo',dem:['Equilíbrio','Tornozelo','Aterrissagem'],mus:['Tornozelo','Joelho','Panturrilha'],foco:'Tornozelo + aterrissagem + equilíbrio',comp:['Panturrilha','Tibial','Glúteo'],lesoes:['tornozelo','joelho','punho'],exec:'Ollie: snap no tail, deslizar o pé dianteiro. Aterrissar com joelhos flexionados.',video:'https://youtube.com/results?search_query=skate+ollie'},
+escalada:{n:'Escalada',e:'🧗',f:'Outdoor',sis:'ATP-PC + Glicolítico',dem:['Pegada','Dorsal','Antebraço','Core'],mus:['Antebraço','Dorsais','Core','Dedos'],foco:'Pegada progressiva + escápula + core',comp:['Escápula','Pegada progressiva','Core'],lesoes:['dedos','cotovelo','ombro'],exec:'Usar os pés como base. Quadril perto da parede. Relaxar mãos nos repousos.',video:'https://youtube.com/results?search_query=escalada+boulder'},
+sup:{n:'Stand Up Paddle',e:'🏄',f:'Outdoor',sis:'Oxidativo',dem:['Core','Equilíbrio','Ombro'],mus:['Core','Dorsais','Ombros'],foco:'Core + equilíbrio + resistência de ombro',comp:['Core anti-rotação','Dorsal','Escápula'],lesoes:['ombro','lombar'],exec:'Palada: inserir à frente, puxar com o tronco. Trocar de lado regularmente.',video:'https://youtube.com/results?search_query=sup+paddle'},
+ballet:{n:'Ballet',e:'🩰',f:'Arte',sis:'Variado',dem:['Mobilidade extrema','Ponta','Controle','Equilíbrio'],mus:['Panturrilha','Pé','Adutor','Glúteo médio','Core'],foco:'Panturrilha + pé + glúteo médio + core',comp:['Panturrilha','Tibial','Adutor','Glúteo médio'],lesoes:['pe','tornozelo','panturrilha','joelho'],exec:'Relevé: subir na ponta ativando panturrilha. Core e glúteo firmes.',video:'https://youtube.com/results?search_query=ballet+basico'},
+danca:{n:'Dança',e:'💃',f:'Arte',sis:'Variado',dem:['Coordenação','Ritmo','Mobilidade','Resistência'],mus:['Core','Glúteos','Adutores','Panturrilhas'],foco:'Core + mobilidade + não destruir panturrilha antes da prática',comp:['Glúteo médio','Adutor','Panturrilha','Core'],lesoes:['tornozelo','joelho','quadril'],exec:'Base: postura, leveza e musicalidade. Passos lentos antes de velocidade.',video:'https://youtube.com/results?search_query=danca+basico'},
+futevolei:{n:'Futevôlei',e:'🦶',f:'Arte',sis:'Glicolítico + ATP-PC',dem:['Salto','Quadril','Core','Areia'],mus:['Panturrilhas','Glúteos','Posterior','Core'],foco:'Panturrilha + glúteo + aterrissagem em areia',comp:['Panturrilha','Glúteo','Posterior','Core'],lesoes:['tornozelo','joelho','panturrilha'],exec:'Toque de cabeça: coluna reta, impacto na testa.',video:'https://youtube.com/results?search_query=futevolei+tecnica'},
+ginasticaart:{n:'Ginástica Art.',e:'🤸',f:'Arte',sis:'ATP-PC + Glicolítico',dem:['Força relativa','Potência','Mobilidade'],mus:['Ombros','Core','Pernas'],foco:'Força relativa + aterrissagem + escápula',comp:['Escápula','Core','Aterrissagem'],lesoes:['punho','ombro','lombar'],exec:'Parada de mão: empurrar o chão ativamente, escápulas elevadas.',video:'https://youtube.com/results?search_query=ginastica+artistica+solo'},
+},
+lesoes:{
+joelho:{n:'Joelho',e:'🦵',evitar:['Saltos excessivos','Pliometria agressiva','Agachamento profundo doloroso'],priorizar:['Glúteo máximo','Glúteo médio','Posterior de coxa','Panturrilhas'],subs:[{de:'Agachamento profundo',para:'Leg press 45°'},{de:'Corrida',para:'Natação ou bicicleta'},{de:'Afundo',para:'Step-up controlado'},{de:'Sprint',para:'Bike intervalada'}],fort:['Glúteo médio','Posterior','VMO','Panturrilha'],al:'Inchaço, falseio ou travamento → parar e avaliar.'},
+ombro:{n:'Ombro',e:'💪',evitar:['Overhead pesado com dor','Volume alto de soco em crise','Supino muito aberto'],priorizar:['Escápula','Serrátil anterior','Rotadores externos','Trapézio médio/inferior'],subs:[{de:'Desenvolvimento militar',para:'Elevação lateral + rotação externa'},{de:'Supino aberto',para:'Supino neutro'},{de:'Soco no saco',para:'Sombra sem impacto'},{de:'Dips',para:'Pushdown no cabo'}],fort:['Manguito rotador','Estabilizadores de escápula'],al:'Sensação de sair do lugar, dor noturna → avaliar.'},
+punho:{n:'Punho',e:'🤜',evitar:['Apoio em extensão com dor','Saco pesado em crise'],priorizar:['Pegada neutra','Fortalecimento de antebraço'],subs:[{de:'Flexão tradicional',para:'Flexão nos nós ou TRX'},{de:'Soco no saco',para:'Sombra e técnica'}],fort:['Antebraço flexores','Antebraço extensores'],al:'Perda importante de força de preensão → avaliar.'},
+lombar:{n:'Lombar',e:'🔙',evitar:['Hinge pesado em crise','Rotação explosiva em dor aguda'],priorizar:['Core anti-extensão','Core anti-rotação','Glúteos','Mobilidade de quadril'],subs:[{de:'Levantamento terra',para:'Hip thrust'},{de:'Agachamento livre pesado',para:'Leg press'},{de:'Remada curvada',para:'Remada apoiada'}],fort:['Core profundo','Glúteo máximo','Glúteo médio'],al:'Dor irradiando para perna, dormência → avaliar urgente.'},
+tornozelo:{n:'Tornozelo',e:'🦶',evitar:['Saltos em fase aguda','Pivôs e mudanças bruscas'],priorizar:['Panturrilha','Tibial','Equilíbrio unilateral'],subs:[{de:'Corrida intensa',para:'Bike ou elíptico'},{de:'Burpee',para:'Versão sem salto'}],fort:['Panturrilha','Tibial anterior','Eversores'],al:'Falseio frequente → avaliar.'},
+quadril:{n:'Quadril',e:'🫄',evitar:['Amplitude que irrite o labrum','Chutes agressivos com dor'],priorizar:['Glúteo médio','Glúteo máximo','Adutor progressivo'],subs:[{de:'Chute alto com dor',para:'Chute em amplitude tolerável'}],fort:['Glúteo médio','Glúteo máximo','Adutores'],al:'Estalos com dor progressiva → avaliar.'},
+cotovelo:{n:'Cotovelo',e:'💪',evitar:['Extensões pesadas','Pegada excessiva'],priorizar:['Antebraço','Variação de pegada'],subs:[{de:'Rosca barra',para:'Rosca martelo'},{de:'Tríceps francês',para:'Pushdown no cabo'}],fort:['Antebraço','Estabilizadores do cotovelo'],al:'Dor em repouso progressiva → avaliar.'},
+cervical:{n:'Cervical',e:'🫀',evitar:['Impacto na cabeça com dor','Pressão cervical excessiva'],priorizar:['Controle cervical','Escápula','Trapézio'],subs:[{de:'Sparring pesado',para:'Treino técnico controlado'}],fort:['Músculos profundos do pescoço','Trapézio médio'],al:'Dor irradiando para braço → parar e avaliar urgente.'},
+posterior:{n:'Posterior de Coxa',e:'🦵',evitar:['Sprint forte em fase aguda','Hinge pesado sem tolerância'],priorizar:['Isometria','Excêntrico controlado','Glúteo'],subs:[{de:'Sprint máximo',para:'Bike ou aceleração moderada'}],fort:['Posterior excêntrico','Glúteo'],al:'Dor aguda em sprint → parar imediatamente.'},
+adutor:{n:'Adutores',e:'🦵',evitar:['Abertura agressiva','Mudança brusca de direção'],priorizar:['Adutor progressivo','Glúteo médio'],subs:[{de:'Copenhagen em dor',para:'Adução no cabo leve'}],fort:['Adutores progressivos','Glúteo médio'],al:'"Pop" ou dor aguda em chute → parar e avaliar.'},
+panturrilha:{n:'Panturrilha / Aquiles',e:'🦶',evitar:['Saltos e sprints em crise','Volume alto de corrida'],priorizar:['Panturrilha excêntrica','Sóleo','Tibial'],subs:[{de:'Corrida',para:'Bike ou natação'}],fort:['Panturrilha excêntrica','Sóleo'],al:'Sensação de "chute na panturrilha" → parar imediatamente.'},
+pe:{n:'Pé / Fáscia Plantar',e:'🦶',evitar:['Corrida longa com dor','Salto em fase ruim'],priorizar:['Pé curto (short foot)','Panturrilha','Tibial'],subs:[{de:'Corrida',para:'Natação ou bike'}],fort:['Intrínsecos do pé','Panturrilha'],al:'Dor que piora progressivamente → avaliar.'},
+canela:{n:'Canela / Tíbia',e:'🦵',evitar:['Corrida em superfície dura com dor'],priorizar:['Tibial anterior','Panturrilha','Bike'],subs:[{de:'Corrida',para:'Bike ou natação'}],fort:['Tibial anterior','Panturrilha'],al:'Dor pontual progressiva na tíbia → possível fratura por estresse.'},
+peitoral:{n:'Peitoral / Costela',e:'💪',evitar:['Supino pesado em distensão'],priorizar:['Puxadas','Remadas','Lower body'],subs:[{de:'Supino',para:'Puxadas e remadas'}],fort:['Escápula','Dorsal','Core'],al:'Dor em respiração profunda → possível fratura de costela.'},
+dedos:{n:'Mão / Dedos',e:'🤜',evitar:['Pegada gi excessiva em crise','Escalada com dor'],priorizar:['Pegada progressiva','Fortalecimento de antebraço'],subs:[{de:'Gi pesado',para:'Nogi ou posições sem gi'}],fort:['Antebraço','Progressão de polia'],al:'Ruptura de polia suspeita → parar escalada e avaliar.'},
+},
+objetivos:{
+hipertrofia:{n:'Hipertrofia',e:'💪',desc:'Ganhar massa muscular sem prejudicar a modalidade principal'},
+emagrecimento:{n:'Emagrecimento',e:'🔥',desc:'Perder gordura preservando massa magra e consistência'},
+performance:{n:'Performance',e:'⚡',desc:'Melhorar desempenho da modalidade prioritária acima de tudo'},
+competicao:{n:'Competição',e:'🏆',desc:'Preparação periódica por data — base, desenvolvimento, polimento'},
+saude:{n:'Saúde',e:'❤️',desc:'Rotina sustentável, segura e de longo prazo'},
+resistencia:{n:'Resistência',e:'🫁',desc:'Melhorar capacidade cardiovascular e tolerância ao esforço'},
+defesa_pessoal:{n:'Defesa Pessoal',e:'🛡️',desc:'Capacidade prática real de autodefesa'},
+mobilidade:{n:'Mobilidade',e:'🤸',desc:'Amplitude, controle, postura e consciência corporal'},
+retorno_lesao:{n:'Retorno pós-lesão',e:'🩹',desc:'Progressão conservadora e fortalecimento protetivo'},
+},
+hier:[
+{n:1,l:'SEGURANÇA',d:'Nenhum exercício com risco real',c:'#f87171'},
+{n:2,l:'LESÕES',d:'Adaptações obrigatórias por restrição',c:'#f97316'},
+{n:3,l:'OBJETIVO PRINCIPAL',d:'Performance, Hipertrofia, Saúde...',c:'#fbbf24'},
+{n:4,l:'MODALIDADE PRIORITÁRIA',d:'Musculação serve ao esporte foco',c:'#f59e0b'},
+{n:5,l:'NÍVEL DO USUÁRIO',d:'Volume e complexidade conforme experiência',c:'#4ade80'},
+{n:6,l:'DIAS DISPONÍVEIS',d:'Respeita a agenda real',c:'#5b8def'},
+{n:7,l:'TEMPO POR SESSÃO',d:'30, 45, 60, 90 min',c:'#818cf8'},
+{n:8,l:'EQUIPAMENTOS',d:'Adapta para academia, casa ou rua',c:'#818cf8'},
+{n:9,l:'HISTÓRICO E EVOLUÇÃO',d:'Progressão baseada em dados',c:'#a78bfa'},
+{n:10,l:'PREFERÊNCIAS',d:'Personalização final do atleta',c:'#a78bfa'},
+],
+};
+const ALL_S=Object.entries(DB.modalidades).map(([id,v])=>({id,...v}));
+const ALL_L=Object.entries(DB.lesoes).map(([id,v])=>({id,...v}));
+const ALL_G=Object.entries(DB.objetivos).map(([id,v])=>({id,...v}));
+const FAMS=['Todos',...new Set(ALL_S.map(s=>s.f))];
+const DPT=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+const WD=[{w:'S1',t:3,c:1840},{w:'S2',t:4,c:2100},{w:'S3',t:3,c:1950},{w:'S4',t:5,c:2400},{w:'S5',t:4,c:2250},{w:'S6',t:5,c:2600},{w:'S7',t:4,c:2500},{w:'S8',t:6,c:2847}];
+const DH=[{date:'24/06',day:'Ter',w:'Boxe + Força',dur:60,c:847,s:'🥊',int:92},{date:'22/06',day:'Dom',w:'Musculação',dur:60,c:920,s:'🏋️',int:85},{date:'20/06',day:'Sex',w:'Corrida 5km',dur:45,c:0,s:'🏃',int:72,km:5.1},{date:'18/06',day:'Qua',w:'Boxe',dur:60,c:780,s:'🥊',int:88},{date:'16/06',day:'Seg',w:'Musculação',dur:60,c:870,s:'🏋️',int:80}];
+
+
+/* ═══ WORKOUT_DB — TREINOS INDIVIDUALIZADOS POR MODALIDADE ═══ */
+const YT='https://www.youtube.com/results?search_query=';
+
+const WORKOUT_DB={
+boxe:{name:'BOXE',icon:'🥊',
+aquecimento:[
+{n:'Pular corda',s:3,r:'2 min',d:'30 seg',e:'🪃',yt:YT+'pular+corda+boxe+aquecimento'},
+{n:'Shadowboxing leve',s:3,r:'1 min',d:'30 seg',e:'👊',yt:YT+'shadowboxing+aquecimento+boxe'},
+{n:'Rotação de ombros e pescoço',s:1,r:'2 min',d:'0',e:'🔄',yt:YT+'rotacao+ombro+pescoco+aquecimento+boxe'},
+],principal:[
+{n:'Jab + Direto no saco',s:4,r:'2 min',d:'60 seg',e:'🥊',yt:YT+'jab+direto+saco+boxe+tecnica'},
+{n:'Combinação 1-2-3 (Jab+Direto+Gancho)',s:4,r:'2 min',d:'60 seg',e:'🥊',yt:YT+'combinacao+1-2-3+boxe+saco'},
+{n:'Footwork + Esquiva (bob and weave)',s:3,r:'2 min',d:'45 seg',e:'👟',yt:YT+'footwork+esquiva+bob+weave+boxe'},
+{n:'Uppercut + Gancho no saco',s:3,r:'90 seg',d:'60 seg',e:'🥊',yt:YT+'uppercut+gancho+saco+boxe'},
+],forca:[
+{n:'Remada unilateral com halter',s:4,r:'10 reps cada',d:'60 seg',e:'🏋️',yt:YT+'remada+unilateral+halter+costas+boxe'},
+{n:'Pulldown na polia',s:4,r:'12 reps',d:'60 seg',e:'🏋️',yt:YT+'pulldown+polia+puxada+frontal+execucao'},
+{n:'Rotação de tronco com medicine ball',s:3,r:'15 reps cada lado',d:'45 seg',e:'💪',yt:YT+'rotacao+tronco+medicine+ball+boxe+core'},
+],finalizacao:[
+{n:'Prancha frontal',s:3,r:'45 seg',d:'30 seg',e:'💪',yt:YT+'prancha+frontal+core+boxe'},
+{n:'Rotação externa com elástico',s:2,r:'15 reps',d:'30 seg',e:'🔄',yt:YT+'rotacao+externa+elastico+ombro+boxe'},
+]},
+
+muay_thai:{name:'MUAY THAI',icon:'🦵',
+aquecimento:[
+{n:'Pular corda (cadência alta)',s:3,r:'2 min',d:'30 seg',e:'🪃',yt:YT+'pular+corda+muay+thai+aquecimento'},
+{n:'Mobilidade de quadril em pé',s:2,r:'10 cada direção',d:'20 seg',e:'🔄',yt:YT+'mobilidade+quadril+muay+thai+aquecimento'},
+{n:'Chutes no ar leve (aquecimento)',s:2,r:'1 min cada perna',d:'30 seg',e:'🦵',yt:YT+'chute+aquecimento+muay+thai+leve'},
+],principal:[
+{n:'Chute circular no saco',s:4,r:'2 min',d:'60 seg',e:'🦵',yt:YT+'chute+circular+muay+thai+saco'},
+{n:'Joelhada no saco (clinch)',s:4,r:'1 min',d:'60 seg',e:'🦵',yt:YT+'joelhada+clinch+muay+thai+saco'},
+{n:'Combinação soco+chute (1-2-chute circular)',s:3,r:'2 min',d:'60 seg',e:'🥊',yt:YT+'combinacao+soco+chute+muay+thai'},
+{n:'Teep (chute frontal)',s:3,r:'90 seg',d:'45 seg',e:'🦵',yt:YT+'teep+chute+frontal+muay+thai'},
+],forca:[
+{n:'Hip thrust com barra',s:4,r:'12 reps',d:'60 seg',e:'🏋️',yt:YT+'hip+thrust+barra+gluteo+muay+thai'},
+{n:'RDL (levantamento romeno)',s:3,r:'10 reps',d:'60 seg',e:'🏋️',yt:YT+'RDL+levantamento+romeno+posterior'},
+{n:'Abdução de quadril com elástico',s:3,r:'15 reps cada',d:'45 seg',e:'💪',yt:YT+'abducao+quadril+elastico+gluteo+medio'},
+{n:'Elevação de panturrilha (em pé)',s:3,r:'20 reps',d:'30 seg',e:'💪',yt:YT+'elevacao+panturrilha+muay+thai'},
+],finalizacao:[
+{n:'Alongamento de quadril (posição pombo)',s:2,r:'60 seg cada',d:'0',e:'🤸',yt:YT+'alongamento+quadril+pombo+muay+thai'},
+{n:'Panturrilha na parede',s:2,r:'45 seg cada',d:'0',e:'🔄',yt:YT+'alongamento+panturrilha+parede+muay+thai'},
+]},
+
+jiu_jitsu:{name:'JIU-JITSU',icon:'🥋',
+aquecimento:[
+{n:'Rolamento frente + lateral + Granby roll',s:2,r:'5 cada',d:'20 seg',e:'🔄',yt:YT+'rolamento+granby+roll+jiu+jitsu'},
+{n:'Shrimping explosivo (camarão)',s:3,r:'10m',d:'20 seg',e:'🥋',yt:YT+'shrimping+explosivo+jiu+jitsu'},
+{n:'Hip escape (saída de quadril)',s:3,r:'10m',d:'20 seg',e:'🥋',yt:YT+'hip+escape+jiu+jitsu'},
+],principal:[
+{n:'Terra explosivo — simula entrada de quadril e derrubada',s:4,r:'5 reps explosivos',d:'90 seg',e:'🏋️',yt:YT+'terra+explosivo+potencia+jiu+jitsu+derrubada'},
+{n:'Passagem de guarda (torreando + leg drag)',s:4,r:'5 min contínuos',d:'60 seg',e:'🥋',yt:YT+'passagem+guarda+torreando+leg+drag+jiu'},
+{n:'Raspagem joelho-cotovelo → armlock',s:3,r:'5 min',d:'60 seg',e:'🥋',yt:YT+'raspagem+joelho+cotovelo+armlock+jiu'},
+{n:'Sparring posicional — guarda fechada',s:3,r:'5 min',d:'90 seg',e:'🤼',yt:YT+'sparring+posicional+guarda+fechada+jiu'},
+{n:'Sparring posicional — mount e back control',s:2,r:'5 min',d:'90 seg',e:'🤼',yt:YT+'sparring+mount+back+control+jiu'},
+],forca:[
+{n:'Barra fixa variada (pronada/supinada/neutra — isometria de pegada)',s:5,r:'6-8 reps',d:'90 seg',e:'🏋️',yt:YT+'barra+fixa+variacao+pegada+jiu+jitsu+dorsal'},
+{n:'Remada Pendlay explosiva — força de clinch',s:4,r:'6 reps explosivos',d:'90 seg',e:'🏋️',yt:YT+'remada+pendlay+explosiva+clinch+jiu+jitsu'},
+{n:'Farmer carry pesado — simula carregar oponente',s:4,r:'40m',d:'90 seg',e:'💪',yt:YT+'farmer+carry+pesado+jiu+jitsu'},
+{n:'Towel pull-up — toalha imita pegada no gi',s:3,r:'máximo reps',d:'90 seg',e:'💪',yt:YT+'towel+pull+up+gi+simulacao+jiu'},
+{n:'Isometria de pescoço 4 direções com faixa',s:3,r:'30 seg cada',d:'30 seg',e:'💪',yt:YT+'isometria+pescoco+faixa+jiu+jitsu'},
+],finalizacao:[
+{n:'CARs de quadril (rotação articular ativa)',s:2,r:'10 reps cada lado',d:'0',e:'🤸',yt:YT+'CARs+quadril+rotacao+articular'},
+{n:'Descompressão lombar (fetal + torção)',s:2,r:'60 seg cada lado',d:'0',e:'🔄',yt:YT+'descompressao+lombar+pos+treino+jiu'},
+{n:'Recuperação de antebraço e pegada',s:2,r:'2 min cada mão',d:'0',e:'🤜',yt:YT+'recuperacao+antebraco+pegada+jiu+jitsu'},
+]},
+
+corrida:{name:'CORRIDA',icon:'🏃',
+aquecimento:[
+{n:'Caminhada progressiva',s:1,r:'5 min',d:'0',e:'🚶',yt:YT+'aquecimento+caminhada+progressiva+corrida'},
+{n:'Skipping (joelhos altos)',s:3,r:'20m',d:'20 seg',e:'🏃',yt:YT+'skipping+joelhos+altos+corrida'},
+{n:'Mobilidade de tornozelo',s:2,r:'10 cada pé',d:'0',e:'🔄',yt:YT+'mobilidade+tornozelo+corrida'},
+],principal:[
+{n:'Corrida em pace aeróbico (zona 2)',s:1,r:'20 min',d:'0',e:'🏃',yt:YT+'corrida+zona+2+pace+aerobico'},
+{n:'Intervalado: 1 min forte / 1 min leve',s:6,r:'2 min total',d:'Recuperação ativa',e:'⚡',yt:YT+'intervalado+corrida+1+min+forte+leve'},
+{n:'Strides — aceleração progressiva 80m',s:4,r:'80m',d:'60 seg',e:'💨',yt:YT+'strides+corrida+aceleracao+80m'},
+],forca:[
+{n:'Panturrilha excêntrica no degrau',s:3,r:'15 reps lentos',d:'60 seg',e:'💪',yt:YT+'panturrilha+excentrica+degrau+corrida'},
+{n:'Agachamento búlgaro (unilateral)',s:3,r:'10 reps cada perna',d:'60 seg',e:'🏋️',yt:YT+'agachamento+bulgaro+unilateral+corrida'},
+{n:'Ponte de glúteo com elevação de perna',s:3,r:'12 reps cada',d:'45 seg',e:'💪',yt:YT+'ponte+gluteo+elevacao+perna+corrida'},
+{n:'Tibial anterior com elástico',s:3,r:'20 reps',d:'30 seg',e:'💪',yt:YT+'tibial+anterior+elastico+corrida+canelite'},
+],finalizacao:[
+{n:'Caminhada de volta à calma',s:1,r:'5 min',d:'0',e:'🚶',yt:YT+'volta+calma+corrida'},
+{n:'Alongamento de posterior sentado',s:2,r:'60 seg cada',d:'0',e:'🤸',yt:YT+'alongamento+posterior+sentado+corrida'},
+]},
+
+musculacao:{name:'MUSCULAÇÃO',icon:'🏋️',
+aquecimento:[
+{n:'Mobilidade articular geral',s:1,r:'5 min',d:'0',e:'🔄',yt:YT+'mobilidade+articular+aquecimento+musculacao'},
+{n:'Ativação de escápula (retração + depressão)',s:2,r:'15 reps',d:'20 seg',e:'💪',yt:YT+'ativacao+escapula+musculacao'},
+],principal:[
+{n:'Supino reto com barra',s:4,r:'10 reps',d:'90 seg',e:'🏋️',yt:YT+'supino+reto+barra+execucao+peitoral'},
+{n:'Agachamento livre com barra',s:4,r:'8 reps',d:'90 seg',e:'🏋️',yt:YT+'agachamento+livre+barra+execucao'},
+{n:'Desenvolvimento militar com barra',s:3,r:'10 reps',d:'90 seg',e:'🏋️',yt:YT+'desenvolvimento+militar+barra+ombro'},
+{n:'Levantamento terra convencional',s:3,r:'6 reps',d:'120 seg',e:'💪',yt:YT+'levantamento+terra+convencional+execucao'},
+],forca:[
+{n:'Remada curvada com barra',s:4,r:'10 reps',d:'90 seg',e:'🏋️',yt:YT+'remada+curvada+barra+costas'},
+{n:'Rosca direta com barra',s:3,r:'12 reps',d:'60 seg',e:'💪',yt:YT+'rosca+direta+barra+biceps'},
+{n:'Tríceps corda na polia',s:3,r:'12 reps',d:'60 seg',e:'💪',yt:YT+'triceps+corda+polia+execucao'},
+],finalizacao:[
+{n:'Prancha lateral',s:3,r:'30 seg cada lado',d:'30 seg',e:'💪',yt:YT+'prancha+lateral+core'},
+{n:'Alongamento de peitoral na parede',s:2,r:'45 seg cada',d:'0',e:'🤸',yt:YT+'alongamento+peitoral+parede'},
+]},
+
+natacao:{name:'NATAÇÃO',icon:'🏊',
+aquecimento:[
+{n:'Rotação de ombros (círculos progressivos)',s:2,r:'10 frente + 10 atrás',d:'0',e:'🔄',yt:YT+'rotacao+ombro+natacao+aquecimento'},
+{n:'Ativação de escápula (W-Y-T com halteres)',s:2,r:'10 reps',d:'30 seg',e:'💪',yt:YT+'ativacao+escapula+W+Y+T+natacao'},
+],principal:[
+{n:'Crawl técnico (foco na remada)',s:4,r:'100m',d:'30 seg',e:'🏊',yt:YT+'crawl+tecnica+remada+natacao'},
+{n:'Nado peito (foco no deslize)',s:4,r:'50m',d:'30 seg',e:'🏊',yt:YT+'nado+peito+deslize+natacao'},
+{n:'Costas (foco na rotação de ombro)',s:3,r:'50m',d:'30 seg',e:'🏊',yt:YT+'nado+costas+rotacao+ombro'},
+{n:'Sprints máximos',s:8,r:'25m',d:'20 seg',e:'⚡',yt:YT+'sprint+natacao+25m+velocidade'},
+],forca:[
+{n:'Remada com halter apoiado no banco',s:4,r:'10 reps cada',d:'60 seg',e:'🏋️',yt:YT+'remada+halter+banco+costas'},
+{n:'Rotação externa com elástico (cotovelo 90°)',s:3,r:'15 reps',d:'45 seg',e:'🔄',yt:YT+'rotacao+externa+elastico+manguito+natacao'},
+{n:'Prancha com extensão de braço alternada',s:3,r:'45 seg',d:'30 seg',e:'💪',yt:YT+'prancha+extensao+braco+core+natacao'},
+],finalizacao:[
+{n:'Alongamento de ombro (braço cruzado)',s:2,r:'45 seg cada',d:'0',e:'🤸',yt:YT+'alongamento+ombro+cruzado+natacao'},
+{n:'Respiração diafragmática deitado',s:1,r:'3 min',d:'0',e:'🧘',yt:YT+'respiracao+diafragmatica+natacao'},
+]},
+
+ciclismo:{name:'CICLISMO',icon:'🚴',
+aquecimento:[
+{n:'Pedal leve cadência 90rpm',s:1,r:'10 min',d:'0',e:'🚴',yt:YT+'aquecimento+ciclismo+cadencia+leve'},
+{n:'Mobilidade de quadril sentado',s:2,r:'10 cada direção',d:'0',e:'🔄',yt:YT+'mobilidade+quadril+ciclismo'},
+],principal:[
+{n:'Pedalada Z2 (pace conversa)',s:1,r:'30 min',d:'0',e:'🚴',yt:YT+'zona+2+ciclismo+aerobico'},
+{n:'Intervalado: sprint 30 seg / recuperação 90 seg',s:8,r:'2 min total',d:'Ativo',e:'⚡',yt:YT+'intervalado+ciclismo+sprint'},
+{n:'Subida simulada (carga alta + cadência baixa)',s:3,r:'5 min',d:'3 min',e:'🏔️',yt:YT+'subida+ciclismo+carga+alta'},
+],forca:[
+{n:'Agachamento goblet com kettlebell',s:4,r:'12 reps',d:'60 seg',e:'🏋️',yt:YT+'agachamento+goblet+kettlebell'},
+{n:'Leg press 45° unilateral',s:3,r:'10 reps cada',d:'60 seg',e:'🏋️',yt:YT+'leg+press+45+unilateral'},
+{n:'Abdução de quadril em pé com elástico',s:3,r:'15 reps cada',d:'45 seg',e:'💪',yt:YT+'abducao+quadril+elastico+gluteo+medio+ciclismo'},
+],finalizacao:[
+{n:'Alongamento de quadríceps em pé',s:2,r:'45 seg cada',d:'0',e:'🤸',yt:YT+'alongamento+quadriceps+pe+ciclismo'},
+{n:'Cat-cow mobilidade de lombar',s:2,r:'10 reps',d:'0',e:'🔄',yt:YT+'cat+cow+lombar+ciclismo'},
+]},
+
+crossfit:{name:'CROSSFIT',icon:'⚡',
+aquecimento:[
+{n:'Row 500m leve (ergômetro)',s:1,r:'500m',d:'0',e:'🚣',yt:YT+'remo+ergometro+aquecimento+crossfit'},
+{n:'Mobilidade torácica (foam roller)',s:2,r:'10 reps',d:'0',e:'🔄',yt:YT+'mobilidade+toracica+foam+roller+crossfit'},
+{n:'Air squat progressivo',s:2,r:'10 reps',d:'20 seg',e:'🦵',yt:YT+'air+squat+crossfit+aquecimento'},
+],principal:[
+{n:'Thruster com barra (agacha + press)',s:4,r:'10 reps',d:'90 seg',e:'🏋️',yt:YT+'thruster+barra+crossfit+execucao'},
+{n:'Pull-up estrito',s:4,r:'8 reps',d:'90 seg',e:'💪',yt:YT+'pull+up+estrito+crossfit'},
+{n:'Box jump 50-60cm',s:4,r:'10 reps',d:'60 seg',e:'📦',yt:YT+'box+jump+crossfit+execucao'},
+{n:'Kettlebell swing americano',s:4,r:'15 reps',d:'60 seg',e:'⚙️',yt:YT+'kettlebell+swing+americano+crossfit'},
+],forca:[
+{n:'AMRAP 15 min: 5 burpee + 10 air squat + 15 sit-up',s:1,r:'15 min',d:'0',e:'⚡',yt:YT+'AMRAP+crossfit+burpee+squat+situp'},
+{n:'EMOM 10 min: 5 pull-up + 10 push-up',s:1,r:'10 min',d:'Restante',e:'💪',yt:YT+'EMOM+crossfit+pull+push'},
+],finalizacao:[
+{n:'Row leve para recuperação',s:1,r:'2 min',d:'0',e:'🚣',yt:YT+'recuperacao+remo+crossfit'},
+{n:'Mobilidade de ombro e quadril',s:1,r:'3 min',d:'0',e:'🔄',yt:YT+'mobilidade+ombro+quadril+pos+crossfit'},
+]},
+
+futebol:{name:'FUTEBOL',icon:'⚽',
+aquecimento:[
+{n:'Trote leve em volta do campo',s:2,r:'2 min',d:'30 seg',e:'🏃',yt:YT+'aquecimento+futebol+trote'},
+{n:'Mobilidade dinâmica de quadril',s:2,r:'10 cada',d:'0',e:'🔄',yt:YT+'mobilidade+dinamica+quadril+futebol'},
+{n:'Ativação de adutor com elástico',s:2,r:'15 reps cada',d:'20 seg',e:'💪',yt:YT+'ativacao+adutor+futebol'},
+],principal:[
+{n:'Drible em slalom (cone a cada 1m)',s:4,r:'20m',d:'60 seg',e:'⚽',yt:YT+'drible+slalom+cone+futebol'},
+{n:'Chute a gol (peito do pé + borda)',s:4,r:'10 chutes cada',d:'60 seg',e:'⚽',yt:YT+'chute+gol+tecnica+futebol'},
+{n:'Sprint com bola 30m',s:6,r:'30m',d:'45 seg',e:'⚡',yt:YT+'sprint+bola+futebol+velocidade'},
+{n:'Jogo reduzido 4v4',s:3,r:'5 min',d:'90 seg',e:'⚽',yt:YT+'jogo+reduzido+4x4+futebol'},
+],forca:[
+{n:'Nordic hamstring (posterior excêntrico)',s:3,r:'8 reps',d:'90 seg',e:'🏋️',yt:YT+'nordic+hamstring+posterior+excentrico+futebol'},
+{n:'Copenhagen adduction (adutor)',s:3,r:'10 reps cada',d:'60 seg',e:'💪',yt:YT+'copenhagen+adducao+adutor+futebol'},
+{n:'Calf raise com barra',s:3,r:'20 reps',d:'45 seg',e:'💪',yt:YT+'calf+raise+panturrilha+futebol'},
+],finalizacao:[
+{n:'Volta à calma (trote + caminhada)',s:1,r:'3 min',d:'0',e:'🚶',yt:YT+'volta+calma+futebol'},
+{n:'Alongamento de isquiotibiais deitado',s:2,r:'60 seg cada',d:'0',e:'🤸',yt:YT+'alongamento+isquiotibial+futebol'},
+]},
+
+tenis:{name:'TÊNIS',icon:'🎾',
+aquecimento:[
+{n:'Deslocamento lateral (shuffle) na linha',s:3,r:'20m',d:'20 seg',e:'👟',yt:YT+'shuffle+deslocamento+lateral+tenis'},
+{n:'Mobilidade de ombro (pêndulo)',s:2,r:'10 cada',d:'0',e:'🔄',yt:YT+'pendulo+ombro+tenis+aquecimento'},
+{n:'Pronação/supinação de cotovelo',s:2,r:'15 reps',d:'0',e:'🔄',yt:YT+'pronacao+supinacao+cotovelo+tenis'},
+],principal:[
+{n:'Forehand crosscourt na parede',s:4,r:'5 min',d:'60 seg',e:'🎾',yt:YT+'forehand+crosscourt+tenis+tecnica'},
+{n:'Backhand down the line',s:4,r:'5 min',d:'60 seg',e:'🎾',yt:YT+'backhand+down+line+tenis'},
+{n:'Saque técnico (first + second serve)',s:3,r:'10 cada',d:'90 seg',e:'🎾',yt:YT+'saque+tenis+first+second+serve'},
+],forca:[
+{n:'Rotação de tronco com medicine ball',s:3,r:'15 reps cada lado',d:'60 seg',e:'💪',yt:YT+'rotacao+tronco+medicine+ball+tenis'},
+{n:'External rotation com elástico (manguito)',s:3,r:'15 reps',d:'45 seg',e:'🔄',yt:YT+'rotacao+externa+manguito+tenis'},
+{n:'Split squat búlgaro',s:3,r:'10 reps cada',d:'60 seg',e:'🏋️',yt:YT+'split+squat+bulgaro+tenis'},
+],finalizacao:[
+{n:'Alongamento de antebraço (flexão + extensão)',s:2,r:'45 seg cada',d:'0',e:'🤸',yt:YT+'alongamento+antebraco+tenis'},
+{n:'Sleeper stretch de ombro',s:2,r:'45 seg cada',d:'0',e:'🔄',yt:YT+'sleeper+stretch+ombro+tenis'},
+]},
+
+yoga:{name:'YOGA',icon:'🧘',
+aquecimento:[
+{n:'Respiração Ujjayi',s:1,r:'3 min',d:'0',e:'🌬️',yt:YT+'respiracao+ujjayi+yoga'},
+{n:'Sun Salutation A (Surya Namaskar)',s:3,r:'1 sequência',d:'30 seg',e:'☀️',yt:YT+'sun+salutation+A+yoga+iniciante'},
+],principal:[
+{n:'Warrior I + II (5 respirações cada)',s:3,r:'5 resp. cada lado',d:'30 seg',e:'🧘',yt:YT+'warrior+1+2+yoga'},
+{n:'Triangle + Half Moon',s:2,r:'5 resp. cada',d:'30 seg',e:'🧘',yt:YT+'triangle+half+moon+yoga'},
+{n:'Hip Openers (Pigeon + Lizard)',s:2,r:'90 seg cada lado',d:'0',e:'🧘',yt:YT+'pigeon+lizard+yoga+quadril'},
+],forca:[
+{n:'Chaturanga (prancha + descida lenta)',s:3,r:'45 seg',d:'30 seg',e:'💪',yt:YT+'chaturanga+yoga+core'},
+{n:'Boat Pose (Navasana)',s:3,r:'30 seg',d:'30 seg',e:'⛵',yt:YT+'navasana+boat+pose+yoga'},
+{n:'Chair Pose isométrico',s:3,r:'45 seg',d:'30 seg',e:'🪑',yt:YT+'chair+pose+yoga+isometria'},
+],finalizacao:[
+{n:'Savasana',s:1,r:'5 min',d:'0',e:'🧘',yt:YT+'savasana+yoga+relaxamento'},
+{n:'Respiração alternada (Nadi Shodhana)',s:1,r:'3 min',d:'0',e:'🌬️',yt:YT+'nadi+shodhana+respiracao+alternada'},
+]},
+
+ballet:{name:'BALLET',icon:'🩰',
+aquecimento:[
+{n:'Pliés (1ª + 2ª posição)',s:3,r:'16 reps cada',d:'30 seg',e:'🩰',yt:YT+'plies+ballet+barra+posicao'},
+{n:'Tendus (frente, lado, trás)',s:3,r:'16 cada direção',d:'30 seg',e:'🩰',yt:YT+'tendus+ballet+barra'},
+{n:'Dégagés',s:2,r:'16 cada direção',d:'20 seg',e:'🩰',yt:YT+'degages+ballet+tecnica'},
+],principal:[
+{n:'Ronds de jambe en dehors + en dedans',s:3,r:'16 reps cada',d:'30 seg',e:'🩰',yt:YT+'ronds+de+jambe+ballet'},
+{n:'Fondus (barra)',s:3,r:'8 reps cada perna',d:'30 seg',e:'🩰',yt:YT+'fondus+ballet+barra'},
+{n:'Grand battement (frente, lado, trás)',s:3,r:'8 cada direção',d:'45 seg',e:'🩰',yt:YT+'grand+battement+ballet'},
+{n:'Sequência de centro (adagio + allegro)',s:1,r:'20 min',d:'0',e:'🩰',yt:YT+'ballet+centro+adagio+allegro'},
+],forca:[
+{n:'Relevé lento + descida excêntrica',s:3,r:'20 reps',d:'45 seg',e:'💪',yt:YT+'releve+ballet+panturrilha+excentrica'},
+{n:'Clam shell com elástico (glúteo médio)',s:3,r:'15 reps cada',d:'45 seg',e:'💪',yt:YT+'clam+shell+elastico+ballet'},
+{n:'Dead bug (core transverso)',s:3,r:'10 reps cada lado',d:'45 seg',e:'💪',yt:YT+'dead+bug+core+transverso+ballet'},
+],finalizacao:[
+{n:'Adutor progressivo (borboleta)',s:2,r:'60 seg',d:'0',e:'🤸',yt:YT+'adutor+borboleta+ballet'},
+{n:'Panturrilha na parede (flexão dorsal)',s:2,r:'45 seg cada',d:'0',e:'🩰',yt:YT+'panturrilha+dorsal+ballet'},
+]},
+
+surf:{name:'SURF',icon:'🏄',
+aquecimento:[
+{n:'Pop-up no chão (técnica)',s:10,r:'1 rep',d:'10 seg',e:'🏄',yt:YT+'popup+surf+tecnica+chao'},
+{n:'Rotação de tronco + ombros',s:2,r:'10 cada',d:'0',e:'🔄',yt:YT+'rotacao+tronco+ombro+surf'},
+],principal:[
+{n:'Remada deitado na prancha (simulação)',s:4,r:'3 min',d:'60 seg',e:'🏊',yt:YT+'remada+surf+simulacao'},
+{n:'Pop-up técnico (quadril baixo + pés)',s:20,r:'1 rep',d:'10 seg',e:'🏄',yt:YT+'popup+surf+tecnica+quadril'},
+{n:'Equilíbrio em balance board',s:4,r:'2 min',d:'60 seg',e:'🏄',yt:YT+'balance+board+surf+equilibrio'},
+],forca:[
+{n:'Remada com halteres (neutro)',s:4,r:'10 reps',d:'60 seg',e:'🏋️',yt:YT+'remada+halter+neutro+surf'},
+{n:'Pallof press (anti-rotação de core)',s:3,r:'12 reps cada lado',d:'60 seg',e:'💪',yt:YT+'pallof+press+core+surf'},
+{n:'Turkish get-up com kettlebell',s:2,r:'5 reps cada lado',d:'90 seg',e:'⚙️',yt:YT+'turkish+get+up+surf'},
+],finalizacao:[
+{n:'Alongamento de quadril flexor',s:2,r:'60 seg cada',d:'0',e:'🤸',yt:YT+'alongamento+quadril+flexor+surf'},
+{n:'Mobilidade torácica (foam roller)',s:2,r:'10 reps',d:'0',e:'🔄',yt:YT+'mobilidade+toracica+surf'},
+]},
+
+escalada:{name:'ESCALADA',icon:'🧗',
+aquecimento:[
+{n:'Aquecimento de dedos (extensores + flexores)',s:2,r:'10 reps cada',d:'30 seg',e:'🤜',yt:YT+'aquecimento+dedos+escalada'},
+{n:'Mobilidade de ombro',s:2,r:'10 cada',d:'0',e:'🔄',yt:YT+'mobilidade+ombro+escalada'},
+{n:'Dead hang passivo na barra',s:3,r:'20 seg',d:'30 seg',e:'🏋️',yt:YT+'dead+hang+barra+escalada'},
+],principal:[
+{n:'Boulder V2-V4 (problemas técnicos)',s:4,r:'tentativas até resolver',d:'3 min',e:'🧗',yt:YT+'boulder+v2+v4+escalada'},
+{n:'Via de resistência 5.10-5.11',s:3,r:'via completa',d:'5 min',e:'🧗',yt:YT+'via+resistencia+escalada+5.10'},
+{n:'Treino de footwork (pés silenciosos)',s:3,r:'20 min',d:'0',e:'🦶',yt:YT+'footwork+escalada+pes+silenciosos'},
+],forca:[
+{n:'Barra fixa pronada',s:4,r:'6-8 reps',d:'2 min',e:'🏋️',yt:YT+'barra+fixa+pronada+escalada'},
+{n:'Hangboard half-crimp 20mm',s:3,r:'10 seg on / 5 off × 6',d:'3 min',e:'💪',yt:YT+'hangboard+half+crimp+escalada'},
+{n:'Front lever tucked (progressão)',s:3,r:'5-8 seg',d:'2 min',e:'💪',yt:YT+'front+lever+tucked+escalada'},
+],finalizacao:[
+{n:'Extensão de dedos com elástico',s:3,r:'20 reps',d:'30 seg',e:'🤜',yt:YT+'extensao+dedos+elastico+escalada'},
+{n:'Alongamento ombro + cotovelo',s:2,r:'45 seg cada',d:'0',e:'🔄',yt:YT+'alongamento+ombro+cotovelo+escalada'},
+]},
+
+danca:{name:'DANÇA',icon:'💃',
+aquecimento:[
+{n:'Mobilidade geral (head to toe)',s:1,r:'5 min',d:'0',e:'🔄',yt:YT+'aquecimento+danca+mobilidade'},
+{n:'Isolamentos (cabeça + ombro + quadril)',s:2,r:'8 reps cada',d:'0',e:'💃',yt:YT+'isolamentos+danca+tecnica'},
+],principal:[
+{n:'Passos básicos do estilo (lento)',s:3,r:'10 min',d:'0',e:'💃',yt:YT+'passos+basicos+danca+lento'},
+{n:'Sequência coreográfica',s:4,r:'5 min',d:'60 seg',e:'💃',yt:YT+'sequencia+coreografia+danca'},
+{n:'Improvisação livre',s:1,r:'10 min',d:'0',e:'🎶',yt:YT+'improvisacao+danca+livre'},
+],forca:[
+{n:'Rotação de tronco com elástico',s:3,r:'15 reps cada lado',d:'45 seg',e:'💪',yt:YT+'rotacao+tronco+elastico+danca'},
+{n:'Clam shell com elástico',s:3,r:'15 reps cada',d:'45 seg',e:'💪',yt:YT+'clam+shell+danca'},
+{n:'Elevação de panturrilha',s:3,r:'20 reps',d:'30 seg',e:'💪',yt:YT+'elevacao+panturrilha+danca'},
+],finalizacao:[
+{n:'Alongamento de quadril (figura 4)',s:2,r:'60 seg cada',d:'0',e:'🤸',yt:YT+'alongamento+quadril+figura+4+danca'},
+{n:'Relaxamento muscular progressivo',s:1,r:'3 min',d:'0',e:'🧘',yt:YT+'relaxamento+muscular+danca'},
+]},
+};
+
+/* ═══ SISTEMA DE RECUPERAÇÃO ═══ */
+const RECOVERY_RULES={
+musculacao:{minRest:48},corrida:{minRest:48},muay_thai:{minRest:24},boxe:{minRest:24},
+jiu_jitsu:{minRest:24},wrestling:{minRest:24},yoga:{minRest:0},pilates:{minRest:0},
+mobilidade:{minRest:0},natacao:{minRest:24},ciclismo:{minRest:24},
+crossfit:{minRest:48},futebol:{minRest:24},ballet:{minRest:24},danca:{minRest:0},
+};
+
+function validateSchedule(schedule,days,sports){
+const warnings=[];
+const activeDays=days.filter(d=>schedule[d]&&schedule[d]!=='');
+const sportCount={};
+activeDays.forEach(d=>{const s=schedule[d];sportCount[s]=(sportCount[s]||0)+1;});
+if(sportCount['musculacao']>6)warnings.push({type:'danger',msg:'Musculação 7x/semana causa sobretreino. Máximo recomendado: 5-6x com grupos diferentes.'});
+const DPT_ORDER=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+let consec=0;
+DPT_ORDER.forEach(d=>{const s=schedule[d];const rule=RECOVERY_RULES[s];if(s&&rule&&rule.minRest>=48){consec++;if(consec>=3){warnings.push({type:'warn',msg:`3+ dias seguidos de alta intensidade. Risco de sobretreino.`});consec=0;}}else{consec=0;}});
+const restDays=days.filter(d=>!schedule[d]||schedule[d]==='').length;
+if(restDays===0&&days.length===7)warnings.push({type:'danger',msg:'Nenhum dia de descanso! Pelo menos 1 dia de recuperação é essencial.'});
+return warnings;
+}
+
+function getAutoSchedule(sports,days,priority){
+const auto={};
+const DPT_ORDER=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+const activeDays=DPT_ORDER.filter(d=>days.includes(d));
+const prioritySport=priority||sports[0];
+const others=sports.filter(s=>s!==prioritySport);
+let otherIdx=0;
+activeDays.forEach((d,i)=>{if(i%2===0){auto[d]=prioritySport;}else{auto[d]=others[otherIdx%others.length]||prioritySport;otherIdx++;}});
+return auto;
+}
+
+const MUSCLE_GROUPS={2:['Full Body A','Full Body B'],3:['Peito + Tríceps','Costas + Bíceps','Pernas + Ombro'],4:['Peito + Tríceps','Costas + Bíceps','Pernas','Ombro + Core'],5:['Peito','Costas','Pernas','Ombro','Braços + Core'],6:['Peito','Costas','Pernas','Ombro','Braços','Core + Cardio']};
+function getMuscleGroupForDay(idx,total){const groups=MUSCLE_GROUPS[Math.min(total,6)]||MUSCLE_GROUPS[3];return groups[idx%groups.length];}
+
+function getWorkoutByProfile(userSports,priority,injuries,goal,duration){
+const sportKey=priority&&WORKOUT_DB[priority]?priority:(userSports&&userSports[0]&&WORKOUT_DB[userSports[0]]?userSports[0]:'musculacao');
+const wdb=WORKOUT_DB[sportKey]||WORKOUT_DB.musculacao;
+const injList=injuries||[];
+const dur=duration||60;
+const COMPLEX=['levantamento terra','agachamento livre','desenvolvimento militar','thruster'];
+function isComplex(name){return COMPLEX.some(c=>name.toLowerCase().includes(c));}
+const hasOmbro=injList.some(i=>i.region==='ombro'&&i.pain);
+const hasJoelho=injList.some(i=>i.region==='joelho');
+const hasLombar=injList.some(i=>i.region==='lombar');
+const hasPunho=injList.some(i=>i.region==='punho'&&i.pain);
+let aq=[...wdb.aquecimento];
+let pr=[...wdb.principal];
+let fo=[...wdb.forca];
+let fi=[...wdb.finalizacao];
+if(hasOmbro){pr=pr.filter(e=>!e.n.toLowerCase().includes('soco')&&!e.n.toLowerCase().includes('jab'));fo=fo.filter(e=>!e.n.toLowerCase().includes('supino')&&!e.n.toLowerCase().includes('desenvolvimento'));fo.push({n:'Rotação externa com elástico',s:3,r:'15 reps',d:'30 seg',e:'🔄',yt:YT+'rotacao+externa+elastico+ombro'});fo.push({n:'Face pull na polia',s:3,r:'15 reps',d:'30 seg',e:'💪',yt:YT+'face+pull+polia+execucao'});}
+if(hasJoelho){pr=pr.filter(e=>!e.n.toLowerCase().includes('sprint')&&!e.n.toLowerCase().includes('salto')&&!e.n.toLowerCase().includes('box jump'));fo=fo.filter(e=>!e.n.toLowerCase().includes('agachamento'));fo.push({n:'Leg press 45° (protege joelho)',s:3,r:'12 reps',d:'60 seg',e:'🏋️',yt:YT+'leg+press+45+joelho'});fo.push({n:'Glúteo médio com elástico',s:3,r:'15 reps cada',d:'30 seg',e:'💪',yt:YT+'gluteo+medio+elastico+joelho'});}
+if(hasLombar){fo=fo.filter(e=>!e.n.toLowerCase().includes('terra')&&!e.n.toLowerCase().includes('curvada'));fo.push({n:'Hip thrust com barra',s:4,r:'12 reps',d:'60 seg',e:'🏋️',yt:YT+'hip+thrust+lombar'});fo.push({n:'Prancha com elevação de braço',s:3,r:'10 reps cada',d:'30 seg',e:'💪',yt:YT+'prancha+elevacao+braco+lombar'});}
+if(hasPunho){pr=pr.filter(e=>!e.n.toLowerCase().includes('soco')&&!e.n.toLowerCase().includes('jab')&&!e.n.toLowerCase().includes('saco'));pr.push({n:'Shadowboxing sem impacto (técnica)',s:3,r:'2 min',d:'60 seg',e:'👊',yt:YT+'shadowboxing+tecnica+sem+impacto'});}
+if(dur<=30){aq=aq.slice(0,1);pr=pr.filter(e=>!isComplex(e.n)).slice(0,2);fo=fo.filter(e=>!isComplex(e.n)).slice(0,2);fi=fi.slice(0,1);const rs=ex=>({...ex,s:Math.min(ex.s||3,2)});pr=pr.map(rs);fo=fo.map(rs);}
+else if(dur<=45){aq=aq.slice(0,2);pr=pr.filter(e=>!e.n.toLowerCase().includes('terra')).slice(0,3);fo=fo.filter(e=>!e.n.toLowerCase().includes('terra')).slice(0,2);fi=fi.slice(0,1);const rs=ex=>({...ex,s:Math.min(ex.s||3,3)});pr=pr.map(rs);fo=fo.map(rs);}
+else if(dur<=60){pr=pr.slice(0,4);fo=fo.slice(0,3);}
+else if(dur<=90){pr=pr.slice(0,5);fo=fo.slice(0,4);const av=ex=>({...ex,s:Math.min((ex.s||3)+1,5)});pr=pr.map(av);}
+const injAlert=injList.filter(i=>i.pain).map(i=>DB.lesoes[i.region]?.n||i.region).join(', ');
+const sportName=wdb.name;const sportIcon=wdb.icon;
+const allSports=userSports&&userSports.length>1?userSports.map(s=>WORKOUT_DB[s]?.name||s).join(' + '):sportName;
+return{blocks:[{name:'AQUECIMENTO',ex:aq.map(e=>({...e,sp:sportKey}))},{name:sportName.toUpperCase(),ex:pr.map(e=>({...e,sp:sportKey}))},{name:'FORÇA & SUPORTE',ex:fo.map(e=>({...e,sp:sportKey}))},{name:'FINALIZAÇÃO',ex:fi.map(e=>({...e,sp:sportKey}))},].filter(b=>b.ex.length>0),sportName,sportIcon,allSports,injAlert,goal};
+}
+</script>
+
+<script>
+/* Carrega Babel e compila o JSX de forma assíncrona */
+(function() {
+  var script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js';
+  script.onload = function() {
+    try {
+      var jsx = document.getElementById('app-jsx').textContent;
+      var compiled = Babel.transform(jsx, {presets:['react']}).code;
+      var fn = new Function('React','ReactDOM', compiled);
+      fn(React, ReactDOM);
+      /* Esconder loading */
+      var loading = document.getElementById('loading');
+      loading.style.opacity = '0';
+      setTimeout(function(){ loading.style.display = 'none'; }, 500);
+    } catch(e) {
+      document.getElementById('loading').innerHTML = 
+        '<div style="padding:30px;text-align:center;color:#f87171">' +
+        '<p style="font-size:32px;margin-bottom:12px">⚠️</p>' +
+        '<p style="font-family:Archivo Black,sans-serif;font-size:14px;margin-bottom:8px">ERRO AO CARREGAR</p>' +
+        '<p style="font-size:11px;color:#9090c0;line-height:1.6">' + e.message + '</p>' +
+        '</div>';
+      console.error(e);
+    }
+  };
+  script.onerror = function() {
+    document.getElementById('loading').innerHTML = 
+      '<p style="color:#f87171;font-family:Inter,sans-serif;font-size:12px;padding:20px;text-align:center">Erro ao carregar. Verifique sua conexão.</p>';
+  };
+  document.head.appendChild(script);
+})();
+</script>
+
+<script type="text/plain" id="app-jsx">
+const {useState,useEffect,useRef,useMemo}=React;
+
+const I={
+Home:()=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
+Zap:()=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>,
+Chart:()=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>,
+User:()=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>,
+DB:()=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>,
+Cal:()=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>,
+Coach:()=><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2a10 10 0 0 1 10 10v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2 8 8 0 1 0-16 0 2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-4A10 10 0 0 1 12 2z"/></svg>,
+L:({s=20})=><svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>,
+R:({s=16})=><svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>,
+Ck:()=><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+X:()=><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+Sh:()=><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>,
+Inf:()=><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>,
+Pl:()=><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>,
+Sun:()=><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>,
+Moon:()=><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>,
+Rf:()=><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>,
+};
+
+function Logo({size=120}){
+const r=useRef(null),t=useRef(0),m=useRef({x:size/2,y:size/2}),raf=useRef(null);
+useEffect(()=>{
+const c=r.current;if(!c)return;
+const g=c.getContext('2d');const CX=size/2,CY=size/2,sc=size/200;
+function draw(){
+g.clearRect(0,0,size,size);
+const b=Math.sin(t.current*.8)*1.5,lift=Math.sin(t.current*1.2)*4,ox=(m.current.x-CX)*.04,oy=(m.current.y-CY)*.03;
+g.beginPath();g.arc(CX,CY,CX-2,0,Math.PI*2);
+const bg=g.createRadialGradient(CX,CY,0,CX,CY,CX);bg.addColorStop(0,'#0d0d22');bg.addColorStop(1,'#050510');g.fillStyle=bg;g.fill();
+g.beginPath();g.arc(CX,CY,CX-2,0,Math.PI*2);g.strokeStyle='rgba(91,141,239,.22)';g.lineWidth=1.5;g.stroke();
+g.save();g.translate(CX,CY);g.rotate(t.current*.4);g.beginPath();g.arc(0,0,CX-6,-Math.PI*.5,Math.PI*.3);g.strokeStyle='#5b8def';g.lineWidth=2;g.lineCap='round';g.globalAlpha=.7;g.stroke();g.restore();
+for(let i=0;i<8;i++){const a=(Math.PI*2/8)*i+t.current*.2,x=CX+Math.cos(a)*(CX-4),y=CY+Math.sin(a)*(CX-4);g.beginPath();g.arc(x,y,i%2===0?2:1,0,Math.PI*2);g.fillStyle=i%2===0?'#5b8def':'rgba(91,141,239,.3)';g.globalAlpha=i%2===0?.8:.4;g.fill();g.globalAlpha=1;}
+g.save();g.beginPath();g.arc(CX,CY,CX-8,0,Math.PI*2);g.clip();
+const s=sc;
+function grd(x1,y1,x2,y2){const gr=g.createLinearGradient(CX+x1*s+ox,CY+y1*s+oy,CX+x2*s+ox,CY+y2*s+oy);gr.addColorStop(0,'#7eb3f5');gr.addColorStop(1,'#4ade80');return gr;}
+function muscle(x1,y1,x2,y2,w1,w2){const dx=x2-x1,dy=y2-y1,len=Math.sqrt(dx*dx+dy*dy),nx=-dy/len*s,ny=dx/len*s;const ax=CX+x1*s+ox,ay=CY+y1*s+oy,bx=CX+x2*s+ox,by=CY+y2*s+oy;g.beginPath();g.moveTo(ax+nx*w1,ay+ny*w1);g.quadraticCurveTo((ax+bx)/2+nx*(w1+w2)/2*1.2,(ay+by)/2+ny*(w1+w2)/2*1.2,bx+nx*w2,by+ny*w2);g.lineTo(bx-nx*w2,by-ny*w2);g.quadraticCurveTo((ax+bx)/2-nx*(w1+w2)/2*1.2,(ay+by)/2-ny*(w1+w2)/2*1.2,ax-nx*w1,ay-ny*w1);g.closePath();g.fill();}
+function joint(x,y,rs){const jg=g.createRadialGradient(CX+x*s+ox,CY+y*s+oy,0,CX+x*s+ox,CY+y*s+oy,rs*s);jg.addColorStop(0,'#a8d4ff');jg.addColorStop(1,'#5b8def');g.beginPath();g.arc(CX+x*s+ox,CY+y*s+oy,rs*s,0,Math.PI*2);g.fillStyle=jg;g.fill();}
+const barY=-78+lift+b*.5;
+g.shadowBlur=12;g.shadowColor='#5b8def';
+g.beginPath();g.roundRect(CX-58*s+ox,CY+barY*s+oy,116*s,5*s,2);
+const bg2=g.createLinearGradient(CX-58*s,CY+barY*s,CX+58*s,CY+barY*s);bg2.addColorStop(0,'#7eb3f5');bg2.addColorStop(1,'#5b8def');g.fillStyle=bg2;g.fill();g.shadowBlur=0;
+[-1,1].forEach(side=>[0,1].forEach((_,i)=>{const wx=CX+(side*(44+i*8))*s+ox,wy=CY+barY*s+oy;g.beginPath();g.ellipse(wx,wy,(6-i)*s,(13-i*2)*s,0,0,Math.PI*2);const wg=g.createRadialGradient(wx,wy,0,wx,wy,(13-i*2)*s);wg.addColorStop(0,'#7eb3f5aa');wg.addColorStop(1,'#5b8def');g.fillStyle=wg;g.fill();}));
+g.fillStyle=grd(0,5,-22,28);muscle(0,5,-22,28,8,6);g.fillStyle=grd(-22,28,-20,55);muscle(-22,28,-20,55,6,4);g.fillStyle=grd(0,5,22,28);muscle(0,5,22,28,8,6);g.fillStyle=grd(22,28,20,55);muscle(22,28,20,55,6,4);
+g.beginPath();g.moveTo(CX-24*s+ox,CY-48*s+oy);g.bezierCurveTo(CX-30*s+ox,CY-20*s+oy,CX-12*s+ox,CY-4*s+oy,CX-10*s+ox,CY+6*s+oy);g.lineTo(CX+10*s+ox,CY+6*s+oy);g.bezierCurveTo(CX+12*s+ox,CY-4*s+oy,CX+30*s+ox,CY-20*s+oy,CX+24*s+ox,CY-48*s+oy);g.closePath();const tg=g.createLinearGradient(CX-24*s,CY-48*s,CX+24*s,CY+6*s);tg.addColorStop(0,'#7eb3f5cc');tg.addColorStop(1,'#5b8defaa');g.fillStyle=tg;g.fill();
+g.fillStyle=grd(-24,-48,-36,barY+6);muscle(-24,-48,-36,barY+6,7,5);g.fillStyle=grd(24,-48,36,barY+6);muscle(24,-48,36,barY+6,7,5);
+const hg=g.createRadialGradient(CX+ox,CY+(-62+b)*s+oy,0,CX+ox,CY+(-62+b)*s+oy,10*s);hg.addColorStop(0,'#a8d4ff');hg.addColorStop(1,'#5b8def');g.beginPath();g.arc(CX+ox,CY+(-62+b)*s+oy,10*s,0,Math.PI*2);g.fillStyle=hg;g.fill();
+joint(-24,-48,2.5);joint(24,-48,2.5);joint(0,5,3.5);joint(-22,28,3);joint(22,28,3);
+g.restore();t.current+=.022;raf.current=requestAnimationFrame(draw);}
+draw();return()=>{if(raf.current)cancelAnimationFrame(raf.current);};
+},[size]);
+return <canvas ref={r} width={size} height={size} style={{display:'block'}} onMouseMove={e=>{const rc=r.current.getBoundingClientRect();m.current={x:e.clientX-rc.left,y:e.clientY-rc.top};}} onMouseLeave={()=>{m.current={x:size/2,y:size/2};}}/>;
+}
+
+function Ring({pct=0,size=80,stroke=7,color='#5b8def',bg='rgba(128,128,200,.1)',glow=false,children}){
+const [cur,setCur]=useState(0);
+const rr=size/2-stroke,circ=2*Math.PI*rr;
+useEffect(()=>{const id=setTimeout(()=>setCur(pct),120);return()=>clearTimeout(id);},[pct]);
+return <div style={{position:'relative',width:size,height:size,flexShrink:0}}>
+{glow&&<div style={{position:'absolute',inset:0,borderRadius:'50%',boxShadow:`0 0 18px ${color}44`,pointerEvents:'none'}}/>}
+<svg style={{transform:'rotate(-90deg)',display:'block'}} width={size} height={size}>
+<circle cx={size/2} cy={size/2} r={rr} fill="none" stroke={bg} strokeWidth={stroke}/>
+<circle cx={size/2} cy={size/2} r={rr} fill="none" stroke={color} strokeWidth={stroke} strokeDasharray={`${circ*(cur/100)} ${circ}`} strokeLinecap="square" style={{transition:'stroke-dasharray 1.2s cubic-bezier(.4,0,.2,1)'}}/>
+</svg>
+<div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}}>{children}</div>
+</div>;}
+
+function MRing({rings,size=140}){
+const [on,setOn]=useState(false);
+useEffect(()=>{const id=setTimeout(()=>setOn(true),200);return()=>clearTimeout(id);},[]);
+return <div style={{position:'relative',width:size,height:size}}>
+{rings.map((ring,i)=>{const pad=i*18,s=size-pad*2,rr=s/2-ring.stroke,circ=2*Math.PI*rr,dash=on?circ*(ring.pct/100):0;
+return <svg key={i} style={{position:'absolute',top:pad,left:pad,transform:'rotate(-90deg)'}} width={s} height={s}>
+<circle cx={s/2} cy={s/2} r={rr} fill="none" stroke="rgba(128,128,200,.08)" strokeWidth={ring.stroke}/>
+<circle cx={s/2} cy={s/2} r={rr} fill="none" stroke={ring.color} strokeWidth={ring.stroke} strokeDasharray={`${dash} ${circ}`} strokeLinecap="square" style={{transition:`stroke-dasharray ${1.2+i*.2}s cubic-bezier(.4,0,.2,1) ${i*.1}s`}}/>
+</svg>;})}
+</div>;}
+
+function Spark({data,color='#5b8def',height=36}){
+const [on,setOn]=useState(false);
+const mn=Math.min(...data),mx=Math.max(...data);
+const pts=data.map((v,i)=>`${(i/(data.length-1))*100},${height-(mn===mx?.5:(v-mn)/(mx-mn))*height*.86-height*.07}`);
+useEffect(()=>{const id=setTimeout(()=>setOn(true),200);return()=>clearTimeout(id);},[]);
+const uid=color.replace(/[^a-z0-9]/gi,'');
+return <svg viewBox={`0 0 100 ${height}`} style={{width:'100%',height}} preserveAspectRatio="none">
+<defs><linearGradient id={`sg${uid}`} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity=".18"/><stop offset="100%" stopColor={color} stopOpacity="0"/></linearGradient></defs>
+<polygon points={`0,${height} ${pts.join(' ')} 100,${height}`} fill={`url(#sg${uid})`}/>
+<polyline points={pts.join(' ')} fill="none" stroke={color} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" strokeDasharray={on?'1000':'0'} strokeDashoffset={on?'0':'1000'} style={{transition:'stroke-dashoffset 1.5s ease'}}/>
+<circle cx={pts[pts.length-1]?.split(',')[0]} cy={pts[pts.length-1]?.split(',')[1]} r="2.5" fill={color}/>
+</svg>;}
+
+function Bar({data,color='#5b8def',height=75,lk='w',vk='t'}){
+const [on,setOn]=useState(false);
+const mx=Math.max(...data.map(d=>d[vk]),1);
+useEffect(()=>{const id=setTimeout(()=>setOn(true),150);return()=>clearTimeout(id);},[]);
+return <div style={{display:'flex',alignItems:'flex-end',gap:4,height}}>
+{data.map((d,i)=>{const last=i===data.length-1,pct=on?(d[vk]/mx)*100:0;
+return <div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:3,height:'100%'}}>
+<div style={{flex:1,display:'flex',alignItems:'flex-end',width:'100%'}}>
+<div style={{width:'100%',height:`${Math.max(pct,2)}%`,background:last?color:color+'35',transition:`height .8s cubic-bezier(.4,0,.2,1) ${i*.05}s`,position:'relative'}}>
+{last&&<span style={{position:'absolute',top:-17,left:'50%',transform:'translateX(-50%)',fontSize:9,fontWeight:700,color,whiteSpace:'nowrap'}}>{d[vk]}</span>}
+</div></div>
+<span style={{fontSize:7,color:last?color:'var(--muted2)',fontWeight:700}}>{d[lk]}</span>
+</div>;})}
+</div>;}
+
+function ModalSM({id,onClose}){
+const s=DB.modalidades[id];if(!s)return null;
+return <div className="overlay" onClick={onClose}>
+<div className="sheet" onClick={e=>e.stopPropagation()}>
+<div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
+<div><p className="ey" style={{margin:0}}>SAIBA MAIS</p><h2 style={{fontSize:18,color:'var(--fg)'}}>{s.e} {s.n.toUpperCase()}</h2></div>
+<button onClick={onClose} className="ibtn"><I.X/></button>
+</div>
+<div style={{background:'var(--pdim)',border:'1px solid rgba(91,141,239,.2)',padding:14,marginBottom:12,borderLeft:'3px solid var(--primary)'}}>
+<p style={{fontSize:8,fontWeight:700,letterSpacing:'.15em',color:'var(--primary)',marginBottom:6}}>💡 COMO EXECUTAR</p>
+<p style={{fontSize:12,color:'var(--fg2)',lineHeight:1.75}}>{s.exec||'Foque na técnica antes da carga.'}</p>
+</div>
+<div style={{marginBottom:12}}>
+<p className="st" style={{marginBottom:8}}>MÚSCULOS PRINCIPAIS</p>
+<div style={{display:'flex',gap:5,flexWrap:'wrap'}}>{s.mus?.map(mm=><span key={mm} style={{background:'var(--card2)',border:'1px solid var(--border)',padding:'3px 9px',fontSize:10,color:'var(--fg2)'}}>{mm}</span>)}</div>
+</div>
+<div style={{background:'rgba(74,222,128,.06)',border:'1px solid rgba(74,222,128,.15)',borderLeft:'3px solid var(--success)',padding:12,marginBottom:14}}>
+<p style={{fontSize:8,fontWeight:700,letterSpacing:'.12em',color:'var(--success)',marginBottom:4}}>🏋️ FOCO DA MUSCULAÇÃO</p>
+<p style={{fontSize:11,color:'var(--fg2)',lineHeight:1.6}}>{s.foco}</p>
+</div>
+{s.video&&<a href={s.video} target="_blank" rel="noopener noreferrer" style={{display:'flex',alignItems:'center',justifyContent:'center',gap:8,width:'100%',height:44,background:'var(--pdim)',border:'1px solid rgba(91,141,239,.3)',color:'var(--primary)',textDecoration:'none',fontFamily:'"Archivo Black",sans-serif',fontSize:10,letterSpacing:'.1em',marginBottom:10}}>
+<I.Pl/> VER NO YOUTUBE
+</a>}
+<button className="btn btno" onClick={onClose}>FECHAR</button>
+</div>
+</div>;}
+
+function BNav({cur,go}){
+const items=[{id:'home',l:'Home',K:'Home'},{id:'workout',l:'Treino',K:'Zap'},{id:'stats',l:'Stats',K:'Chart'},{id:'coach',l:'Coach',K:'Coach'},{id:'profile',l:'Perfil',K:'User'}];
+return <nav className="bnav">{items.map(it=>{const Ic=I[it.K];return <button key={it.id} className={`ni${cur===it.id?' on':''}`} onClick={()=>go(it.id)}><Ic/>{it.l}</button>;})}</nav>;}
+
+function Splash({go,dark,setDark}){
+return <div className="full fi" style={{display:'flex',flexDirection:'column',minHeight:'100vh',background:'var(--bg)'}}>
+<div style={{padding:'16px 20px',display:'flex',justifyContent:'flex-end'}}>
+<button className="tbtn" onClick={()=>setDark(!dark)}>{dark?<I.Sun/>:<I.Moon/>}</button>
+</div>
+<div style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:'0 32px 28px',position:'relative'}}>
+<div style={{position:'absolute',top:'10%',left:'50%',transform:'translateX(-50%)',width:300,height:300,background:'radial-gradient(circle,rgba(91,141,239,.1),transparent 70%)',pointerEvents:'none'}}/>
+<Logo size={150}/>
+<div style={{marginTop:22,textAlign:'center'}}>
+<p className="ey">TREINADOR HÍBRIDO INTELIGENTE</p>
+<h1 style={{fontSize:52,lineHeight:.88,letterSpacing:'-.03em',color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>BE<br/><span style={{color:'var(--primary)'}}>HYBRID</span></h1>
+<div style={{width:'100%',height:2,background:'linear-gradient(90deg,transparent,var(--primary),transparent)',marginTop:14,opacity:.5}}/>
+<p style={{marginTop:14,fontSize:10,letterSpacing:'.14em',color:'var(--muted2)',lineHeight:2,textTransform:'uppercase'}}>LEVANTE MAIS.<br/>EVOLUA MAIS.<br/>TREINE COM IA.</p>
+</div>
+<div style={{display:'flex',width:'100%',marginTop:22,border:'1px solid var(--border)',background:'var(--card)'}}>
+{[{v:'55+',l:'Esportes'},{v:'IA',l:'Adaptativa'},{v:'PRO',l:'Premium'}].map((s,i)=>(
+<div key={i} style={{flex:1,padding:'12px 6px',textAlign:'center',borderRight:i<2?`1px solid var(--border)`:'none'}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:18,color:'var(--primary)'}}>{s.v}</p>
+<p style={{fontSize:8,color:'var(--muted2)',fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',marginTop:3}}>{s.l}</p>
+</div>))}
+</div>
+</div>
+<button className="btn btnp" onClick={()=>go('auth')}>COMEÇAR AGORA →</button>
+</div>;}
+
+function Auth({go}){
+return <div className="full fi" style={{display:'flex',flexDirection:'column',minHeight:'100vh',background:'var(--bg)'}}>
+<div style={{padding:'48px 20px 0'}}><button className="ibtn" onClick={()=>go('splash')}><I.L/></button></div>
+<div style={{flex:1,display:'flex',flexDirection:'column',justifyContent:'center',padding:'0 24px'}}>
+<p className="ey">BEM-VINDO</p>
+<h1 style={{fontSize:36,letterSpacing:'-.03em',lineHeight:.9,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginBottom:6}}>ENTRE NA<br/><span style={{color:'var(--primary)'}}>SUA CONTA</span></h1>
+<div style={{width:42,height:2,background:'var(--primary)',marginBottom:28}}/>
+<div style={{display:'flex',flexDirection:'column',gap:9}}>
+{[{l:'CONTINUAR COM APPLE',i:'🍎'},{l:'CONTINUAR COM GOOGLE',i:'G',ic:'#4285F4'},{l:'CONTINUAR COM FACEBOOK',i:'f',ic:'#3b82f6'},{l:'CONTINUAR COM EMAIL',i:'✉️',ic:'var(--primary)',tc:'var(--primary)',brd:'rgba(91,141,239,.4)'}].map((o,idx)=>(
+<button key={idx} onClick={()=>go('onboarding')} style={{width:'100%',height:50,background:'var(--card)',border:`1px solid ${o.brd||'var(--border)'}`,color:o.tc||'var(--fg)',display:'flex',alignItems:'center',gap:14,padding:'0 20px',cursor:'pointer',fontFamily:'"Archivo Black",sans-serif',fontSize:10,letterSpacing:'.1em'}}>
+<span style={{fontSize:17,width:26,textAlign:'center',color:o.ic,fontFamily:'"Archivo Black",sans-serif',fontWeight:o.ic?800:400}}>{o.i}</span>{o.l}
+</button>))}
+</div>
+<div style={{display:'flex',alignItems:'center',gap:10,margin:'14px 0'}}><div style={{flex:1,height:1,background:'var(--border)'}}/><span style={{fontSize:10,color:'var(--muted2)',fontWeight:700,letterSpacing:'.12em'}}>OU</span><div style={{flex:1,height:1,background:'var(--border)'}}/></div>
+<button className="btn btnp" onClick={()=>go('onboarding')}>CRIAR CONTA GRÁTIS →</button>
+</div>
+</div>;}
+
+function Onboarding({go}){
+const [step,setStep]=useState(0);
+const [acceptedTerms,setAcceptedTerms]=useState(false);
+const [sports,setSports]=useState(['boxe','musculacao','corrida']);
+const [levels,setLevels]=useState({boxe:'Intermediário',musculacao:'Avançado',corrida:'Iniciante'});
+const [priority,setPriority]=useState('boxe');
+const [goal,setGoal]=useState('performance');
+const [days,setDays]=useState(['Seg','Qua','Sex','Sáb']);
+const [dur,setDur]=useState(60);
+const [schedule,setSchedule]=useState({Seg:'musculacao',Ter:'corrida',Qua:'musculacao',Qui:'corrida',Sex:'musculacao',Sáb:'',Dom:''});
+const [equips,setEquips]=useState(['barra','halteres','saco']);
+const [sexo,setSexo]=useState('Masculino');
+const [idade,setIdade]=useState('26');
+const [peso,setPeso]=useState('80');
+const [altura,setAltura]=useState('178');
+const [injuries,setInjuries]=useState([]);
+const [addInj,setAddInj]=useState(false);
+const [injF,setInjF]=useState({region:'',side:'Direito',sev:'media',pain:false,when:''});
+const [catF,setCatF]=useState('Todos');
+const [sm,setSm]=useState(null);
+const TOTAL=8;
+const LABS=['MODALIDADES','NÍVEL','PRIORIDADE','OBJETIVO','AGENDA','PERFIL','LESÕES','REVISÃO FINAL'];
+const EQP=[{id:'nenhum',l:'Sem equipamento',e:'🚫'},{id:'halteres',l:'Halteres',e:'🏋️'},{id:'barra',l:'Barra + Anilhas',e:'🔩'},{id:'saco',l:'Saco de Boxe',e:'🥊'},{id:'elastico',l:'Elástico',e:'🪢'},{id:'kettlebell',l:'Kettlebell',e:'⚙️'},{id:'maquinas',l:'Máquinas',e:'⚡'},{id:'corda',l:'Corda de Pular',e:'🪃'}];
+const LVS=['Nunca pratiquei','Iniciante','Intermediário','Avançado'];
+const filtered=catF==='Todos'?ALL_S:ALL_S.filter(s=>s.f===catF);
+const usp=sports.map(id=>ALL_S.find(s=>s.id===id)).filter(Boolean);
+function teq(id){if(id==='nenhum'){setEquips(['nenhum']);return;}setEquips(a=>{const b=a.filter(x=>x!=='nenhum');return b.includes(id)?b.filter(x=>x!==id):[...b,id];});}
+return <div className="full fi" style={{display:'flex',flexDirection:'column',minHeight:'100vh',background:'var(--bg)',padding:'20px 0 0'}}>
+{sm&&<ModalSM id={sm} onClose={()=>setSm(null)}/>}
+{addInj&&<div className="overlay" onClick={()=>setAddInj(false)}>
+<div className="sheet" onClick={e=>e.stopPropagation()}>
+<p className="ey">REGISTRAR LESÃO</p>
+<h2 style={{fontSize:17,color:'var(--fg)',marginBottom:16}}>DETALHAR LESÃO</h2>
+<p className="st" style={{marginBottom:8}}>REGIÃO</p>
+<div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:5,marginBottom:14}}>
+{ALL_L.map(r=><div key={r.id} onClick={()=>setInjF(f=>({...f,region:r.id}))} style={{background:injF.region===r.id?'var(--pdim)':'var(--card2)',border:`1px solid ${injF.region===r.id?'var(--primary)':'var(--border)'}`,padding:'8px 12px',cursor:'pointer',display:'flex',alignItems:'center',gap:8}}>
+<span style={{fontSize:14}}>{r.e}</span><span style={{fontSize:11,fontWeight:600,color:injF.region===r.id?'var(--primary)':'var(--fg)'}}>{r.n}</span>
+</div>)}
+</div>
+<p className="st" style={{marginBottom:7}}>LADO</p>
+<div style={{display:'flex',gap:5,marginBottom:14}}>
+{['Direito','Esquerdo','Ambos'].map(s=><div key={s} onClick={()=>setInjF(f=>({...f,side:s}))} style={{flex:1,height:33,display:'grid',placeItems:'center',background:injF.side===s?'var(--pdim)':'var(--card2)',border:`1px solid ${injF.side===s?'var(--primary)':'var(--border)'}`,cursor:'pointer',fontSize:10,fontWeight:700,color:injF.side===s?'var(--primary)':'var(--muted2)'}}>{s.toUpperCase()}</div>)}
+</div>
+<p className="st" style={{marginBottom:7}}>GRAVIDADE</p>
+<div style={{display:'flex',gap:5,marginBottom:14}}>
+{[{id:'leve',l:'LEVE',c:'#4ade80'},{id:'media',l:'MODERADA',c:'#fbbf24'},{id:'alta',l:'GRAVE',c:'#f87171'}].map(s=><div key={s.id} onClick={()=>setInjF(f=>({...f,sev:s.id}))} style={{flex:1,height:33,display:'grid',placeItems:'center',background:injF.sev===s.id?`${s.c}22`:'var(--card2)',border:`1px solid ${injF.sev===s.id?s.c:'var(--border)'}`,cursor:'pointer',fontSize:9,fontWeight:700,color:injF.sev===s.id?s.c:'var(--muted2)'}}>{s.l}</div>)}
+</div>
+<div onClick={()=>setInjF(f=>({...f,pain:!f.pain}))} style={{display:'flex',alignItems:'center',justifyContent:'space-between',background:'var(--card2)',border:`1px solid ${injF.pain?'var(--danger)':'var(--border)'}`,padding:'10px 14px',cursor:'pointer',marginBottom:12}}>
+<span style={{fontSize:12,fontWeight:600,color:'var(--fg)'}}>Ainda sente dor</span>
+<div style={{width:18,height:18,background:injF.pain?'var(--danger)':'transparent',border:`1px solid ${injF.pain?'var(--danger)':'var(--border)'}`,display:'grid',placeItems:'center'}}>{injF.pain&&<I.Ck/>}</div>
+</div>
+<input className="inp" style={{marginBottom:16}} placeholder="Quando ocorreu? (Ex: 3 meses atrás)" value={injF.when} onChange={e=>setInjF(f=>({...f,when:e.target.value}))}/>
+<button className="btn btnp" style={{marginBottom:8,height:46,fontSize:11}} disabled={!injF.region} onClick={()=>{setInjuries(a=>[...a,{id:Date.now(),...injF}]);setAddInj(false);setInjF({region:'',side:'Direito',sev:'media',pain:false,when:''});}}>CONFIRMAR</button>
+<button className="btn btno" onClick={()=>setAddInj(false)}>CANCELAR</button>
+</div>
+</div>}
+<div style={{display:'flex',alignItems:'center',gap:10,padding:'0 20px',marginBottom:20}}>
+{step>0&&<button className="ibtn" onClick={()=>setStep(s=>s-1)}><I.L s={18}/></button>}
+<div style={{flex:1}}>
+<div style={{display:'flex',justifyContent:'space-between',marginBottom:5}}>
+<span style={{fontSize:9,color:'var(--primary)',fontWeight:700,letterSpacing:'.18em'}}>{LABS[step]}</span>
+<span style={{fontSize:9,color:'var(--muted2)'}}>{step+1}/{TOTAL}</span>
+</div>
+<div className="pbar"><div className="pfill" style={{width:`${((step+1)/TOTAL)*100}%`}}/></div>
+</div>
+</div>
+<div style={{flex:1,overflowY:'auto',padding:'0 20px',scrollbarWidth:'none'}}>
+{step===0&&<div className="fi">
+<h2 style={{fontSize:22,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginBottom:4}}>Seus esportes</h2>
+<p style={{color:'var(--muted2)',fontSize:12,marginBottom:10}}>Selecione todos. Toque em ℹ️ para saber mais.</p>
+<div className="hs" style={{marginBottom:10}}>
+{FAMS.map(f=><button key={f} className={`chip${catF===f?' on':''}`} onClick={()=>setCatF(f)}>{f.toUpperCase()}</button>)}
+</div>
+<div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:5,paddingBottom:16}}>
+{filtered.map(s=>{const sel=sports.includes(s.id);return<div key={s.id} style={{background:sel?'var(--pdim)':'var(--card)',border:`1px solid ${sel?'var(--primary)':'var(--border)'}`,borderTop:`2px solid ${sel?'var(--primary)':'transparent'}`,padding:'10px 5px 8px',display:'flex',flexDirection:'column',alignItems:'center',gap:3,cursor:'pointer',textAlign:'center',position:'relative'}} onClick={()=>setSports(a=>a.includes(s.id)?a.filter(x=>x!==s.id):[...a,s.id])}>
+<span style={{fontSize:17}}>{s.e}</span>
+<span style={{fontSize:8,fontWeight:700,color:sel?'var(--primary)':'var(--muted2)'}}>{s.n}</span>
+<button onClick={e=>{e.stopPropagation();setSm(s.id);}} style={{position:'absolute',top:4,right:4,background:'none',border:'none',color:'var(--muted2)',cursor:'pointer',padding:0,display:'flex'}}><I.Inf/></button>
+</div>;})}
+</div>
+{sports.length>0&&<p style={{color:'var(--primary)',fontSize:10,fontWeight:700,paddingBottom:8}}>{sports.length} SELECIONADO{sports.length>1?'S':''}</p>}
+</div>}
+{step===1&&<div className="fi">
+<h2 style={{fontSize:22,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginBottom:4}}>Nível por esporte</h2>
+<p style={{color:'var(--muted2)',fontSize:12,marginBottom:18}}>Personaliza volume, intensidade e complexidade.</p>
+<div style={{display:'flex',flexDirection:'column',gap:10,paddingBottom:16}}>
+{usp.map(s=><div key={s.id} style={{background:'var(--card)',border:'1px solid var(--border)',padding:14}}>
+<div style={{display:'flex',alignItems:'center',gap:8,marginBottom:10}}>
+<span style={{fontSize:18}}>{s.e}</span>
+<span style={{fontFamily:'"Archivo Black",sans-serif',fontSize:11,color:'var(--fg)'}}>{s.n.toUpperCase()}</span>
+{levels[s.id]&&<span className="bdg bdbp" style={{marginLeft:'auto',fontSize:7}}>{levels[s.id]}</span>}
+<button onClick={()=>setSm(s.id)} style={{background:'none',border:'none',color:'var(--primary)',cursor:'pointer',display:'flex'}}><I.Inf/></button>
+</div>
+<div style={{display:'flex',gap:4}}>
+{LVS.map(lv=><button key={lv} className={`lbtn${levels[s.id]===lv?' on':''}`} onClick={()=>setLevels(p=>({...p,[s.id]:lv}))}>{lv==='Nunca pratiquei'?'NUNCA':lv==='Intermediário'?'INTERM.':lv.substring(0,4).toUpperCase()}</button>)}
+</div>
+</div>)}
+</div>
+</div>}
+{step===2&&<div className="fi">
+<h2 style={{fontSize:22,color:'var(--fg)',fontFamily:'"Arquivo Black",sans-serif',marginBottom:4}}>Modalidade prioritária</h2>
+<p style={{color:'var(--muted2)',fontSize:12,marginBottom:6}}>Toda a musculação serve para potencializar sua prioridade.</p>
+<div style={{display:'flex',flexDirection:'column',gap:8,paddingBottom:16}}>
+{usp.map((s,i)=>{const isPri=priority===s.id;return(
+<div key={s.id} onClick={()=>setPriority(s.id)} style={{background:isPri?'var(--pdim)':'var(--card)',border:`1px solid ${isPri?'var(--primary)':'var(--border)'}`,borderLeft:`3px solid ${isPri?'var(--primary)':'transparent'}`,padding:'14px 16px',cursor:'pointer',display:'flex',alignItems:'center',gap:14}}>
+<span style={{fontSize:22}}>{'🥇🥈🥉'[i]||'·'}</span>
+<div style={{flex:1}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:12,color:isPri?'var(--primary)':'var(--fg)'}}>{s.n.toUpperCase()}</p>
+<p style={{fontSize:10,color:'var(--muted2)',marginTop:2}}>{levels[s.id]||'—'}</p>
+</div>
+{isPri&&<div style={{width:18,height:18,background:'var(--primary)',display:'grid',placeItems:'center'}}><I.Ck/></div>}
+</div>);})}
+</div>
+{priority&&DB.modalidades[priority]&&<div style={{background:'var(--pdim)',border:'1px solid rgba(91,141,239,.2)',padding:12,marginBottom:12}}>
+<p style={{fontSize:11,color:'var(--fg2)',lineHeight:1.7}}>✓ Toda a musculação potencializa <strong style={{color:'var(--primary)'}}>{DB.modalidades[priority].n}</strong>.<br/><span style={{fontSize:10,color:'var(--muted2)'}}>Foco: {DB.modalidades[priority].foco}</span></p>
+</div>}
+</div>}
+{step===3&&<div className="fi">
+<h2 style={{fontSize:22,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginBottom:4}}>Objetivo principal</h2>
+<p style={{color:'var(--muted2)',fontSize:12,marginBottom:18}}>Define toda a lógica do planejamento.</p>
+<div style={{display:'flex',flexDirection:'column',gap:8,paddingBottom:16}}>
+{ALL_G.map(g2=><div key={g2.id} onClick={()=>setGoal(g2.id)} style={{background:goal===g2.id?'var(--pdim)':'var(--card)',border:`1px solid ${goal===g2.id?'var(--primary)':'var(--border)'}`,borderLeft:`3px solid ${goal===g2.id?'var(--primary)':'transparent'}`,padding:'14px 16px',cursor:'pointer',display:'flex',alignItems:'center',gap:14}}>
+<span style={{fontSize:22}}>{g2.e}</span>
+<div style={{flex:1}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:11,color:goal===g2.id?'var(--primary)':'var(--fg)'}}>{g2.n.toUpperCase()}</p>
+<p style={{fontSize:10,color:'var(--muted2)',marginTop:2}}>{g2.desc}</p>
+</div>
+{goal===g2.id&&<div style={{width:18,height:18,background:'var(--primary)',display:'grid',placeItems:'center',flexShrink:0}}><I.Ck/></div>}
+</div>)}
+</div>
+</div>}
+{step===4&&<div className="fi">
+<h2 style={{fontSize:22,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginBottom:4}}>Agenda semanal</h2>
+<p style={{color:'var(--muted2)',fontSize:12,marginBottom:16}}>Defina o tempo e qual esporte você faz em cada dia.</p>
+
+<p className="st" style={{marginBottom:8}}>DURAÇÃO POR SESSÃO</p>
+<div style={{display:'flex',gap:4,marginBottom:6}}>
+{[{v:30,l:'RÁPIDO'},{v:45,l:'CURTO'},{v:60,l:'MÉDIO'},{v:90,l:'LONGO'},{v:120,l:'FULL'}].map(({v,l})=><div key={v} onClick={()=>setDur(v)} style={{flex:1,height:46,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:dur===v?'var(--pdim)':'var(--card)',border:`1px solid ${dur===v?'var(--primary)':'var(--border)'}`,borderTop:`2px solid ${dur===v?'var(--primary)':'transparent'}`,cursor:'pointer',gap:2}}>
+<span style={{fontFamily:'"Archivo Black",sans-serif',fontSize:12,color:dur===v?'var(--primary)':'var(--fg)'}}>{v}'</span>
+<span style={{fontSize:7,color:'var(--muted2)',fontWeight:700}}>{l}</span>
+</div>)}
+</div>
+{dur===30&&<div style={{background:'rgba(251,191,36,.08)',border:'1px solid rgba(251,191,36,.25)',borderLeft:'3px solid var(--warn)',padding:'7px 12px',marginBottom:14,fontSize:10,color:'var(--warn)'}}>
+⚡ 30 min: treino focado, até 5 exercícios. Compostos pesados substituídos por versões mais rápidas.
+</div>}
+
+<p className="st" style={{marginBottom:8,marginTop:16}}>DIAS E ESPORTES</p>
+<button onClick={()=>setSchedule(getAutoSchedule(sports,days,priority))} style={{width:'100%',height:36,background:'var(--pdim)',border:'1px solid rgba(91,141,239,.3)',color:'var(--primary)',fontFamily:'"Archivo Black",sans-serif',fontSize:8,letterSpacing:'.1em',cursor:'pointer',marginBottom:10}}>
+⚡ DISTRIBUIR AUTOMATICAMENTE
+</button>
+
+<div style={{display:'flex',flexDirection:'column',gap:6,paddingBottom:16}}>
+{DPT.map(d=>{
+const isActive=days.includes(d);
+const sportId=schedule[d]||'';
+const sportInfo=usp.find(s=>s.id===sportId);
+const rule=RECOVERY_RULES[sportId];
+return <div key={d} style={{background:'var(--card)',border:`1px solid ${isActive&&sportId?'var(--primary)':'var(--border)'}`,borderLeft:`3px solid ${isActive&&sportId?'var(--primary)':'transparent'}`,padding:'10px 12px'}}>
+<div style={{display:'flex',alignItems:'center',gap:10,marginBottom:isActive?8:0}}>
+<div onClick={()=>setDays(a=>a.includes(d)?a.filter(x=>x!==d):[...a,d])} style={{width:36,height:36,display:'grid',placeItems:'center',background:isActive?sportId?'var(--primary)':'var(--pdim)':'var(--card2)',fontFamily:'"Archivo Black",sans-serif',fontSize:11,color:isActive?'#fff':'var(--muted2)',cursor:'pointer',flexShrink:0,border:`1px solid ${isActive?'var(--primary)':'var(--border)'}`}}>{d}</div>
+<div style={{flex:1}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:11,color:isActive?'var(--fg)':'var(--muted2)'}}>
+{isActive?sportId?`${sportInfo?.e||''} ${sportInfo?.n?.toUpperCase()||sportId.toUpperCase()}`:'👆 ESCOLHA O ESPORTE':'😴 DESCANSO — toque para ativar'}
+</p>
+{isActive&&sportId&&rule&&<p style={{fontSize:8,color:rule.minRest===0?'var(--success)':'var(--muted2)',marginTop:2,fontWeight:700}}>{rule.minRest===0?'✓ Pode repetir todo dia':`⏱️ ${rule.minRest}h de recuperação`}</p>}
+</div>
+{isActive&&sportId&&<span style={{fontSize:16}}>✅</span>}
+</div>
+{isActive&&<div className="hs">
+<div onClick={()=>setSchedule(sc=>({...sc,[d]:''}))} style={{padding:'4px 10px',border:`1px solid ${!sportId?'var(--primary)':'var(--border)'}`,background:!sportId?'var(--pdim)':'transparent',color:!sportId?'var(--primary)':'var(--muted2)',cursor:'pointer',fontFamily:'Inter',fontWeight:700,fontSize:8,whiteSpace:'nowrap',flexShrink:0}}>😴 DESC</div>
+{usp.map(s=><div key={s.id} onClick={()=>setSchedule(sc=>({...sc,[d]:s.id}))} style={{padding:'4px 10px',border:`1px solid ${sportId===s.id?'var(--primary)':'var(--border)'}`,background:sportId===s.id?'var(--pdim)':'transparent',color:sportId===s.id?'var(--primary)':'var(--muted2)',cursor:'pointer',fontFamily:'Inter',fontWeight:700,fontSize:8,whiteSpace:'nowrap',flexShrink:0}}>{s.e} {s.n.toUpperCase()}</div>)}
+</div>}
+</div>;})}
+</div>
+
+{validateSchedule(schedule,days,sports).map((w,i)=><div key={i} style={{background:w.type==='danger'?'rgba(248,113,113,.08)':'rgba(251,191,36,.08)',border:`1px solid ${w.type==='danger'?'rgba(248,113,113,.3)':'rgba(251,191,36,.3)'}`,borderLeft:`3px solid ${w.type==='danger'?'var(--danger)':'var(--warn)'}`,padding:'8px 12px',marginBottom:6}}>
+<p style={{fontSize:10,color:w.type==='danger'?'var(--danger)':'var(--warn)',lineHeight:1.6}}>{w.msg}</p>
+</div>)}
+
+{days.length>0&&<div style={{background:'var(--pdim)',border:'1px solid rgba(91,141,239,.2)',padding:10,marginTop:8}}>
+<p style={{fontSize:11,color:'var(--fg2)',lineHeight:1.6}}>
+<span style={{color:'var(--primary)',fontWeight:700}}>{days.length} dias/sem</span> · <span style={{color:'var(--primary)',fontWeight:700}}>{dur} min</span>/sessão · <span style={{color:'var(--success)',fontWeight:700}}>{Math.round(days.length*dur/60*10)/10}h/semana</span>
+</p>
+</div>}
+</div>}
+{step===5&&<div className="fi">
+<h2 style={{fontSize:22,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginBottom:4}}>Perfil físico</h2>
+<p style={{color:'var(--muted2)',fontSize:12,marginBottom:22}}>A IA usa esses dados para calcular volume e progressão.</p>
+<div style={{display:'flex',flexDirection:'column',gap:18,paddingBottom:16}}>
+<div>
+<p className="st" style={{marginBottom:8}}>SEXO BIOLÓGICO</p>
+<div style={{display:'flex',gap:5}}>
+{['Masculino','Feminino','N/D'].map(s=><div key={s} onClick={()=>setSexo(s)} style={{flex:1,height:40,display:'grid',placeItems:'center',background:sexo===s?'var(--pdim)':'var(--card)',border:`1px solid ${sexo===s?'var(--primary)':'var(--border)'}`,borderTop:`2px solid ${sexo===s?'var(--primary)':'transparent'}`,cursor:'pointer',fontSize:9,fontWeight:700,color:sexo===s?'var(--primary)':'var(--muted2)'}}>{s.toUpperCase()}</div>)}
+</div>
+</div>
+<div><p className="st" style={{marginBottom:7}}>IDADE</p><input className="inp" type="number" value={idade} onChange={e=>setIdade(e.target.value)} placeholder="Ex: 26"/></div>
+<div style={{display:'flex',gap:12}}>
+<div style={{flex:1}}><p className="st" style={{marginBottom:7}}>PESO (KG)</p><input className="inp" type="number" value={peso} onChange={e=>setPeso(e.target.value)}/></div>
+<div style={{flex:1}}><p className="st" style={{marginBottom:7}}>ALTURA (CM)</p><input className="inp" type="number" value={altura} onChange={e=>setAltura(e.target.value)}/></div>
+</div>
+</div>
+</div>}
+{step===6&&<div className="fi">
+<h2 style={{fontSize:22,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginBottom:4}}>Histórico de lesões</h2>
+<p style={{color:'var(--muted2)',fontSize:12,marginBottom:6}}>A IA adapta exercícios automaticamente e explica cada mudança.</p>
+{injuries.length===0?<div style={{textAlign:'center',padding:'22px 0',color:'var(--muted2)'}}>
+<div style={{fontSize:34,marginBottom:8}}>✅</div><p style={{fontSize:13}}>Sem lesões cadastradas</p>
+</div>:<div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:14}}>
+{injuries.map(inj=>{const ld=DB.lesoes[inj.region];return(
+<div key={inj.id} style={{background:'var(--card)',border:`1px solid ${inj.pain?'rgba(248,113,113,.3)':'rgba(251,191,36,.25)'}`,borderLeft:`3px solid ${inj.pain?'var(--danger)':'var(--warn)'}`,padding:14}}>
+<div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:6}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:12,color:'var(--fg)'}}>{ld?.e} {ld?.n||inj.region} — {inj.side}</p>
+<span className={`bdg ${inj.pain?'bdbd':'bdbw'}`} style={{fontSize:7}}>{inj.pain?'COM DOR':'SEM DOR'}</span>
+</div>
+{ld?.al&&<p style={{fontSize:9,color:'var(--danger)',marginTop:7,lineHeight:1.5}}>⚠️ {ld.al}</p>}
+</div>);})}
+</div>}
+<button onClick={()=>setAddInj(true)} style={{width:'100%',height:42,background:'transparent',border:'1px dashed rgba(91,141,239,.4)',color:'var(--primary)',fontFamily:'"Archivo Black",sans-serif',fontSize:10,letterSpacing:'.1em',cursor:'pointer',marginBottom:8}}>+ ADICIONAR LESÃO</button>
+<button onClick={()=>setInjuries([])} style={{width:'100%',height:38,background:'transparent',border:'1px solid var(--border)',color:'var(--muted2)',fontFamily:'Inter',fontWeight:600,fontSize:11,cursor:'pointer',marginBottom:8}}>SEM LESÕES — CONTINUAR</button>
+</div>}
+{step===7&&<div className="fi" style={{textAlign:'center',paddingBottom:16}}>
+<Logo size={80}/>
+<div style={{marginTop:14,marginBottom:18}}>
+<p className="ey" style={{color:'var(--success)'}}>✓ PERFIL COMPLETO</p>
+<h2 style={{fontSize:24,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginTop:4}}>REVISÃO FINAL</h2>
+</div>
+<div style={{display:'flex',flexDirection:'column',gap:5,textAlign:'left',marginBottom:16}}>
+{[
+{l:'ESPORTES',v:usp.map(s=>s.n).join(' · ')},
+{l:'PRIORIDADE',v:`🥇 ${DB.modalidades[priority]?.n}`},
+{l:'OBJETIVO',v:DB.objetivos[goal]?.n},
+{l:'AGENDA',v:`${days.length} dias · ${dur} min/sessão`},
+{l:'PERFIL',v:`${peso}kg · ${altura}cm · ${idade}a · ${sexo[0]}`},
+{l:'LESÕES',v:injuries.length===0?'Nenhuma':injuries.map(i=>DB.lesoes[i.region]?.n||i.region).join(', ')},
+].map(item=>(
+<div key={item.l} style={{display:'flex',alignItems:'center',justifyContent:'space-between',background:'var(--card)',borderLeft:'3px solid var(--primary)',padding:'9px 12px'}}>
+<span style={{fontSize:9,fontWeight:700,letterSpacing:'.12em',color:'var(--muted2)',flexShrink:0}}>{item.l}</span>
+<span style={{fontSize:10,fontWeight:600,textAlign:'right',maxWidth:'65%',color:'var(--fg)'}}>{item.v}</span>
+</div>))}
+</div>
+<div style={{background:'var(--pdim)',border:'1px solid rgba(91,141,239,.2)',padding:12,marginBottom:10,textAlign:'left'}}>
+<p style={{fontSize:11,color:'var(--fg2)',lineHeight:1.8}}>🤖 Planejamento para <strong style={{color:'var(--primary)'}}>{DB.modalidades[priority]?.n}</strong> · objetivo <strong style={{color:'var(--fg)'}}>{DB.objetivos[goal]?.n}</strong>{injuries.length>0?` · adaptado para ${injuries.map(i=>DB.lesoes[i.region]?.n||i.region).join(', ')}`:''}.
+</p>
+</div>
+<div style={{background:'rgba(245,158,11,.06)',border:'1px solid rgba(245,158,11,.2)',padding:10,textAlign:'left'}}>
+<p style={{fontSize:11,color:'var(--gold)',lineHeight:1.7}}>⚡ Assine o <strong>PRO</strong> para treinos gerados 100% por IA.</p>
+</div>
+<div onClick={()=>setAcceptedTerms(t=>!t)} style={{display:'flex',alignItems:'flex-start',gap:10,marginTop:14,textAlign:'left',cursor:'pointer',padding:'10px 12px',background:'var(--card)',border:`1px solid ${acceptedTerms?'var(--primary)':'var(--border)'}`}}>
+<div style={{width:18,height:18,flexShrink:0,marginTop:1,border:`1px solid ${acceptedTerms?'var(--primary)':'var(--muted2)'}`,background:acceptedTerms?'var(--primary)':'transparent',display:'flex',alignItems:'center',justifyContent:'center'}}>
+{acceptedTerms&&<span style={{color:'#fff',fontSize:12,fontWeight:700}}>✓</span>}
+</div>
+<p style={{fontSize:10,color:'var(--fg2)',lineHeight:1.6}}>Li e aceito os <span onClick={e=>{e.stopPropagation();go('terms');}} style={{color:'var(--primary)',textDecoration:'underline'}}>Termos de Uso</span> e a <span onClick={e=>{e.stopPropagation();go('privacy');}} style={{color:'var(--primary)',textDecoration:'underline'}}>Política de Privacidade</span>, incluindo a cobrança recorrente do plano PRO e a garantia de 7 dias.</p>
+</div>
+</div>}
+</div>
+<div style={{padding:'12px 20px',borderTop:'1px solid var(--border)'}}>
+<button className="btn btnp" disabled={step===8&&!acceptedTerms} style={{opacity:step===8&&!acceptedTerms?.4:1}} onClick={()=>{if(step<7){setStep(s=>s+1);}else{localStorage.setItem('bhp_profile',JSON.stringify({sports,priority,goal,days,dur,schedule,equips,sexo,idade,peso,altura,injuries,acceptedTermsAt:new Date().toISOString()}));go('home');}}}>{step===8?(acceptedTerms?'⚡ GERAR MEU PLANEJAMENTO →':'ACEITE OS TERMOS PARA CONTINUAR'):'PRÓXIMO →'}</button>
+</div>
+</div>;}
+
+function Home({go,dark,setDark}){
+const wd=DPT.map((d,i)=>({d,done:i<2,today:i===2}));
+return <div className="screen fi">
+<div style={{padding:'16px 20px 18px',background:'var(--card)',borderBottom:'1px solid var(--border)',position:'relative',overflow:'hidden'}}>
+<div style={{position:'absolute',top:-60,right:-60,width:200,height:200,background:'radial-gradient(circle,rgba(91,141,239,.07),transparent 70%)',pointerEvents:'none'}}/>
+<div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:2}}>
+<p className="ey" style={{margin:0}}>BOM DIA</p>
+<div style={{display:'flex',gap:8,alignItems:'center'}}>
+<button className="tbtn" onClick={()=>setDark(!dark)}>{dark?<I.Sun/>:<I.Moon/>}</button>
+<div onClick={()=>go('profile')} style={{width:36,height:36,background:'var(--pdim)',border:'1px solid var(--primary)',display:'grid',placeItems:'center',fontFamily:'"Archivo Black",sans-serif',fontSize:14,color:'var(--primary)',cursor:'pointer'}}>G</div>
+</div>
+</div>
+<div style={{display:'flex',alignItems:'center',gap:10}}>
+<h1 style={{fontSize:28,letterSpacing:'-.02em',color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>GABRIEL</h1>
+<span className="pro">PRO</span>
+</div>
+</div>
+<div style={{padding:'16px 20px',display:'flex',flexDirection:'column',gap:12}}>
+<div className="card cb" style={{background:'linear-gradient(135deg,rgba(91,141,239,.07),var(--card))'}}>
+<div style={{position:'absolute',top:-10,right:14,fontFamily:'"Archivo Black",sans-serif',fontSize:64,color:'rgba(91,141,239,.04)',lineHeight:1}}>01</div>
+<div style={{display:'flex',gap:7,marginBottom:10}}><span className="bdg bdbp">HOJE</span><span className="bdg bdbg">⚡ IA ADAPTOU</span></div>
+<h2 style={{fontSize:20,letterSpacing:'-.01em',marginBottom:3,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>BOXE <span style={{color:'var(--primary)'}}>+ FORÇA</span></h2>
+<p style={{fontSize:10,color:'var(--muted2)',letterSpacing:'.06em',marginBottom:4}}>60 MIN · ALTA INTENSIDADE</p>
+<p style={{fontSize:10,color:'rgba(91,141,239,.75)',marginBottom:14,fontStyle:'italic',lineHeight:1.5}}>🤖 Prioridade Boxe · ombro direito considerado · empurrar → tração</p>
+<button onClick={()=>go('workout')} style={{width:'100%',height:46,background:'var(--primary)',border:'none',color:'#fff',fontFamily:'"Archivo Black",sans-serif',fontSize:12,letterSpacing:'.1em',cursor:'pointer'}}>▶ INICIAR TREINO DO DIA</button>
+<div style={{position:'absolute',bottom:0,left:0,right:0,height:2,background:'linear-gradient(90deg,var(--primary),transparent)'}}/>
+</div>
+<div>
+<p className="st" style={{marginBottom:8}}>ESTA SEMANA</p>
+<div style={{display:'flex',gap:3}}>
+{wd.map((w,i)=><div key={i} style={{flex:1,display:'flex',flexDirection:'column',alignItems:'center',gap:3}}>
+<div style={{width:'100%',height:32,display:'grid',placeItems:'center',background:w.today?'var(--primary)':w.done?'rgba(74,222,128,.1)':'var(--card)',border:`1px solid ${w.today?'var(--primary)':w.done?'var(--success)':'var(--border)'}`,borderTop:`2px solid ${w.today?'var(--primary)':w.done?'var(--success)':'transparent'}`,fontSize:11,color:w.today?'#fff':w.done?'var(--success)':'var(--muted2)'}}>{w.done&&!w.today?'✓':w.d[0]}</div>
+<span style={{fontSize:7,color:'var(--muted2)',fontWeight:700}}>{w.d}</span>
+</div>)}
+</div>
+</div>
+<div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:7}}>
+{[{v:47,l:'TREINOS',c:'var(--primary)'},{v:'12🔥',l:'STREAK',c:'var(--warn)'},{v:'38h',l:'TOTAL',c:'var(--success)'}].map(s=>(
+<div key={s.l} className="card" style={{padding:12,textAlign:'center'}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:18,color:s.c}}>{s.v}</p>
+<p style={{fontSize:7,color:'var(--muted2)',fontWeight:700,letterSpacing:'.1em',marginTop:5}}>{s.l}</p>
+<div style={{position:'absolute',bottom:0,left:0,right:0,height:2,background:`linear-gradient(90deg,${s.c},transparent)`}}/>
+</div>))}
+</div>
+<div onClick={()=>go('coach')} style={{background:'linear-gradient(135deg,rgba(245,158,11,.08),rgba(91,141,239,.06))',border:'1px solid rgba(245,158,11,.25)',borderLeft:'3px solid var(--gold)',padding:16,cursor:'pointer',position:'relative',overflow:'hidden'}}>
+<div style={{position:'absolute',top:-20,right:-10,fontSize:56,opacity:.06}}>🤖</div>
+<div style={{display:'flex',gap:7,marginBottom:8}}><span className="pro">PRO</span><span className="bdg bdbgo">HYBRID COACH</span></div>
+<h3 style={{fontFamily:'"Archivo Black",sans-serif',fontSize:14,letterSpacing:'.04em',marginBottom:5,color:'var(--fg)'}}>🤖 TREINADOR IA</h3>
+<p style={{fontSize:11,color:'var(--muted2)',lineHeight:1.6,marginBottom:10}}>Tire dúvidas, adapte treinos e receba orientação 24h.</p>
+<p style={{fontSize:10,fontFamily:'"Archivo Black",sans-serif',letterSpacing:'.1em',color:'var(--gold)'}}>FALAR COM O COACH →</p>
+<div style={{position:'absolute',bottom:0,left:0,right:0,height:2,background:'linear-gradient(90deg,var(--gold),transparent)'}}/>
+</div>
+</div>
+<BNav cur="home" go={go}/>
+</div>;}
+
+async function callAI(prompt){try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:'Você é o Hybrid Coach, treinador especialista em atletas híbridos. Responda sempre em português, de forma direta e técnica. Para treinos, liste exercícios com: Nome — Séries × Reps — Descanso',messages:[{role:'user',content:prompt}]})});const data=await res.json();return data.content?.[0]?.text||null;}catch(e){return null;}}
+
+function Workout({go}){
+const [done,setDone]=useState([]);const [fin,setFin]=useState(false);const [showR,setShowR]=useState(false);const [sm,setSm]=useState(null);
+const [aiBlocks,setAiBlocks]=useState(null);const [aiLoading,setAiLoading]=useState(false);
+const isPro=false;
+
+/* Ler perfil salvo */
+const saved=JSON.parse(localStorage.getItem('bhp_profile')||'{}');
+const userSports=saved.sports||['musculacao'];
+const priority=saved.priority||userSports[0]||'musculacao';
+const injuries=saved.injuries||[];
+const goal=saved.goal||'performance';
+const duration=saved.dur||60;
+const savedSchedule=saved.schedule||{};
+const todayDayW=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][new Date().getDay()];
+const todaySportIdW=savedSchedule[todayDayW]||priority;
+const muscleDaysW=Object.values(savedSchedule).filter(s=>s==='musculacao').length;
+const muscleDayIdxW=Object.entries(savedSchedule).filter(([d,s])=>s==='musculacao').findIndex(([d])=>d===todayDayW);
+const todayMuscleGroupW=todaySportIdW==='musculacao'?getMuscleGroupForDay(muscleDayIdxW>=0?muscleDayIdxW:0,muscleDaysW):'';
+
+const {blocks,sportName,sportIcon,allSports,injAlert}=getWorkoutByProfile(userSports,todaySportIdW,injuries,goal,duration);
+const activeBlocks=aiBlocks||blocks;
+const allEx=activeBlocks.flatMap(b=>b.ex);const allDone=done.length===allEx.length;const pct=allEx.length?(done.length/allEx.length)*100:0;
+if(fin)return <Report go={go}/>;
+return <div className="screen fi">
+{sm&&<ModalSM id={sm} onClose={()=>setSm(null)}/>}
+{showR&&<div className="overlay" onClick={()=>setShowR(false)}>
+<div className="sheet" onClick={e=>e.stopPropagation()}>
+<p className="ey" style={{color:'var(--gold)'}}>EXCLUSIVO PRO</p>
+<h2 style={{fontSize:17,color:'var(--fg)',marginBottom:14}}>REFORMULAR COM IA</h2>
+{[{e:'🤒',l:'ESTOU DOENTE',d:'Volume reduzido'},{e:'✈️',l:'VIAJANDO',d:'Sem equipamentos'},{e:'⏱️',l:'POUCO TEMPO',d:'Versão 20 min'},{e:'🔥',l:'MAIS INTENSIDADE',d:'Aumentar carga'},{e:'😮‍💨',l:'MENOS INTENSIDADE',d:'Versão leve'}].map(o=><div key={o.l} onClick={()=>setShowR(false)} style={{background:'var(--card2)',border:'1px solid var(--border)',padding:'11px 14px',cursor:'pointer',display:'flex',alignItems:'center',gap:12,marginBottom:7}}>
+<span style={{fontSize:20}}>{o.e}</span><div><p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:10,color:'var(--fg)',marginBottom:2}}>{o.l}</p><p style={{fontSize:10,color:'var(--muted2)'}}>{o.d}</p></div>
+</div>)}
+<button className="btn btno" onClick={()=>setShowR(false)}>CANCELAR</button>
+</div>
+</div>}
+<div style={{padding:'16px 20px 14px',background:'var(--card)',borderBottom:'1px solid var(--border)'}}>
+<button className="ibtn" onClick={()=>go('home')} style={{marginBottom:12}}><I.L s={18}/></button>
+<div style={{display:'flex',gap:7,marginBottom:8}}><span className="bdg bdbg">⚡ IA</span><span className="bdg bdbw">ALTA</span></div>
+<h1 style={{fontSize:20,letterSpacing:'-.01em',marginBottom:6,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>{sportIcon} <span style={{color:'var(--primary)'}}>{sportName.toUpperCase()}</span>{todayMuscleGroupW&&<span style={{color:'var(--muted2)',fontWeight:400,fontSize:13}}> · {todayMuscleGroupW}</span>}</h1>
+<div style={{display:'flex',gap:5,marginBottom:8,flexWrap:'wrap'}}>
+{injAlert&&<span style={{background:'rgba(248,113,113,.1)',border:'1px solid rgba(248,113,113,.3)',padding:'2px 9px',fontSize:8,fontWeight:700,color:'var(--danger)'}}>⚠️ {injAlert}</span>}
+{todayMuscleGroupW&&<span style={{background:'var(--pdim)',border:'1px solid rgba(91,141,239,.2)',padding:'2px 9px',fontSize:8,fontWeight:700,color:'var(--primary)'}}>📋 {todayMuscleGroupW}</span>}
+<span style={{background:'rgba(74,222,128,.08)',border:'1px solid rgba(74,222,128,.2)',padding:'2px 9px',fontSize:8,fontWeight:700,color:'var(--success)'}}>⚡ IA</span>
+<span style={{background:'rgba(251,191,36,.08)',border:'1px solid rgba(251,191,36,.2)',padding:'2px 9px',fontSize:8,fontWeight:700,color:'var(--warn)'}}>⏱️ {duration} MIN</span>
+</div>
+<p style={{fontSize:10,color:'var(--muted2)',marginBottom:8}}>{done.length}/{allEx.length} exercícios · {duration} min</p>
+<div className="pbar"><div className="pfill" style={{width:`${pct}%`,background:pct===100?'var(--success)':'var(--primary)'}}/></div>
+</div>
+<div style={{padding:'12px 20px',display:'flex',flexDirection:'column',gap:14}}>
+{activeBlocks.map((block,bi)=><div key={bi}>
+<p className="st" style={{marginBottom:8}}>{block.name}</p>
+<div style={{display:'flex',flexDirection:'column',gap:6}}>
+{block.ex.map((ex,ei)=>{const k=`${bi}-${ei}`;const d=done.includes(k);return(
+<div key={k} style={{background:'var(--card)',border:'1px solid var(--border)',borderLeft:`3px solid ${d?'var(--success)':bi>0&&bi<3?'var(--primary)':'transparent'}`,padding:'11px 14px',opacity:d?.42:1,transition:'all .2s'}}>
+<div style={{display:'flex',alignItems:'flex-start',gap:10}}>
+<button onClick={()=>setDone(arr=>arr.includes(k)?arr.filter(x=>x!==k):[...arr,k])} style={{width:24,height:24,border:`1px solid ${d?'var(--success)':'var(--border)'}`,background:d?'var(--success)':'transparent',cursor:'pointer',display:'grid',placeItems:'center',flexShrink:0,marginTop:2}}>{d&&<I.Ck/>}</button>
+<span style={{fontSize:17,flexShrink:0}}>{ex.e}</span>
+<div style={{flex:1}}>
+{ex.yt
+?<a href={ex.yt} target="_blank" rel="noopener noreferrer" style={{fontWeight:700,fontSize:13,textDecoration:d?'line-through':'underline',color:d?'var(--muted2)':'var(--primary)',display:'block',marginBottom:5,lineHeight:1.4}}>{ex.n} ▶</a>
+:<p style={{fontWeight:700,fontSize:13,textDecoration:d?'line-through':'none',color:'var(--fg)',marginBottom:5,lineHeight:1.4}}>{ex.n}</p>
+}
+<div style={{display:'flex',gap:5,flexWrap:'wrap'}}>
+{ex.s&&<span style={{background:'var(--pdim)',border:'1px solid rgba(91,141,239,.2)',padding:'2px 7px',fontSize:9,fontWeight:700,color:'var(--primary)'}}>📊 {ex.s}x</span>}
+{ex.r&&<span style={{background:'var(--pdim)',border:'1px solid rgba(91,141,239,.2)',padding:'2px 7px',fontSize:9,fontWeight:700,color:'var(--primary)'}}>🔁 {ex.r}</span>}
+{ex.d&&ex.d!=='0'&&<span style={{background:'rgba(251,191,36,.08)',border:'1px solid rgba(251,191,36,.2)',padding:'2px 7px',fontSize:9,fontWeight:700,color:'var(--warn)'}}>⏱️ {ex.d}</span>}
+</div>
+</div>
+</div>
+</div>);})}
+</div>
+</div>)}
+<div style={{height:80}}/>
+</div>
+<div style={{position:'fixed',bottom:0,left:'50%',transform:'translateX(-50%)',width:'100%',maxWidth:430,background:'linear-gradient(0deg,var(--bg) 55%,transparent)',padding:'8px 20px 0'}}>
+<button onClick={async()=>{
+if(aiLoading)return;
+if(!isPro){setShowR(true);return;}
+setAiLoading(true);
+const prompt=`Atleta híbrido. Esporte hoje: ${sportName}. Objetivo: ${DB.objetivos[goal]?.n||goal}. Lesões: ${injAlert||'nenhuma'}. Duração: ${duration} min. Gere treino personalizado com séries, reps e tempo de descanso.`;
+const res=await callAI(prompt).catch(()=>null);
+if(res){setAiBlocks([{name:'⚡ TREINO IA',ex:[{n:res,d:'',e:'🤖',sp:todaySportIdW}]}]);}
+setAiLoading(false);
+}} style={{width:'100%',height:38,background:aiLoading?'var(--card2)':'transparent',border:'1px solid rgba(91,141,239,.3)',color:'var(--primary)',fontFamily:'"Archivo Black",sans-serif',fontSize:9,letterSpacing:'.1em',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:7,marginBottom:7}}>
+{aiLoading?<><I.Rf/> GERANDO...</>:<><I.Rf/> REFORMULAR COM IA ⚡</>}
+</button>
+<button className="btn btnp" disabled={!allDone} onClick={()=>{localStorage.setItem('bhp_last_workout_date',new Date().toDateString());setFin(true);}} style={{opacity:allDone?1:.35,marginBottom:8}}>
+{allDone?'CONCLUIR TREINO →':`${done.length}/${allEx.length} CONCLUÍDOS`}
+</button>
+</div>
+</div>;}
+
+function Stats({go}){
+const [tab,setTab]=useState('semana');const [spt,setSpt]=useState(0);const [showAch,setShowAch]=useState(false);const [showPR,setShowPR]=useState(false);
+const SS=[{id:'boxe',e:'🥊',l:'Boxe',sess:20,h:16,lv:'Intermediário',evo:15,pri:true,carga:[680,710,730,760,790,810,830,847]},{id:'musculacao',e:'🏋️',l:'Musculação',sess:18,h:14.5,lv:'Avançado',evo:8,pri:false,carga:[820,840,860,870,880,900,910,920]},{id:'corrida',e:'🏃',l:'Corrida',sess:9,h:7.2,lv:'Iniciante',evo:22,pri:false,carga:[4.2,4.5,4.8,5.0,5.1,5.1,5.2,5.1]}];
+const sp=SS[spt];
+const kpis={semana:[{v:'6',l:'TREINOS',sub:'Meta: 4 ✅',c:'var(--success)'},{v:'5.2h',l:'HORAS',sub:'+37%',c:'var(--primary)'},{v:'12🔥',l:'STREAK',sub:'Recorde!',c:'var(--warn)'},{v:'100%',l:'META',sub:'6/4',c:'var(--success)'}],mes:[{v:'22',l:'TREINOS',sub:'Melhor mês',c:'var(--primary)'},{v:'19h',l:'HORAS',sub:'+22%',c:'var(--success)'},{v:'847kg',l:'CARGA MAX',sub:'Novo recorde',c:'var(--gold)'},{v:'3',l:'ESPORTES',sub:'Ativos',c:'var(--primary)'}],ano:[{v:'47',l:'TREINOS',sub:'6 meses',c:'var(--primary)'},{v:'38h',l:'HORAS',sub:'Total',c:'var(--success)'},{v:'5',l:'CONQUISTAS',sub:'Desbloqueadas',c:'var(--gold)'},{v:'12',l:'MAX STREAK',sub:'Recorde',c:'var(--warn)'}]};
+const ACH=[{e:'🏆',l:'PRIMEIRO TREINO',d:'15/03',on:true},{e:'🔥',l:'7 DIAS SEGUIDOS',d:'22/03',on:true},{e:'💪',l:'PRIMEIRO MÊS',d:'14/04',on:true},{e:'📈',l:'PRIMEIRO RECORDE',d:'10/05',on:true},{e:'⚡',l:'47 TREINOS',d:'24/06',on:true},{e:'🎯',l:'50 TREINOS',d:'',on:false},{e:'🌟',l:'100 TREINOS',d:'',on:false}];
+const PRS=[{e:'🏋️',l:'Supino — PR',v:'105 kg',d:'22/06',nw:true},{e:'🥊',l:'Carga total sessão',v:'847 kg',d:'24/06',nw:true},{e:'🔥',l:'Maior sequência',v:'12 dias',d:'Hoje',nw:false},{e:'🏃',l:'Melhor pace',v:'5:42/km',d:'20/06',nw:false}];
+return <div className="screen fi">
+<div style={{padding:'16px 20px 14px',borderBottom:'1px solid var(--border)'}}>
+<p className="ey">ANÁLISE DE PERFORMANCE</p>
+<div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+<h1 style={{fontSize:26,letterSpacing:'-.02em',color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>ESTATÍSTICAS</h1>
+<div style={{display:'flex',gap:6}}>
+<button onClick={()=>setShowPR(true)} style={{background:'transparent',border:'1px solid var(--border)',padding:'5px 9px',color:'var(--muted2)',cursor:'pointer',fontFamily:'"Archivo Black",sans-serif',fontSize:8}}>🏅 PRs</button>
+<button onClick={()=>setShowAch(true)} style={{background:'var(--pdim)',border:'1px solid rgba(91,141,239,.2)',padding:'5px 9px',color:'var(--primary)',cursor:'pointer',fontFamily:'"Archivo Black",sans-serif',fontSize:8}}>🏆</button>
+</div>
+</div>
+</div>
+<div style={{padding:'14px 20px',display:'flex',flexDirection:'column',gap:14}}>
+<div className="tabrow">{['semana','mes','ano'].map(t=><button key={t} className={`tabbtn${tab===t?' on':''}`} onClick={()=>setTab(t)}>{t==='semana'?'SEMANA':t==='mes'?'MÊS':'ANO'}</button>)}</div>
+<div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:7}}>
+{kpis[tab].map(s=>(
+<div key={s.l} className="card" style={{padding:14}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:22,color:s.c}}>{s.v}</p>
+<p style={{fontSize:8,color:'var(--muted2)',fontWeight:700,letterSpacing:'.12em',marginTop:4}}>{s.l}</p>
+<p style={{fontSize:9,color:'var(--muted2)',marginTop:2}}>{s.sub}</p>
+<div style={{position:'absolute',bottom:0,left:0,right:0,height:2,background:`linear-gradient(90deg,${s.c},transparent)`}}/>
+</div>))}
+</div>
+<div className="card" style={{padding:18}}>
+<p className="st" style={{marginBottom:16,textAlign:'center'}}>PERFORMANCE SEMANAL</p>
+<div style={{display:'flex',alignItems:'center',gap:18}}>
+<div style={{position:'relative',flexShrink:0}}>
+<MRing rings={[{pct:100,stroke:7,color:'#4ade80'},{pct:65,stroke:6,color:'#5b8def'},{pct:86,stroke:5,color:'#f59e0b'}]} size={110}/>
+<div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',textAlign:'center'}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:18,color:'var(--success)'}}>100%</p>
+<p style={{fontSize:7,color:'var(--muted2)',letterSpacing:'.06em'}}>META</p>
+</div>
+</div>
+<div style={{flex:1,display:'flex',flexDirection:'column',gap:9}}>
+{[{c:'#4ade80',l:'Meta semanal',v:'100%',w:'100%'},{c:'#5b8def',l:'Volume (horas)',v:'5.2/8h',w:'65%'},{c:'#f59e0b',l:'Treinos',v:'6/7 dias',w:'86%'}].map(item=>(
+<div key={item.l}>
+<div style={{display:'flex',justifyContent:'space-between',marginBottom:3}}>
+<div style={{display:'flex',alignItems:'center',gap:5}}><div style={{width:6,height:6,borderRadius:'50%',background:item.c,flexShrink:0}}/><span style={{fontSize:10,color:'var(--muted2)'}}>{item.l}</span></div>
+<span style={{fontSize:10,fontWeight:700,color:item.c}}>{item.v}</span>
+</div>
+<div style={{height:3,background:'var(--muted)'}}><div style={{height:'100%',width:item.w,background:item.c,transition:'width 1s'}}/></div>
+</div>))}
+</div>
+</div>
+</div>
+<div className="card" style={{padding:18}}>
+<div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+<span className="st" style={{margin:0}}>TREINOS POR SEMANA</span>
+<span style={{fontSize:9,color:'var(--success)',fontWeight:700}}>+100%</span>
+</div>
+<Bar data={WD} lk="w" vk="t" color='#5b8def' height={72}/>
+<div style={{height:1,background:'var(--border)',margin:'10px 0'}}/>
+<div style={{display:'flex',justifyContent:'space-between',marginBottom:5}}>
+<span className="st" style={{margin:0}}>EVOLUÇÃO DE CARGA</span>
+<span style={{fontSize:9,color:'var(--success)',fontWeight:700}}>+54%</span>
+</div>
+<Spark data={WD.map(w=>w.c)} color='#4ade80' height={36}/>
+</div>
+<div className="card" style={{padding:18}}>
+<p className="st" style={{marginBottom:12}}>HISTÓRICO RECENTE</p>
+{DH.map((d,i)=>(
+<div key={i} style={{display:'flex',alignItems:'center',gap:10,padding:'8px 0',borderBottom:i<DH.length-1?'1px solid var(--border)':'none'}}>
+<div style={{textAlign:'center',width:26,flexShrink:0}}>
+<p style={{fontSize:7,color:'var(--muted2)',fontWeight:700}}>{d.day}</p>
+<p style={{fontSize:10,fontWeight:700,color:'var(--fg)'}}>{d.date.slice(0,2)}</p>
+</div>
+<div style={{width:30,height:30,background:'var(--pdim)',border:'1px solid rgba(91,141,239,.2)',display:'grid',placeItems:'center',fontSize:14,flexShrink:0}}>{d.s}</div>
+<div style={{flex:1,minWidth:0}}>
+<p style={{fontSize:12,fontWeight:600,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',color:'var(--fg)'}}>{d.w}</p>
+<p style={{fontSize:9,color:'var(--muted2)',marginTop:1}}>{d.dur}min{d.c>0?` · ${d.c}kg`:''}{d.km?` · ${d.km}km`:''}</p>
+</div>
+<Ring pct={d.int} size={30} stroke={3} color={d.int>=90?'#4ade80':'#5b8def'}>
+<span style={{fontSize:8,fontWeight:700,color:'var(--fg)'}}>{d.int}</span>
+</Ring>
+</div>))}
+</div>
+<div>
+<p className="st" style={{marginBottom:8}}>POR MODALIDADE</p>
+<div style={{display:'flex',gap:6,marginBottom:12}}>
+{SS.map((s,i)=><button key={s.id} onClick={()=>setSpt(i)} style={{flex:1,height:40,background:spt===i?'var(--pdim)':'var(--card)',border:`1px solid ${spt===i?'var(--primary)':'var(--border)'}`,borderTop:`2px solid ${spt===i?'var(--primary)':'transparent'}`,color:spt===i?'var(--primary)':'var(--muted2)',cursor:'pointer',fontFamily:'"Archivo Black",sans-serif',fontSize:8,display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:2}}>
+<span style={{fontSize:15}}>{s.e}</span>{s.l.toUpperCase()}
+</button>)}
+</div>
+<div className="card cb" style={{padding:16}}>
+<div style={{display:'flex',alignItems:'center',gap:14,marginBottom:14}}>
+<Ring pct={Math.round((sp.sess/47)*100)} size={68} stroke={5} color={sp.pri?'var(--gold)':'var(--primary)'} glow={sp.pri}>
+<div style={{textAlign:'center'}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:16,color:sp.pri?'var(--gold)':'var(--primary)'}}>{sp.sess}</p>
+<p style={{fontSize:7,color:'var(--muted2)'}}>SESSÕES</p>
+</div>
+</Ring>
+<div style={{flex:1}}>
+<div style={{display:'flex',alignItems:'center',gap:7,marginBottom:7}}>
+<span style={{fontSize:19}}>{sp.e}</span>
+<div>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:13,color:'var(--fg)'}}>{sp.l.toUpperCase()}</p>
+<p style={{fontSize:9,color:'var(--muted2)'}}>{sp.lv}{sp.pri?' · 🥇':''}</p>
+</div>
+</div>
+<div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:5}}>
+{[{l:'HORAS',v:sp.h+'h',c:'var(--primary)'},{l:'EVOLUÇÃO',v:'+'+sp.evo+'%',c:'var(--success)'}].map(mm=>(
+<div key={mm.l} style={{background:'var(--card2)',border:'1px solid var(--border)',padding:'7px 9px'}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:13,color:mm.c}}>{mm.v}</p>
+<p style={{fontSize:8,color:'var(--muted2)',marginTop:2,letterSpacing:'.1em'}}>{mm.l}</p>
+</div>))}
+</div>
+</div>
+</div>
+{DB.modalidades[sp.id]&&<div style={{background:'var(--pdim)',border:'1px solid rgba(91,141,239,.15)',padding:10,marginBottom:12}}>
+<p style={{fontSize:8,fontWeight:700,letterSpacing:'.12em',color:'var(--primary)',marginBottom:5}}>🧠 BANCO DE CONHECIMENTO</p>
+<p style={{fontSize:10,color:'var(--fg2)',marginBottom:3,lineHeight:1.5}}><strong>Foco:</strong> {DB.modalidades[sp.id].foco}</p>
+<p style={{fontSize:10,color:'var(--muted2)'}}><strong style={{color:'var(--fg2)'}}>Demandas:</strong> {DB.modalidades[sp.id].dem?.slice(0,3).join(' · ')}</p>
+</div>}
+<div style={{marginBottom:10}}>
+<div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+<span className="st" style={{margin:0}}>{sp.id==='corrida'?'PACE (KM)':'CARGA (KG)'}</span>
+<span style={{fontSize:9,color:'var(--success)',fontWeight:700}}>+{sp.evo}%</span>
+</div>
+<Spark data={sp.carga} color={sp.pri?'var(--gold)':'var(--primary)'} height={36}/>
+</div>
+<div style={{display:'flex',justifyContent:'space-between',padding:'8px 0',borderTop:'1px solid var(--border)'}}>
+<div><p style={{fontSize:9,color:'var(--muted2)',marginBottom:2}}>PRÓXIMA META</p><p style={{fontSize:11,fontWeight:600,color:'var(--fg)'}}>{sp.id==='boxe'?'Combinações 1-2-3-4':sp.id==='musculacao'?'PR Supino: 110 kg':'Pace: 5:30/km'}</p></div>
+<span className={`bdg ${sp.pri?'bdbgo':'bdbp'}`}>{sp.pri?'PRIORIDADE':'ATIVO'}</span>
+</div>
+</div>
+</div>
+<div className="card cgo" style={{padding:16}}>
+<p className="st" style={{marginBottom:12}}>METAS AUTOMÁTICAS DA IA</p>
+{[{l:'🥊 4 treinos de Boxe/semana',p:3,t:4,c:'var(--primary)'},{l:'🏋️ PR no Supino: 110kg',p:105,t:110,c:'var(--success)',u:'kg'},{l:'🔥 Sequência de 15 dias',p:12,t:15,c:'var(--warn)'},{l:'📈 Carga semanal +5%',p:1,t:1,done:true,c:'var(--success)'}].map((meta,i)=>(
+<div key={i} style={{marginBottom:i<3?12:0}}>
+<div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+<span style={{fontSize:11,fontWeight:600,color:meta.done?'var(--success)':'var(--fg)'}}>{meta.done?'✓ ':''}{meta.l}</span>
+<span style={{fontSize:9,color:meta.c,fontWeight:700}}>{meta.u?`${meta.p}/${meta.t}${meta.u}`:`${meta.p}/${meta.t}`}</span>
+</div>
+<div style={{height:3,background:'var(--muted)'}}><div style={{height:'100%',width:`${Math.min((meta.p/meta.t)*100,100)}%`,background:meta.done?'var(--success)':meta.c,transition:'width 1s'}}/></div>
+</div>))}
+</div>
+<div style={{background:'var(--pdim)',border:'1px solid rgba(91,141,239,.18)',borderLeft:'3px solid var(--primary)',padding:14}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:9,color:'var(--primary)',marginBottom:9}}>🤖 INSIGHTS AUTOMÁTICOS</p>
+{['Boxe evoluiu 15% mais rápido que a Musculação.','100% dos dias planejados — consistência exemplar.','Carga +8.3% em 4 semanas — ritmo ideal.'].map((tx,i)=>(
+<p key={i} style={{fontSize:11,color:'var(--fg2)',lineHeight:1.7,marginBottom:i<2?7:0}}>→ {tx}</p>))}
+</div>
+<button onClick={()=>go('stats')} style={{width:'100%',height:46,background:'var(--primary)',border:'none',color:'#fff',fontFamily:'"Archivo Black",sans-serif',fontSize:10,letterSpacing:'.12em',cursor:'pointer',display:'flex',alignItems:'center',justifyContent:'center',gap:9,marginTop:14}}>
+<I.Sh/> COMPARTILHAR EVOLUÇÃO SEMANAL
+</button>
+</div>
+{showAch&&<div className="overlay" onClick={()=>setShowAch(false)}>
+<div className="sheet" onClick={e=>e.stopPropagation()} style={{borderTopColor:'var(--gold)'}}>
+<div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:12}}>
+<div><p className="ey" style={{color:'var(--gold)',margin:0}}>HALL DA FAMA</p><h2 style={{fontSize:18,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>CONQUISTAS</h2></div>
+<button className="ibtn" onClick={()=>setShowAch(false)}><I.X/></button>
+</div>
+<div style={{display:'flex',flexDirection:'column',gap:8}}>
+{ACH.map(a=>(
+<div key={a.l} style={{background:'var(--card)',border:`1px solid ${a.on?'rgba(245,158,11,.3)':'var(--border)'}`,padding:'12px 14px',display:'flex',alignItems:'center',gap:12,opacity:a.on?1:.4,position:'relative',overflow:'hidden'}}>
+{a.on&&<div style={{position:'absolute',bottom:0,left:0,right:0,height:2,background:'linear-gradient(90deg,var(--gold),transparent)'}}/>}
+<div style={{width:40,height:40,background:a.on?'rgba(245,158,11,.1)':'var(--card2)',border:`1px solid ${a.on?'rgba(245,158,11,.25)':'var(--border)'}`,display:'grid',placeItems:'center',fontSize:20,flexShrink:0}}>{a.e}</div>
+<div style={{flex:1}}><p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:10,color:'var(--fg)',marginBottom:2}}>{a.l}</p>{a.d&&<p style={{fontSize:9,color:'var(--gold)'}}>{a.d}</p>}</div>
+<span style={{fontSize:16}}>{a.on?'✅':'🔒'}</span>
+</div>))}
+</div>
+</div>
+</div>}
+{showPR&&<div className="overlay" onClick={()=>setShowPR(false)}>
+<div className="sheet" onClick={e=>e.stopPropagation()} style={{borderTopColor:'var(--gold)'}}>
+<div style={{display:'flex',justifyContent:'space-between',marginBottom:18}}>
+<div><p className="ey" style={{color:'var(--gold)',margin:0}}>SEUS MELHORES</p><h2 style={{fontSize:18,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>RECORDES PESSOAIS</h2></div>
+<button className="ibtn" onClick={()=>setShowPR(false)}><I.X/></button>
+</div>
+<div style={{display:'flex',flexDirection:'column',gap:8}}>
+{PRS.map((rr,i)=>(
+<div key={i} style={{background:'var(--card)',border:'1px solid var(--border)',borderLeft:`3px solid ${rr.nw?'var(--gold)':'var(--primary)'}`,padding:'12px 14px',display:'flex',alignItems:'center',gap:12}}>
+<span style={{fontSize:20,flexShrink:0}}>{rr.e}</span>
+<div style={{flex:1}}><p style={{fontSize:12,fontWeight:600,marginBottom:2,color:'var(--fg)'}}>{rr.l}</p><p style={{fontSize:9,color:'var(--muted2)'}}>{rr.d}</p></div>
+<div style={{textAlign:'right'}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:15,color:rr.nw?'var(--gold)':'var(--primary)'}}>{rr.v}</p>
+{rr.nw&&<span style={{fontSize:8,color:'var(--gold)',fontWeight:700}}>NOVO!</span>}
+</div>
+</div>))}
+</div>
+</div>
+</div>}
+<BNav cur="stats" go={go}/>
+</div>;}
+
+function Coach({go}){
+const [inp,setInp]=useState('');const [showBlk,setShowBlk]=useState(false);
+const [mode,setMode]=useState('auto');
+const [showAgents,setShowAgents]=useState(false);
+const [msgs,setMsgs]=useState([{role:'ai',text:'Olá, Gabriel! Conectado ao seu perfil — Boxe, Musculação, Corrida, lesão no ombro, objetivo Performance. Como posso ajudar?',agents:[]}]);
+
+const AGENTS={
+auto:{l:'Hybrid Coach',sub:'Automático',e:'🧠',c:'var(--primary)'},
+treino:{l:'Treino',sub:'Especialista',e:'🏋️',c:'var(--success)'},
+lesao:{l:'Lesões',sub:'Especialista',e:'🩺',c:'var(--danger)'},
+nutricao:{l:'Nutrição',sub:'Especialista',e:'🥗',c:'var(--warn)'},
+progresso:{l:'Progresso',sub:'Especialista',e:'📈',c:'var(--primary)'},
+planejamento:{l:'Planejamento',sub:'Especialista',e:'📅',c:'var(--gold)'},
+};
+
+function routeAgents(text){
+const t=text.toLowerCase();
+const hit=[];
+if(/dor|dói|doendo|lesão|lesao|machuc|inflamad|inchaç/.test(t))hit.push('lesao');
+if(/tempo|minutos|min\b|viajando|viagem|perdi.*treino|atrasad|reorganiz/.test(t))hit.push('planejamento');
+if(/proteína|proteina|caloria|macro|dieta|comer|nutri|suplement/.test(t))hit.push('nutricao');
+if(/estagn|evolu|progress|platô|plato|carga|recorde|pr\b/.test(t))hit.push('progresso');
+if(hit.length===0||/treino|exercíc|exercic|série|serie|repetiç|repetic/.test(t))hit.push('treino');
+return [...new Set(hit)];
+}
+
+function genReply(text,agentsHit){
+const lower=text.toLowerCase();
+if(agentsHit.includes('lesao')&&/ombro/.test(lower)){
+return '🩺 Entendido — vou priorizar a segurança do seu ombro. Substituí exercícios de empurrar (supino, desenvolvimento) por puxadas e remadas, que não sobrecarregam a articulação. Se a dor persistir por mais de 3 dias mesmo em repouso, procure um ortopedista.';
+}
+if(agentsHit.includes('planejamento')&&/tempo|minutos|min\b/.test(lower)){
+return '📅 Sem problema! Reorganizei seu treino de hoje para uma versão de 20 minutos focada nos exercícios de maior impacto, mantendo a prioridade no Boxe. Os exercícios acessórios ficam para amanhã.';
+}
+if(agentsHit.includes('nutricao')){
+return '🥗 Com seu peso (80kg) e objetivo de performance, a recomendação geral é de 1.6 a 2.0g de proteína por kg de peso corporal — entre 128g e 160g por dia, distribuídos nas refeições. (Módulo completo de nutrição chega em breve.)';
+}
+if(agentsHit.includes('progresso')){
+return '📈 Analisando seu histórico: você vem subindo carga consistentemente nas últimas 3 semanas. Se sentir estagnação, pode ser hora de variar o estímulo — trocar o ângulo do exercício ou ajustar o volume.';
+}
+return '🏋️ Beleza! Vou ajustar isso no seu plano de treino considerando sua prioridade em Boxe e seu nível atual. Qualquer ajuste fica refletido já no seu próximo treino.';
+}
+
+function send(text){
+if(!text.trim())return;
+const agentsHit=mode==='auto'?routeAgents(text):[mode];
+const reply=genReply(text,agentsHit);
+setMsgs(m=>[...m,{role:'user',text},{role:'ai',text:reply,agents:mode==='auto'?agentsHit:[]}]);
+setInp('');
+}
+
+return <div className="screen fi" style={{display:'flex',flexDirection:'column'}}>
+<div style={{padding:'16px 20px 14px',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',gap:12}}>
+<button className="ibtn" onClick={()=>go('home')}><I.L s={18}/></button>
+<div style={{flex:1}}>
+<div style={{display:'flex',alignItems:'center',gap:8}}>
+<span style={{fontFamily:'"Archivo Black",sans-serif',fontSize:14,color:'var(--fg)'}}>{mode==='auto'?'HYBRID COACH':AGENTS[mode].l.toUpperCase()}</span>
+<span className="pro">PRO</span>
+</div>
+<p style={{fontSize:9,color:'var(--success)',letterSpacing:'.1em',marginTop:2}}>● ONLINE{mode!=='auto'?' · MODO ESPECIALISTA':''}</p>
+</div>
+<button onClick={()=>setShowAgents(true)} style={{background:'var(--card2)',border:'1px solid var(--border)',color:'var(--muted2)',fontSize:9,fontWeight:700,letterSpacing:'.06em',padding:'6px 10px',cursor:'pointer',whiteSpace:'nowrap'}}>👥 ESPECIALISTAS</button>
+</div>
+{mode!=='auto'&&<div style={{padding:'8px 20px',background:`${AGENTS[mode].c}11`,borderBottom:`1px solid ${AGENTS[mode].c}33`,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+<span style={{fontSize:11,color:AGENTS[mode].c,fontWeight:700}}>{AGENTS[mode].e} Conversando direto com {AGENTS[mode].l}</span>
+<button onClick={()=>setMode('auto')} style={{background:'none',border:'none',color:AGENTS[mode].c,fontSize:10,fontWeight:700,textDecoration:'underline',cursor:'pointer'}}>Voltar ao Hybrid Coach</button>
+</div>}
+<div style={{padding:'8px 20px',background:'rgba(91,141,239,.04)',borderBottom:'1px solid var(--border)'}}>
+<p className="st" style={{marginBottom:6}}>CONTEXTO CARREGADO</p>
+<div className="hs">{['🥊 Boxe (Int.)','🏋️ Musculação (Av.)','⚡ Performance','⚠️ Ombro D.','80kg · 178cm'].map(tag=><span key={tag} style={{background:'var(--card)',border:'1px solid var(--border)',padding:'3px 8px',fontSize:9,fontWeight:600,color:'var(--muted2)',whiteSpace:'nowrap',flexShrink:0}}>{tag}</span>)}</div>
+</div>
+<div style={{flex:1,padding:'16px 20px',overflowY:'auto',scrollbarWidth:'none'}}>
+{msgs.map((m,i)=><div key={i} style={{marginBottom:14}}>
+<div style={{background:m.role==='ai'?'var(--card)':'var(--pdim)',border:'1px solid var(--border)',borderLeft:m.role==='ai'?'2px solid var(--primary)':'2px solid var(--success)',padding:'11px 14px',fontSize:13,lineHeight:1.6,color:'var(--fg)',marginLeft:m.role==='user'?30:0,marginRight:m.role==='ai'?0:0}}>
+{m.text}
+</div>
+{m.role==='ai'&&m.agents&&m.agents.length>0&&<div style={{display:'flex',gap:5,marginTop:6,flexWrap:'wrap'}}>
+<span style={{fontSize:8,color:'var(--muted2)',fontWeight:700}}>Especialistas consultados:</span>
+{m.agents.map(a=><span key={a} style={{fontSize:8,color:AGENTS[a].c,fontWeight:700,background:`${AGENTS[a].c}15`,padding:'2px 6px'}}>{AGENTS[a].e} {AGENTS[a].l}</span>)}
+</div>}
+</div>)}
+{msgs.length<=1&&<>
+<p className="st" style={{marginBottom:8}}>SUGESTÕES</p>
+{['O que treino hoje?','Meu ombro está doendo — adapta meu treino','Sem tempo — treino de 20 min','Como evoluir mais no Boxe?'].map(sug=>(
+<div key={sug} onClick={()=>send(sug)} style={{background:'var(--card2)',border:'1px solid var(--border)',padding:'10px 14px',cursor:'pointer',marginBottom:6,display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+<span style={{fontSize:11,color:'var(--muted2)'}}>{sug}</span><span style={{color:'var(--primary)',fontSize:14}}>→</span>
+</div>))}
+</>}
+</div>
+<div style={{padding:'12px 20px 28px',borderTop:'1px solid var(--border)',display:'flex',gap:8,alignItems:'center'}}>
+<input style={{flex:1,height:48,background:'var(--card)',border:'none',borderBottom:'1px solid rgba(91,141,239,.3)',color:'var(--fg)',fontFamily:'Inter',fontSize:13,padding:'0 14px',outline:'none'}} placeholder="Pergunte ao seu treinador IA..." value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send(inp)}/>
+<button onClick={()=>send(inp)} style={{width:48,height:48,background:'var(--primary)',border:'none',display:'grid',placeItems:'center',cursor:'pointer',flexShrink:0,opacity:inp.trim()?1:.3}}>
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+</button>
+</div>
+{showAgents&&<div className="overlay" onClick={()=>setShowAgents(false)}>
+<div className="sheet" onClick={e=>e.stopPropagation()}>
+<div style={{textAlign:'center',marginBottom:16}}>
+<p className="ey">MODO ESPECIALISTAS</p>
+<h2 style={{fontSize:18,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>FALE DIRETO COM UM AGENTE</h2>
+</div>
+<div style={{display:'flex',flexDirection:'column',gap:8}}>
+{Object.entries(AGENTS).map(([key,a])=>(
+<button key={key} onClick={()=>{setMode(key);setShowAgents(false);}} style={{background:mode===key?`${a.c}15`:'var(--card2)',border:`1px solid ${mode===key?a.c:'var(--border)'}`,padding:'12px 14px',display:'flex',alignItems:'center',gap:12,cursor:'pointer',textAlign:'left'}}>
+<span style={{fontSize:22}}>{a.e}</span>
+<div style={{flex:1}}>
+<p style={{fontSize:13,fontWeight:700,color:'var(--fg)'}}>{a.l}</p>
+<p style={{fontSize:10,color:'var(--muted2)'}}>{a.sub}</p>
+</div>
+{mode===key&&<span style={{color:a.c,fontSize:16}}>✓</span>}
+</button>
+))}
+</div>
+<button className="btn btno" style={{marginTop:14}} onClick={()=>setShowAgents(false)}>FECHAR</button>
+</div>
+</div>}
+{showBlk&&<div className="overlay" onClick={()=>setShowBlk(false)}>
+<div className="sheet" onClick={e=>e.stopPropagation()} style={{borderTopColor:'var(--gold)'}}>
+<div style={{textAlign:'center',padding:'8px 0 16px'}}>
+<div style={{fontSize:44,marginBottom:12}}>🤖</div>
+<p className="ey" style={{color:'var(--gold)'}}>HYBRID COACH</p>
+<h2 style={{fontSize:20,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginBottom:10}}>SEU TREINADOR<br/>ESTÁ PRONTO</h2>
+<p style={{fontSize:12,color:'var(--muted2)',lineHeight:1.7}}>Assine o Plano PRO para desbloquear.</p>
+</div>
+<div style={{display:'flex',flexDirection:'column',gap:0,marginBottom:16,background:'var(--card)',border:'1px solid var(--border)'}}>
+{['Treinos adaptados diariamente','Ajustes conforme suas lesões','Planejamento 100% personalizado','Respostas sobre sua evolução','Acompanhamento 24h'].map((b,i,arr)=><div key={b} style={{fontSize:12,color:'var(--fg)',display:'flex',alignItems:'center',gap:10,padding:'10px 16px',borderBottom:i<arr.length-1?'1px solid var(--border)':'none'}}><span style={{color:'var(--success)',fontWeight:700,flexShrink:0}}>✓</span>{b}</div>)}
+</div>
+<button className="btn btng" style={{marginBottom:8}} onClick={()=>{setShowBlk(false);go('pro');}}>⚡ ASSINAR PLANO PRO</button>
+<button className="btn btno" onClick={()=>setShowBlk(false)}>CONTINUAR NO GRATUITO</button>
+</div>
+</div>}
+<BNav cur="coach" go={go}/>
+</div>;}
+
+function LegalScreen({go,title,backTo,children}){
+return <div className="full fi" style={{background:'var(--bg)',minHeight:'100vh'}}>
+<div style={{padding:'16px 20px',display:'flex',alignItems:'center',gap:12,borderBottom:'1px solid var(--border)',position:'sticky',top:0,background:'var(--bg)',zIndex:10}}>
+<button onClick={()=>go(backTo||'profile')} style={{background:'none',border:'none',color:'var(--primary)',fontSize:20,cursor:'pointer',padding:0}}>←</button>
+<h1 style={{fontFamily:'"Archivo Black",sans-serif',fontSize:15,color:'var(--fg)'}}>{title}</h1>
+</div>
+<div style={{padding:'20px',paddingBottom:60}}>
+{children}
+</div>
+</div>;}
+
+function LegalSection({title,children}){
+return <div style={{marginBottom:22}}>
+<h2 style={{fontFamily:'"Archivo Black",sans-serif',fontSize:12,color:'var(--primary)',marginBottom:8,letterSpacing:'.04em'}}>{title}</h2>
+<div style={{fontSize:12,color:'var(--fg2)',lineHeight:1.8}}>{children}</div>
+</div>;}
+
+function Terms({go}){
+return <LegalScreen go={go} title="TERMOS DE USO" backTo="profile">
+<p style={{fontSize:10,color:'var(--muted2)',marginBottom:20}}>Última atualização: junho de 2026</p>
+
+<LegalSection title="1. SOBRE O SERVIÇO">
+O Be Hybrid Pro é um aplicativo de treinamento físico que oferece planos de treino, conteúdo educativo sobre modalidades esportivas e, no plano PRO, geração de treinos personalizados por inteligência artificial. O app não substitui acompanhamento médico, fisioterapêutico ou de educador físico presencial.
+</LegalSection>
+
+<LegalSection title="2. PLANOS E ASSINATURA">
+O plano PRO custa R$29,00 por mês (ou R$199,00 no plano anual), cobrado de forma recorrente através do meio de pagamento cadastrado. A assinatura é renovada automaticamente até que seja cancelada pelo usuário.
+</LegalSection>
+
+<LegalSection title="3. CANCELAMENTO E REEMBOLSO">
+Você pode cancelar sua assinatura a qualquer momento, sem multas, diretamente nas configurações da conta. Oferecemos garantia incondicional de 7 dias: se você cancelar dentro desse período após a primeira cobrança, o valor será integralmente reembolsado. Após esse prazo, o cancelamento interrompe cobranças futuras, mas não gera reembolso do período já pago.
+</LegalSection>
+
+<LegalSection title="4. RESPONSABILIDADES DO USUÁRIO">
+Você é responsável por fornecer informações verdadeiras sobre seu perfil físico, lesões e limitações. Recomendamos consultar um médico antes de iniciar qualquer programa de exercícios, especialmente se você possui condições de saúde pré-existentes. O uso de qualquer treino sugerido pelo app é por sua conta e risco.
+</LegalSection>
+
+<LegalSection title="5. CONTEÚDO GERADO POR IA">
+Os planos PRO incluem treinos e orientações gerados por inteligência artificial com base nas informações que você fornece. Esse conteúdo é gerado automaticamente e pode conter imprecisões. Ele não constitui aconselhamento médico, nutricional ou fisioterapêutico profissional. Em caso de dor, desconforto incomum ou agravamento de lesão, interrompa o exercício e procure orientação profissional.
+</LegalSection>
+
+<LegalSection title="6. LIMITAÇÃO DE RESPONSABILIDADE">
+O Be Hybrid Pro não se responsabiliza por lesões, agravamento de condições de saúde ou quaisquer danos decorrentes do uso das informações e treinos disponibilizados no app. O serviço é fornecido "como está", sem garantias de resultados específicos.
+</LegalSection>
+
+<LegalSection title="7. ALTERAÇÕES NOS TERMOS">
+Podemos atualizar estes Termos periodicamente. Mudanças relevantes serão comunicadas dentro do app. O uso continuado do serviço após alterações implica concordância com os novos termos.
+</LegalSection>
+
+<LegalSection title="8. CONTATO">
+Dúvidas sobre estes Termos podem ser enviadas para o e-mail de suporte disponível na tela de Perfil.
+</LegalSection>
+</LegalScreen>;}
+
+function Privacy({go}){
+return <LegalScreen go={go} title="POLÍTICA DE PRIVACIDADE" backTo="profile">
+<p style={{fontSize:10,color:'var(--muted2)',marginBottom:20}}>Última atualização: junho de 2026 · Conforme a Lei Geral de Proteção de Dados (LGPD)</p>
+
+<LegalSection title="1. DADOS QUE COLETAMOS">
+Coletamos as informações que você fornece no cadastro e no onboarding: nome, e-mail, sexo, idade, peso, altura, modalidades esportivas praticadas, nível em cada uma, objetivos de treino, histórico de lesões, equipamentos disponíveis e disponibilidade semanal. Também registramos seu histórico de treinos concluídos dentro do app.
+</LegalSection>
+
+<LegalSection title="2. COMO USAMOS SEUS DADOS">
+Usamos essas informações exclusivamente para: gerar e adaptar seus planos de treino, calcular suas estatísticas de evolução, personalizar as respostas do Hybrid Coach (plano PRO) e processar sua assinatura. Dados de lesão são usados apenas para adaptar exercícios com segurança — nunca para fins comerciais.
+</LegalSection>
+
+<LegalSection title="3. ARMAZENAMENTO">
+Seus dados são armazenados de forma segura em servidores Supabase, com políticas de acesso restritas. Senhas são criptografadas e nunca armazenadas em texto simples.
+</LegalSection>
+
+<LegalSection title="4. COMPARTILHAMENTO">
+Não vendemos, alugamos ou compartilhamos seus dados pessoais com terceiros para fins de marketing. Dados podem ser compartilhados apenas com processadores de pagamento (para cobrança da assinatura) e provedores de infraestrutura técnica (hospedagem e banco de dados), estritamente para operação do serviço.
+</LegalSection>
+
+<LegalSection title="5. DADOS VISÍVEIS A OUTROS USUÁRIOS">
+Caso você use o recurso de Amigos/Ranking, apenas seu nome, sequência de treinos (streak) e contagem de treinos do mês ficam visíveis para seus amigos conectados. Dados como peso, lesões, altura e objetivos pessoais permanecem privados e nunca são exibidos a outros usuários.
+</LegalSection>
+
+<LegalSection title="6. SEUS DIREITOS (LGPD)">
+Você tem direito a: acessar os dados que temos sobre você, corrigir informações incorretas, solicitar a exclusão da sua conta e de todos os dados associados, e exportar seus dados. Solicitações podem ser feitas pela tela de Perfil ou pelo e-mail de suporte.
+</LegalSection>
+
+<LegalSection title="7. RETENÇÃO DE DADOS">
+Mantemos seus dados enquanto sua conta estiver ativa. Caso solicite exclusão da conta, seus dados pessoais são removidos em até 30 dias, exceto informações que precisamos manter por obrigação legal (como registros fiscais de pagamento).
+</LegalSection>
+
+<LegalSection title="8. COOKIES E ARMAZENAMENTO LOCAL">
+O app utiliza armazenamento local do navegador (localStorage) para manter você conectado e salvar preferências, como tema claro/escuro. Esses dados ficam apenas no seu dispositivo.
+</LegalSection>
+
+<LegalSection title="9. CONTATO">
+Para exercer seus direitos ou tirar dúvidas sobre esta Política, entre em contato pelo e-mail de suporte disponível na tela de Perfil.
+</LegalSection>
+</LegalScreen>;}
+
+
+function Social({go}){
+const [tab,setTab]=useState('ranking');
+const [showInvite,setShowInvite]=useState(false);
+const [copied,setCopied]=useState(false);
+const [addCode,setAddCode]=useState('');
+const myCode=React.useMemo(()=>{let s=localStorage.getItem('bhp_invite_code');if(!s){s='BHP'+Math.floor(1000+Math.random()*9000);localStorage.setItem('bhp_invite_code',s);}return s;},[]);
+const [friends,setFriends]=useState(()=>{const s=localStorage.getItem('bhp_friends');return s?JSON.parse(s):[{id:1,name:'Marcos Silva',streak:18,workouts:24,e:'🥊'},{id:2,name:'Ana Ribeiro',streak:9,workouts:15,e:'🏃'}];});
+function addFriend(){if(!addCode.trim())return;const names=['Lucas Mendes','Júlia Alves','Rafael Souza'];const f={id:Date.now(),name:names[Math.floor(Math.random()*names.length)],streak:Math.floor(Math.random()*15)+1,workouts:Math.floor(Math.random()*20)+1,e:'⚡'};const u=[...friends,f];setFriends(u);localStorage.setItem('bhp_friends',JSON.stringify(u));setAddCode('');setShowInvite(false);}
+const myStats={name:'Você',streak:12,workouts:18,e:'👤',isMe:true};
+const ranked=[...friends,myStats].sort((a,b)=>b.streak-a.streak||b.workouts-a.workouts);
+return <div className="screen fi">
+<div style={{padding:'16px 20px 14px',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',gap:12}}>
+<button className="ibtn" onClick={()=>go('profile')}><I.L s={18}/></button>
+<div><p className="ey" style={{margin:0}}>COMUNIDADE</p><h1 style={{fontSize:20,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>AMIGOS</h1></div>
+</div>
+<div style={{padding:'14px 20px',display:'flex',flexDirection:'column',gap:14}}>
+<button onClick={()=>setShowInvite(true)} style={{width:'100%',height:46,background:'var(--primary)',border:'none',color:'#fff',fontFamily:'"Archivo Black",sans-serif',fontSize:11,letterSpacing:'.08em',cursor:'pointer'}}>👥 CONVIDAR AMIGOS</button>
+<p className="st" style={{marginBottom:6}}>RANKING POR STREAK</p>
+{ranked.map((f,i)=><div key={f.id||'me'} className="card" style={{padding:'12px 14px',display:'flex',alignItems:'center',gap:12,borderLeft:f.isMe?'3px solid var(--primary)':'3px solid transparent',background:f.isMe?'var(--pdim)':'var(--card)',marginBottom:6}}>
+<div style={{width:28,textAlign:'center',fontFamily:'"Archivo Black",sans-serif',fontSize:i<3?16:13,color:i===0?'var(--gold)':i===1?'var(--muted2)':i===2?'#cd7f32':'var(--muted2)'}}>{i===0?'🥇':i===1?'🥈':i===2?'🥉':`${i+1}º`}</div>
+<div style={{width:36,height:36,borderRadius:'50%',background:'var(--card2)',display:'grid',placeItems:'center',fontSize:18,flexShrink:0}}>{f.e}</div>
+<div style={{flex:1}}><p style={{fontSize:13,fontWeight:700,color:f.isMe?'var(--primary)':'var(--fg)'}}>{f.name}{f.isMe?' (você)':''}</p><p style={{fontSize:10,color:'var(--muted2)'}}>{f.workouts} treinos este mês</p></div>
+<div style={{textAlign:'right'}}><p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:15,color:'var(--warn)'}}>{f.streak}🔥</p><p style={{fontSize:8,color:'var(--muted2)'}}>STREAK</p></div>
+</div>)}
+</div>
+{showInvite&&<div className="overlay" onClick={()=>setShowInvite(false)}>
+<div className="sheet" onClick={e=>e.stopPropagation()}>
+<p className="ey" style={{textAlign:'center',marginBottom:8}}>SEU CÓDIGO DE CONVITE</p>
+<div style={{display:'flex',gap:8,marginBottom:14}}>
+<div style={{flex:1,height:48,background:'var(--card2)',border:'1px solid var(--border)',display:'flex',alignItems:'center',justifyContent:'center',fontFamily:'"Archivo Black",sans-serif',fontSize:16,letterSpacing:'.1em',color:'var(--primary)'}}>{myCode}</div>
+<button onClick={()=>{navigator.clipboard?.writeText(myCode);setCopied(true);setTimeout(()=>setCopied(false),2000);}} style={{width:48,height:48,background:copied?'var(--success)':'var(--primary)',border:'none',color:'#fff',cursor:'pointer',flexShrink:0,fontSize:18}}>{copied?'✓':'📋'}</button>
+</div>
+<p className="st" style={{marginBottom:6}}>ADICIONAR AMIGO</p>
+<div style={{display:'flex',gap:8,marginBottom:14}}>
+<input value={addCode} onChange={e=>setAddCode(e.target.value.toUpperCase())} placeholder="CÓDIGO DO AMIGO" className="inp" style={{flex:1}}/>
+<button onClick={addFriend} disabled={!addCode.trim()} style={{width:48,background:'var(--primary)',border:'none',color:'#fff',cursor:addCode.trim()?'pointer':'not-allowed',opacity:addCode.trim()?1:.4,flexShrink:0}}>+</button>
+</div>
+<button className="btn btno" onClick={()=>setShowInvite(false)}>FECHAR</button>
+</div>
+</div>}
+<BNav cur="profile" go={go}/>
+</div>;}
+
+function NotificationSettings({go}){
+const [settings,setSettings]=useState(()=>{const s=localStorage.getItem('bhp_notif');return s?JSON.parse(s):{enabled:false,time:'07:00',streakAlert:true};});
+async function toggle(){
+if(!settings.enabled){const r=await Notification.requestPermission();if(r==='granted'){const u={...settings,enabled:true};setSettings(u);localStorage.setItem('bhp_notif',JSON.stringify(u));}}
+else{const u={...settings,enabled:false};setSettings(u);localStorage.setItem('bhp_notif',JSON.stringify(u));}
+}
+return <div className="screen fi">
+<div style={{padding:'16px 20px 14px',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',gap:12}}>
+<button className="ibtn" onClick={()=>go('profile')}><I.L s={18}/></button>
+<div><p className="ey" style={{margin:0}}>LEMBRETES</p><h1 style={{fontSize:20,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>NOTIFICAÇÕES</h1></div>
+</div>
+<div style={{padding:'20px',display:'flex',flexDirection:'column',gap:14}}>
+<div className="card" style={{padding:16}}>
+<div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+<div><p style={{fontSize:13,fontWeight:700,color:'var(--fg)'}}>Notificações adaptativas</p><p style={{fontSize:10,color:'var(--muted2)',marginTop:2}}>Aviso no horário do seu treino</p></div>
+<div onClick={toggle} style={{width:46,height:26,background:settings.enabled?'var(--success)':'var(--muted)',borderRadius:13,position:'relative',cursor:'pointer',flexShrink:0,marginLeft:12}}>
+<div style={{width:20,height:20,background:'#fff',borderRadius:'50%',position:'absolute',top:3,left:settings.enabled?23:3,transition:'left .2s'}}/>
+</div>
+</div>
+</div>
+{settings.enabled&&<div className="card" style={{padding:16}}>
+<p className="st" style={{marginBottom:8}}>HORÁRIO BASE</p>
+<input type="time" value={settings.time} onChange={e=>{const u={...settings,time:e.target.value};setSettings(u);localStorage.setItem('bhp_notif',JSON.stringify(u));}} className="inp" style={{width:'100%'}}/>
+</div>}
+<div style={{background:'rgba(91,141,239,.06)',border:'1px solid rgba(91,141,239,.15)',padding:12}}>
+<p style={{fontSize:10,color:'var(--muted2)',lineHeight:1.6}}>ℹ️ Notificações funcionam com o navegador aberto. Push nativo disponível na versão da App Store.</p>
+</div>
+</div>
+<BNav cur="profile" go={go}/>
+</div>;}
+
+function Profile({go}){
+return <div className="screen fi">
+<div style={{padding:'16px 20px 18px',borderBottom:'1px solid var(--border)',background:'var(--card)'}}>
+<div style={{display:'flex',alignItems:'flex-start',gap:14}}>
+<div style={{width:60,height:60,background:'var(--pdim)',border:'1px solid var(--primary)',display:'grid',placeItems:'center',fontFamily:'"Archivo Black",sans-serif',fontSize:24,color:'var(--primary)',flexShrink:0}}>G</div>
+<div>
+<h2 style={{fontSize:19,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>GABRIEL GOMES</h2>
+<p style={{fontSize:11,color:'var(--muted2)',marginTop:3}}>gabriel@behybrid.com</p>
+<div style={{display:'flex',gap:6,marginTop:8,flexWrap:'wrap'}}><span className="pro">PRO ⚡</span><span className="bdg bdbp">🥊 BOXE</span></div>
+</div>
+</div>
+</div>
+<div style={{padding:'16px 20px',display:'flex',flexDirection:'column',gap:12}}>
+<div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:7}}>
+{[{v:47,l:'TREINOS',c:'var(--primary)'},{v:'38h',l:'HORAS',c:'var(--success)'},{v:'12🔥',l:'STREAK',c:'var(--warn)'}].map(s=>(
+<div key={s.l} className="card" style={{padding:12,textAlign:'center'}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:18,color:s.c}}>{s.v}</p>
+<p style={{fontSize:7,color:'var(--muted2)',fontWeight:700,letterSpacing:'.1em',marginTop:5}}>{s.l}</p>
+<div style={{position:'absolute',bottom:0,left:0,right:0,height:2,background:`linear-gradient(90deg,${s.c},transparent)`}}/>
+</div>))}
+</div>
+<div className="card cb" style={{padding:14}}>
+<p className="st" style={{marginBottom:10}}>CONFIGURAÇÃO ATUAL</p>
+{[{l:'MODALIDADES',v:'Boxe · Musculação · Corrida'},{l:'PRIORIDADE',v:'🥇 Boxe'},{l:'OBJETIVO',v:'⚡ Performance'},{l:'PERFIL',v:'80kg · 178cm · 26a'},{l:'LESÕES',v:'⚠️ Ombro Direito (Moderada)'}].map(item=>(
+<div key={item.l} style={{display:'flex',justifyContent:'space-between',padding:'7px 0',borderBottom:'1px solid var(--border)'}}>
+<span style={{fontSize:9,fontWeight:700,letterSpacing:'.12em',color:'var(--muted2)',flexShrink:0}}>{item.l}</span>
+<span style={{fontSize:10,fontWeight:600,textAlign:'right',maxWidth:'65%',color:'var(--fg)'}}>{item.v}</span>
+</div>))}
+</div>
+<div style={{display:'flex',flexDirection:'column',gap:8}}>
+{[{l:'HYBRID COACH',fn:'coach',e:'🤖'},{l:'AMIGOS',fn:'social',e:'👥'},{l:'NOTIFICAÇÕES',fn:'notifications',e:'🔔'},{l:'PLANO PRO',fn:'pro',e:'⚡'}].map(b=>(
+<button key={b.fn} className="btn btno" style={{display:'flex',alignItems:'center',gap:12,paddingLeft:20,textAlign:'left'}} onClick={()=>go(b.fn)}>
+<span style={{fontSize:16}}>{b.e}</span>{b.l}
+</button>))}
+</div>
+<div>
+<p className="st" style={{marginBottom:8}}>LEGAL & CONTA</p>
+<div style={{display:'flex',flexDirection:'column',gap:6}}>
+{[{l:'Termos de Uso',fn:'terms'},{l:'Política de Privacidade',fn:'privacy'}].map(b=>(
+<button key={b.fn} onClick={()=>go(b.fn)} style={{width:'100%',height:38,background:'var(--card)',border:'1px solid var(--border)',color:'var(--fg2)',fontFamily:'Inter',fontWeight:500,fontSize:12,cursor:'pointer',textAlign:'left',padding:'0 14px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+{b.l}<span style={{color:'var(--muted2)'}}>›</span>
+</button>))}
+<button onClick={()=>{if(confirm('Tem certeza? Isso apaga permanentemente todos os seus dados, treinos e histórico.')){localStorage.clear();go('splash');}}} style={{width:'100%',height:38,background:'transparent',border:'1px solid rgba(248,113,113,.2)',color:'var(--danger)',fontFamily:'Inter',fontWeight:500,fontSize:12,cursor:'pointer',textAlign:'left',padding:'0 14px'}}>
+Excluir minha conta e dados
+</button>
+</div>
+</div>
+<button style={{width:'100%',height:44,background:'transparent',border:'1px solid rgba(248,113,113,.2)',color:'var(--danger)',fontFamily:'Inter',fontWeight:600,fontSize:13,cursor:'pointer'}} onClick={()=>go('splash')}>SAIR DA CONTA</button>
+</div>
+</div>
+<BNav cur="profile" go={go}/>
+</div>;}
+
+function getSubscription(){
+const saved=localStorage.getItem('bhp_subscription');
+return saved?JSON.parse(saved):null;
+}
+
+function Pro({go}){
+const [sel,setSel]=useState('anual');
+const [sub,setSub]=useState(getSubscription());
+const [showCancel,setShowCancel]=useState(false);
+const [cancelReason,setCancelReason]=useState('');
+const [showCancelled,setShowCancelled]=useState(false);
+const cmp=[{f:'Treinos básicos',fr:true},{f:'Calendário e agenda',fr:true},{f:'55+ modalidades',fr:true},{f:'Treino gerado por IA',fr:false},{f:'Adapta equipamentos',fr:false},{f:'Nível por modalidade',fr:false},{f:'HYBRID COACH 24h',fr:false},{f:'Reformular treino na hora',fr:false},{f:'Ajuste automático por lesão',fr:false},{f:'Relatório diário premium',fr:false},{f:'Resumo semanal com IA',fr:false},{f:'Cartão de compartilhamento',fr:false},{f:'Dashboard de evolução',fr:false},{f:'Banco personalizado',fr:false}];
+
+function subscribe(plan){
+const now=new Date();
+const trialEnd=new Date(now.getTime()+7*24*60*60*1000);
+const newSub={plan,startedAt:now.toISOString(),trialEndsAt:trialEnd.toISOString(),status:'trialing',price:plan==='anual'?199:29};
+localStorage.setItem('bhp_subscription',JSON.stringify(newSub));
+setSub(newSub);
+go('home');
+}
+
+function confirmCancel(){
+if(!sub)return;
+const startedAt=new Date(sub.startedAt);
+const now=new Date();
+const daysSince=(now-startedAt)/(1000*60*60*24);
+const eligibleForRefund=daysSince<=7;
+const updated={...sub,status:'cancelled',cancelledAt:now.toISOString(),cancelReason,refunded:eligibleForRefund};
+localStorage.setItem('bhp_subscription',JSON.stringify(updated));
+setSub(updated);
+setShowCancel(false);
+setShowCancelled(true);
+}
+
+if(sub&&sub.status!=='cancelled'){
+const startedAt=new Date(sub.startedAt);
+const now=new Date();
+const daysSince=Math.floor((now-startedAt)/(1000*60*60*24));
+const eligibleForRefund=daysSince<=7;
+const daysLeft=7-daysSince;
+return <div className="full fi" style={{background:'var(--bg)',paddingBottom:40}}>
+<div style={{padding:'20px',borderBottom:'1px solid var(--border)',display:'flex',alignItems:'center',gap:12}}>
+<button className="ibtn" onClick={()=>go('profile')}><I.L s={18}/></button>
+<div>
+<p className="ey" style={{color:'var(--gold)',margin:0}}>SUA ASSINATURA</p>
+<h1 style={{fontSize:18,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>PLANO PRO ATIVO</h1>
+</div>
+</div>
+<div style={{padding:20}}>
+<div className="card cgo" style={{padding:18,marginBottom:16}}>
+<div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
+<span style={{fontFamily:'"Archivo Black",sans-serif',fontSize:14,color:'var(--gold)'}}>{sub.plan==='anual'?'PLANO ANUAL':'PLANO MENSAL'}</span>
+<span className="bdg bdbg">{sub.status==='trialing'?'TESTE GRÁTIS':'ATIVO'}</span>
+</div>
+<p style={{fontSize:22,fontFamily:'"Archivo Black",sans-serif',color:'var(--fg)',marginBottom:4}}>R${sub.price}<span style={{fontSize:11,color:'var(--muted2)'}}>{sub.plan==='anual'?'/ano':'/mês'}</span></p>
+<p style={{fontSize:11,color:'var(--muted2)'}}>Assinante desde {startedAt.toLocaleDateString('pt-BR')}</p>
+{sub.status==='trialing'&&<p style={{fontSize:11,color:'var(--success)',marginTop:6}}>✓ Seu teste grátis termina em {Math.max(0,7-daysSince)} dias</p>}
+</div>
+<div style={{background:eligibleForRefund?'rgba(74,222,128,.08)':'var(--card)',border:`1px solid ${eligibleForRefund?'rgba(74,222,128,.25)':'var(--border)'}`,padding:14,marginBottom:16}}>
+<p style={{fontSize:11,fontWeight:700,color:eligibleForRefund?'var(--success)':'var(--fg)',marginBottom:4}}>{eligibleForRefund?`✓ Você ainda está na garantia de 7 dias (${daysLeft} dia${daysLeft!==1?'s':''} restante${daysLeft!==1?'s':''})`:'Garantia de 7 dias já expirada'}</p>
+<p style={{fontSize:10,color:'var(--muted2)',lineHeight:1.6}}>{eligibleForRefund?'Cancelando agora, você recebe o reembolso integral automaticamente.':'Cancelar agora interrompe cobranças futuras, mas não gera reembolso do período já pago.'}</p>
+</div>
+<button onClick={()=>setShowCancel(true)} style={{width:'100%',height:46,background:'transparent',border:'1px solid rgba(248,113,113,.3)',color:'var(--danger)',fontFamily:'Inter',fontWeight:600,fontSize:13,cursor:'pointer'}}>Cancelar assinatura</button>
+</div>
+
+{showCancel&&<div className="overlay" onClick={()=>setShowCancel(false)}>
+<div className="sheet" onClick={e=>e.stopPropagation()}>
+<div style={{textAlign:'center',marginBottom:16}}>
+<p style={{fontSize:32,marginBottom:8}}>😢</p>
+<h2 style={{fontSize:18,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif'}}>CANCELAR ASSINATURA?</h2>
+<p style={{fontSize:11,color:'var(--muted2)',marginTop:6,lineHeight:1.6}}>Você perde acesso ao Hybrid Coach, treinos gerados por IA e relatórios premium.</p>
+</div>
+<p className="st" style={{marginBottom:8}}>POR QUE ESTÁ CANCELANDO? (OPCIONAL)</p>
+<div style={{display:'flex',flexDirection:'column',gap:6,marginBottom:16}}>
+{['Muito caro','Não uso o suficiente','Encontrei outra opção','Problemas técnicos','Outro motivo'].map(r=>(
+<button key={r} onClick={()=>setCancelReason(r)} style={{textAlign:'left',padding:'10px 14px',background:cancelReason===r?'var(--pdim)':'var(--card2)',border:`1px solid ${cancelReason===r?'var(--primary)':'var(--border)'}`,color:cancelReason===r?'var(--primary)':'var(--fg2)',fontSize:12,cursor:'pointer'}}>{r}</button>
+))}
+</div>
+{eligibleForRefund&&<div style={{background:'rgba(74,222,128,.08)',border:'1px solid rgba(74,222,128,.25)',padding:12,marginBottom:16}}>
+<p style={{fontSize:11,color:'var(--success)',fontWeight:700}}>✓ Você será reembolsado integralmente (dentro dos 7 dias de garantia)</p>
+</div>}
+<button onClick={confirmCancel} style={{width:'100%',height:48,background:'var(--danger)',border:'none',color:'#fff',fontFamily:'"Archivo Black",sans-serif',fontSize:11,letterSpacing:'.08em',cursor:'pointer',marginBottom:8}}>CONFIRMAR CANCELAMENTO</button>
+<button className="btn btno" onClick={()=>setShowCancel(false)}>VOLTAR</button>
+</div>
+</div>}
+</div>;
+}
+
+if(showCancelled){
+return <div className="full fi" style={{background:'var(--bg)',minHeight:'100vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',padding:30,textAlign:'center'}}>
+<p style={{fontSize:48,marginBottom:16}}>✓</p>
+<h2 style={{fontSize:20,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginBottom:10}}>ASSINATURA CANCELADA</h2>
+<p style={{fontSize:12,color:'var(--muted2)',lineHeight:1.7,marginBottom:6}}>{sub?.refunded?'Seu reembolso integral foi processado e deve aparecer em sua fatura em até 5 dias úteis.':'Você continua com acesso PRO até o fim do período já pago.'}</p>
+<p style={{fontSize:11,color:'var(--muted2)',marginBottom:24}}>Sentiremos sua falta. Você pode assinar novamente quando quiser.</p>
+<button className="btn btnp" onClick={()=>go('home')}>VOLTAR AO INÍCIO</button>
+</div>;
+}
+
+return <div className="full fi" style={{background:'var(--bg)',paddingBottom:40}}>
+<div style={{padding:'20px 20px 24px',borderBottom:'1px solid var(--border)',background:'linear-gradient(180deg,rgba(245,158,11,.08),transparent)',position:'relative'}}>
+<button className="ibtn" style={{position:'absolute',top:20,right:20}} onClick={()=>go('home')}><I.X/></button>
+<p className="ey" style={{color:'var(--gold)'}}>DESBLOQUEIE O POTENCIAL TOTAL</p>
+<h1 style={{fontSize:38,letterSpacing:'-.03em',lineHeight:.88,color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',marginBottom:10}}>BE<br/><span style={{color:'var(--gold)'}}>HYBRID</span><br/>PRO</h1>
+<p style={{fontSize:12,color:'var(--muted2)',lineHeight:1.8}}>A diferença entre treinar e evoluir de verdade é a inteligência por trás de cada decisão.</p>
+<div style={{marginTop:14,display:'flex',gap:12,alignItems:'center'}}>
+<div style={{display:'flex'}}>{['G','M','A','R','T'].map((l,i)=><div key={i} style={{width:24,height:24,borderRadius:'50%',background:`hsl(${i*40+200},55%,38%)`,border:'2px solid var(--bg)',display:'grid',placeItems:'center',fontFamily:'"Archivo Black",sans-serif',fontSize:9,color:'#fff',marginLeft:i>0?-7:0}}>{l}</div>)}</div>
+<p style={{fontSize:11,color:'var(--muted2)'}}><span style={{color:'var(--fg)',fontWeight:700}}>+2.400 atletas</span> já treinam com IA</p>
+</div>
+</div>
+<div style={{padding:'20px'}}>
+<p className="st" style={{marginBottom:10}}>ESCOLHA SEU PLANO</p>
+<div style={{display:'flex',flexDirection:'column',gap:8,marginBottom:18}}>
+{[{id:'mensal',l:'MENSAL',p:'R$29',per:'/mês',sub:'Cancele quando quiser'},{id:'anual',l:'ANUAL ⭐ MAIS POPULAR',p:'R$199',per:'/ano',note:'ECONOMIZE R$149',sub:'R$16,58/mês'}].map(pl=>(
+<div key={pl.id} onClick={()=>setSel(pl.id)} style={{background:sel===pl.id?'rgba(245,158,11,.08)':'var(--card)',border:`1px solid ${sel===pl.id?'var(--gold)':'var(--border)'}`,borderLeft:`3px solid ${sel===pl.id?'var(--gold)':'transparent'}`,padding:'14px 16px',cursor:'pointer'}}>
+<div style={{display:'flex',justifyContent:'space-between',marginBottom:3}}>
+<p style={{fontFamily:'"Archivo Black",sans-serif',fontSize:11,color:sel===pl.id?'var(--gold)':'var(--fg)'}}>{pl.l}</p>
+<div><span style={{fontFamily:'"Archivo Black",sans-serif',fontSize:22,color:sel===pl.id?'var(--gold)':'var(--fg)'}}>{pl.p}</span><span style={{fontSize:10,color:'var(--muted2)'}}>{pl.per}</span></div>
+</div>
+<div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+<p style={{fontSize:10,color:'var(--muted2)'}}>{pl.sub}</p>
+{pl.note&&<span className="bdg bdbg" style={{fontSize:8}}>{pl.note}</span>}
+</div>
+</div>))}
+</div>
+<button className="btn btng" style={{marginBottom:8}} onClick={()=>subscribe(sel)}>⚡ COMEÇAR 7 DIAS GRÁTIS</button>
+<p style={{textAlign:'center',fontSize:9,color:'var(--muted2)',marginBottom:22}}>7 DIAS GRÁTIS · SEM COBRANÇAS · CANCELE QUANDO QUISER</p>
+<div style={{background:'var(--card)',border:'1px solid var(--border)',marginBottom:18,overflow:'hidden'}}>
+<div style={{display:'grid',gridTemplateColumns:'1fr auto auto',background:'var(--card2)',padding:'9px 14px',borderBottom:'1px solid var(--border)'}}>
+<span className="st" style={{margin:0}}>RECURSO</span>
+<span className="st" style={{margin:0,textAlign:'center',width:38}}>FREE</span>
+<span style={{fontSize:8,fontWeight:700,letterSpacing:'.12em',textTransform:'uppercase',color:'var(--gold)',textAlign:'center',width:38}}>PRO</span>
+</div>
+{cmp.map((row,i)=>(
+<div key={i} style={{display:'grid',gridTemplateColumns:'1fr auto auto',padding:'8px 14px',borderBottom:i<cmp.length-1?'1px solid var(--border)':'none'}}>
+<span style={{fontSize:11,color:!row.fr?'var(--muted2)':'var(--fg)'}}>{row.f}</span>
+<span style={{textAlign:'center',width:38,fontSize:13}}>{row.fr?'✅':'❌'}</span>
+<span style={{textAlign:'center',width:38,fontSize:13}}>✅</span>
+</div>))}
+</div>
+<button className="btn btng" onClick={()=>subscribe(sel)}>⚡ QUERO O PLANO PRO</button>
+<p style={{textAlign:'center',fontSize:9,color:'var(--muted2)',marginTop:10}}>Garantia incondicional de 7 dias · veja nossos <span onClick={()=>go('terms')} style={{color:'var(--primary)',textDecoration:'underline',cursor:'pointer'}}>Termos de Uso</span></p>
+</div>
+</div>;}
+
+const SL=[{id:'splash',l:'Splash'},{id:'auth',l:'Login'},{id:'onboarding',l:'Onboarding'},{id:'home',l:'Home'},{id:'workout',l:'Treino'},{id:'stats',l:'Stats'},{id:'coach',l:'Hybrid Coach'},{id:'profile',l:'Perfil'},{id:'pro',l:'Plano PRO'},{id:'social',l:'Amigos'},{id:'notifications',l:'Notificações'},{id:'terms',l:'Termos'},{id:'privacy',l:'Privacidade'}];
+
+class ErrorBoundary extends React.Component{
+constructor(props){super(props);this.state={hasError:false};}
+static getDerivedStateFromError(){return{hasError:true};}
+componentDidCatch(err){console.error('Screen error:',err);}
+render(){
+if(this.state.hasError){return <div style={{padding:20,background:'var(--bg)',minHeight:'100vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:16}}>
+<div style={{fontSize:48}}>⚠️</div>
+<p style={{color:'var(--fg)',fontFamily:'"Archivo Black",sans-serif',fontSize:16,textAlign:'center'}}>ERRO NESSA TELA</p>
+<button onClick={()=>this.setState({hasError:false})} style={{padding:'12px 24px',background:'var(--primary)',border:'none',color:'#fff',fontFamily:'"Archivo Black",sans-serif',fontSize:11,cursor:'pointer'}}>VOLTAR</button>
+</div>;}
+return this.props.children;}}
+
+function App(){
+const [screen,setScreen]=useState('splash');
+const [dark,setDark]=useState(true);
+function go(s){setScreen(s);window.scrollTo(0,0);}
+useEffect(()=>{document.body.className=dark?'':'light';document.getElementById('root').className=dark?'':'light';},[dark]);
+useEffect(()=>{try{scheduleAdaptiveNotifications();}catch(e){}},[]);
+function getScreen(){
+switch(screen){
+case 'auth':return <Auth go={go}/>;
+case 'onboarding':return <Onboarding go={go}/>;
+case 'home':return <Home go={go} dark={dark} setDark={setDark}/>;
+case 'workout':return <Workout go={go}/>;
+case 'report':return <Report go={go}/>;
+case 'stats':return <Stats go={go}/>;
+case 'coach':return <Coach go={go}/>;
+case 'banco':return <Banco go={go}/>;
+case 'calendar':return <Calendar go={go}/>;
+case 'profile':return <Profile go={go}/>;
+case 'social':return <Social go={go}/>;
+case 'notifications':return <NotificationSettings go={go}/>;
+case 'pro':return <Pro go={go}/>;
+case 'social':return <Social go={go}/>;
+case 'notifications':return <NotificationSettings go={go}/>;
+case 'terms':return <Terms go={go}/>;
+case 'privacy':return <Privacy go={go}/>;
+default:return <Splash go={go} dark={dark} setDark={setDark}/>;}}
+return <>
+<nav className="topbar">
+<div className="tscroll">{SL.map(s=><button key={s.id} className={`ttab${screen===s.id?' on':''}`} onClick={()=>go(s.id)}>{s.l}</button>)}</div>
+</nav>
+<div className="shell"><ErrorBoundary key={screen}>{getScreen()}</ErrorBoundary></div>
+</>;
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+
+</body>
+</html>
